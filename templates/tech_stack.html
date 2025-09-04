@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Tech Stack - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="mb-3">Technology Stack & Methodology</h1>
+        <p class="lead text-muted">Built for Smart India Hackathon with modern web technologies</p>
+    </div>
+    
+    <!-- Tech Stack Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Backend -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fab fa-python fa-2x text-primary"></i>
+                    </div>
+                    <h5 class="card-title">Backend</h5>
+                    <p class="card-text">
+                        <strong>Flask</strong><br>
+                        Python web framework for rapid development and clean architecture
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-primary">Python</span>
+                        <span class="badge bg-primary">Flask</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Frontend -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fab fa-bootstrap fa-2x text-success"></i>
+                    </div>
+                    <h5 class="card-title">Frontend</h5>
+                    <p class="card-text">
+                        <strong>Bootstrap 5</strong><br>
+                        Responsive UI framework with modern design components
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-success">HTML5</span>
+                        <span class="badge bg-success">Bootstrap</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Visualization -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <div class="bg-warning bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-chart-bar fa-2x text-warning"></i>
+                    </div>
+                    <h5 class="card-title">Visualization</h5>
+                    <p class="card-text">
+                        <strong>Chart.js</strong><br>
+                        Interactive charts for data analysis and reporting
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-warning">Chart.js</span>
+                        <span class="badge bg-warning">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Storage -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <div class="bg-info bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-database fa-2x text-info"></i>
+                    </div>
+                    <h5 class="card-title">Data Storage</h5>
+                    <p class="card-text">
+                        <strong>In-Memory</strong><br>
+                        Python dictionaries for fast, temporary data storage
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-info">Python</span>
+                        <span class="badge bg-info">Memory</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Methodology Section -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-5">
+            <h2 class="text-center mb-4">Development Methodology</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3 text-center">
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-clipboard-list fa-2x text-primary"></i>
+                    </div>
+                    <h5>Data Collection</h5>
+                    <p class="text-muted">User-friendly forms capture daily farm operations including chicken count, egg production, feed consumption, and expenses.</p>
+                </div>
+                
+                <div class="col-md-6 col-lg-3 text-center">
+                    <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-cogs fa-2x text-success"></i>
+                    </div>
+                    <h5>Data Processing</h5>
+                    <p class="text-muted">Flask backend processes and validates data, calculates key metrics like profit/loss, and stores information efficiently.</p>
+                </div>
+                
+                <div class="col-md-6 col-lg-3 text-center">
+                    <div class="bg-warning bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-chart-line fa-2x text-warning"></i>
+                    </div>
+                    <h5>Visualization</h5>
+                    <p class="text-muted">Interactive Chart.js visualizations present trends and patterns in egg production and feed consumption over time.</p>
+                </div>
+                
+                <div class="col-md-6 col-lg-3 text-center">
+                    <div class="bg-info bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-lightbulb fa-2x text-info"></i>
+                    </div>
+                    <h5>Decision Support</h5>
+                    <p class="text-muted">Real-time dashboard and reports enable data-driven decisions for optimizing farm operations and profitability.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Features Highlight -->
+    <div class="row g-4 mt-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-shield-alt me-2 text-success"></i>Security Features
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Session-based authentication</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Form validation and sanitization</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Secure data handling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-mobile-alt me-2 text-primary"></i>Design Features
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Fully responsive design</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Dark mode optimized</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Professional dashboard UI</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

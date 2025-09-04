@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Add Data - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="mb-4">
+                <h1 class="mb-1">Add Daily Farm Data</h1>
+                <p class="text-muted">Enter today's farm operations data to keep track of your poultry farm.</p>
+            </div>
+            
+            <!-- Form Card -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form method="POST">
+                        <div class="row g-3">
+                            <!-- Date -->
+                            <div class="col-md-6">
+                                <label for="date" class="form-label">
+                                    <i class="fas fa-calendar me-1"></i>Date
+                                </label>
+                                <input type="date" class="form-control" id="date" name="date" 
+                                       value="{{ today }}" required>
+                            </div>
+                            
+                            <!-- Number of Chickens -->
+                            <div class="col-md-6">
+                                <label for="chickens" class="form-label">
+                                    <i class="fas fa-dove me-1"></i>Number of Chickens
+                                </label>
+                                <input type="number" class="form-control" id="chickens" name="chickens" 
+                                       placeholder="e.g., 150" min="0" required>
+                            </div>
+                            
+                            <!-- Eggs Produced -->
+                            <div class="col-md-6">
+                                <label for="eggs" class="form-label">
+                                    <i class="fas fa-egg me-1"></i>Eggs Produced
+                                </label>
+                                <input type="number" class="form-control" id="eggs" name="eggs" 
+                                       placeholder="e.g., 120" min="0" required>
+                            </div>
+                            
+                            <!-- Feed Consumed -->
+                            <div class="col-md-6">
+                                <label for="feed" class="form-label">
+                                    <i class="fas fa-weight-hanging me-1"></i>Feed Consumed (kg)
+                                </label>
+                                <input type="number" class="form-control" id="feed" name="feed" 
+                                       placeholder="e.g., 25.5" step="0.1" min="0" required>
+                            </div>
+                            
+                            <!-- Daily Expenses -->
+                            <div class="col-12">
+                                <label for="expenses" class="form-label">
+                                    <i class="fas fa-dollar-sign me-1"></i>Daily Expenses ($)
+                                </label>
+                                <input type="number" class="form-control" id="expenses" name="expenses" 
+                                       placeholder="e.g., 150.00" step="0.01" min="0" required>
+                                <div class="form-text">Include all expenses except feed cost (calculated automatically).</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Data
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Info Card -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="fas fa-info-circle me-2 text-info"></i>Data Entry Guidelines
+                    </h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Enter accurate counts for chickens and eggs</li>
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Feed consumption should be in kilograms</li>
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Expenses should include all costs except feed</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Profit/loss will be calculated automatically</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

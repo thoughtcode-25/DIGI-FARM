@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="mb-4">
+        <h1 class="mb-1">Farm Reports & Analytics</h1>
+        <p class="text-muted">Visualize your farm's performance over the past week.</p>
+    </div>
+    
+    <!-- Charts Row -->
+    <div class="row g-4">
+        <!-- Egg Production Chart -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-egg me-2 text-success"></i>Weekly Egg Production
+                    </h5>
+                    <p class="card-text text-muted">Daily egg production over the last 7 days</p>
+                    <div style="height: 300px;">
+                        <canvas id="eggChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feed Consumption Chart -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-weight-hanging me-2 text-warning"></i>Weekly Feed Consumption
+                    </h5>
+                    <p class="card-text text-muted">Daily feed consumption over the last 7 days</p>
+                    <div style="height: 300px;">
+                        <canvas id="feedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Insights Cards -->
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-lightbulb fa-2x text-warning mb-3"></i>
+                    <h6 class="card-title">Production Insights</h6>
+                    <p class="card-text text-muted">Monitor egg production trends to optimize chicken care and feeding schedules.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                    <h6 class="card-title">Efficiency Tracking</h6>
+                    <p class="card-text text-muted">Track feed efficiency by comparing consumption rates with egg production.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-calculator fa-2x text-success mb-3"></i>
+                    <h6 class="card-title">Cost Analysis</h6>
+                    <p class="card-text text-muted">Analyze daily expenses and revenue to maximize farm profitability.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

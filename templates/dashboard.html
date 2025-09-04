@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Farm Dashboard</h1>
+            <p class="text-muted">Welcome back, {{ session.username }}! Here's your farm overview.</p>
+        </div>
+        <a href="{{ url_for('add_data') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Add Today's Data
+        </a>
+    </div>
+    
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-dove fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h3 class="card-title text-primary">{{ summary.total_chickens }}</h3>
+                    <p class="card-text text-muted">Total Chickens</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-egg fa-2x text-success"></i>
+                        </div>
+                    </div>
+                    <h3 class="card-title text-success">{{ summary.eggs_today }}</h3>
+                    <p class="card-text text-muted">Eggs Produced Today</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-weight-hanging fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <h3 class="card-title text-warning">{{ "%.1f"|format(summary.feed_today) }} kg</h3>
+                    <p class="card-text text-muted">Feed Consumed Today</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-{{ 'success' if summary.profit_loss >= 0 else 'danger' }} bg-opacity-10 rounded-circle p-3">
+                            <i class="fas fa-{{ 'chart-line' if summary.profit_loss >= 0 else 'chart-line-down' }} fa-2x text-{{ 'success' if summary.profit_loss >= 0 else 'danger' }}"></i>
+                        </div>
+                    </div>
+                    <h3 class="card-title text-{{ 'success' if summary.profit_loss >= 0 else 'danger' }}">
+                        ${{ "%.2f"|format(summary.profit_loss) }}
+                    </h3>
+                    <p class="card-text text-muted">Today's Profit/Loss</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-line me-2 text-primary"></i>Quick Analytics
+                    </h5>
+                    <p class="card-text text-muted">View detailed reports and charts for your farm data.</p>
+                    <a href="{{ url_for('reports') }}" class="btn btn-outline-primary">
+                        View Reports <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-database me-2 text-success"></i>Data Management
+                    </h5>
+                    <p class="card-text text-muted">Add or update daily farm operations data.</p>
+                    <a href="{{ url_for('add_data') }}" class="btn btn-outline-success">
+                        Manage Data <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
