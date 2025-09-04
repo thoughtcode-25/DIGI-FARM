@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Disease Solutions - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="mb-4">
+        <h1 class="mb-1">Disease Solutions Database</h1>
+        <p class="text-muted">Search and find solutions for common poultry diseases.</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" name="search" 
+                           placeholder="Search diseases, symptoms, or treatments..." 
+                           value="{{ query }}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Disease Cards -->
+    <div class="row g-4">
+        {% for disease in diseases %}
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">
+                        <i class="fas fa-virus me-2"></i>{{ disease.name }}
+                    </h5>
+                    
+                    <div class="mb-3">
+                        <h6 class="text-warning">
+                            <i class="fas fa-exclamation-triangle me-1"></i>Symptoms
+                        </h6>
+                        <p class="text-muted">{{ disease.symptoms }}</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h6 class="text-success">
+                            <i class="fas fa-pills me-1"></i>Treatment
+                        </h6>
+                        <p class="text-muted">{{ disease.treatment }}</p>
+                    </div>
+                    
+                    <div>
+                        <h6 class="text-info">
+                            <i class="fas fa-shield-alt me-1"></i>Prevention
+                        </h6>
+                        <p class="text-muted">{{ disease.prevention }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not diseases %}
+    <div class="text-center py-5">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h4 class="text-muted">No diseases found</h4>
+        <p class="text-muted">Try searching with different keywords.</p>
+    </div>
+    {% endif %}
+
+    <!-- Emergency Contact -->
+    <div class="card border-0 shadow-sm bg-danger bg-opacity-10 mt-4">
+        <div class="card-body text-center">
+            <h5 class="text-danger">
+                <i class="fas fa-phone me-2"></i>Emergency Veterinary Contact
+            </h5>
+            <p class="text-muted mb-2">For immediate assistance with sick birds</p>
+            <h4 class="text-primary">📞 +1-800-VET-HELP</h4>
+            <small class="text-muted">Available 24/7 for emergency calls</small>
+        </div>
+    </div>
+</div>
+{% endblock %}

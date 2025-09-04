@@ -51,14 +51,25 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard():
-    """Main dashboard with summary cards"""
+    """Enhanced dashboard with farm score, tasks, and gamification"""
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
     # Get today's summary data
     summary = data_manager.get_dashboard_summary()
+    gamification = data_manager.get_gamification_data()
+    tasks = data_manager.get_today_tasks()
+    health_status = data_manager.get_farm_health_status()
+    financial = data_manager.get_financial_summary()
+    temp_alert = data_manager.check_temperature_alerts()
     
-    return render_template('dashboard.html', summary=summary)
+    return render_template('dashboard.html', 
+                         summary=summary, 
+                         gamification=gamification,
+                         tasks=tasks,
+                         health_status=health_status,
+                         financial=financial,
+                         temp_alert=temp_alert)
 
 @app.route('/add_data', methods=['GET', 'POST'])
 def add_data():
@@ -70,6 +81,9 @@ def add_data():
         try:
             # Get form data
             date_str = request.form.get('date')
+            if not date_str:
+                raise ValueError("Date is required")
+            
             chickens = int(request.form.get('chickens', 0))
             eggs = int(request.form.get('eggs', 0))
             feed = float(request.form.get('feed', 0))
@@ -117,6 +131,134 @@ def tech_stack():
         return redirect(url_for('login'))
     
     return render_template('tech_stack.html')
+
+@app.route('/complete_task/<task_id>', methods=['POST'])
+def complete_task(task_id):
+    """Mark a task as completed"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    success = data_manager.complete_task(task_id)
+    if success:
+        gamification = data_manager.get_gamification_data()
+        flash(f'Task completed! +{[t["points"] for t in data_manager.get_today_tasks() if t["id"] == task_id][0]} points', 'success')
+        return jsonify({'success': True, 'gamification': gamification})
+    
+    return jsonify({'success': False})
+
+@app.route('/financial', methods=['GET', 'POST'])
+def financial():
+    """Revenue and expenses management"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        try:
+            date_str = request.form.get('date')
+            if not date_str:
+                raise ValueError("Date is required")
+            
+            type_val = request.form.get('type')
+            amount = float(request.form.get('amount', 0))
+            description = request.form.get('description', '')
+            
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
+            data_manager.add_revenue_expense(date_obj, type_val, amount, description)
+            
+            flash('Financial entry added successfully!', 'success')
+            return redirect(url_for('financial'))
+            
+        except ValueError as e:
+            flash('Invalid data format. Please check your inputs.', 'danger')
+        except Exception as e:
+            flash(f'Error adding entry: {str(e)}', 'danger')
+    
+    financial_data = data_manager.get_financial_summary()
+    today = datetime.now().date()
+    return render_template('financial.html', financial=financial_data, today=today)
+
+@app.route('/diseases')
+def diseases():
+    """Disease solutions database"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    query = request.args.get('search', '')
+    diseases = data_manager.search_diseases(query)
+    
+    return render_template('diseases.html', diseases=diseases, query=query)
+
+@app.route('/training')
+def training():
+    """AI Training module with multilingual support"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    lang = request.args.get('lang', 'en')
+    return render_template('training.html', lang=lang)
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+    """Business chat interface"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        message = request.form.get('message')
+        if message:
+            data_manager.add_chat_message(session['username'], message, 'farmer')
+            # Simulate supplier response
+            import random
+            responses = [
+                'Thank you for your message. We\'ll get back to you soon.',
+                'We have the feed you requested in stock.',
+                'Our delivery truck can reach your farm tomorrow.',
+                'Quality vaccines are available at discounted prices.'
+            ]
+            data_manager.add_chat_message('Supplier', random.choice(responses), 'supplier')
+    
+    messages = data_manager.get_chat_messages()
+    return render_template('chat.html', messages=messages)
+
+@app.route('/alerts')
+def alerts():
+    """Temperature and health alerts"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    alerts = data_manager.temperature_alerts
+    return render_template('alerts.html', alerts=alerts)
+
+@app.route('/visits')
+def visits():
+    """Farm visit tracking with QR code"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    # Generate QR code for farm visits
+    farm_data = f"Farm Visit - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+    qr_code = data_manager.generate_qr_code(farm_data)
+    
+    return render_template('visits.html', 
+                         qr_code=qr_code, 
+                         visit_count=data_manager.farm_visits)
+
+@app.route('/add_visit', methods=['POST'])
+def add_visit():
+    """Add farm visit"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    count = data_manager.add_farm_visit()
+    return jsonify({'success': True, 'count': count})
+
+@app.route('/government_schemes')
+def government_schemes():
+    """Government schemes information"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    return render_template('government_schemes.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -1,0 +1,58 @@
+Title: Poultry Farm Management System – SIH Prototype
+
+Instructions:
+Build a full-stack demo web application named "Poultry Farm Management System" using Python (Flask or FastAPI) for backend and HTML/CSS/JavaScript (or React) for frontend.
+
+Features to Implement:
+
+Dashboard: Show farm score, applicable government schemes, daily tasks, and farm summary in a visually appealing way (use charts and progress bars).
+
+Gamification: Create a points/rewards system for farmers when they complete daily biosecurity tasks. Show badges or levels.
+
+Farm Health Monitor: Section showing if proper sanitation is done, with red/yellow/green indicators.
+
+Revenue & Expenses: Simple ledger to add revenue & expenses and auto-calculate profit/loss.
+
+Future Benefits Section: Display motivational messages & projected growth graphs based on completed tasks.
+
+AI Training Module: Provide a multilingual training page (English + Hindi) with simple text or video placeholders.
+
+Nearby Alerts: Show nearest veterinary contact and send alert if farm temperature exceeds safe level.
+
+Business Chat: A basic chat interface where farmers can connect with suppliers (dummy chat works for demo).
+
+Disease Solutions: A searchable list of common poultry diseases with solutions.
+
+Temperature/Flu Alerts: AI-based (simulate with dummy data) that warns farmers when temperature is abnormal or flu risk is detected.
+
+Farm Visit Tracking: Generate a QR code and a simple counter to log farm visitors (simulate counter updates).
+
+Technical Stack:
+
+Backend: Python (Flask or FastAPI)
+
+Frontend: React (preferred) or Vanilla JS + Bootstrap for responsive UI
+
+Database: SQLite for storing tasks, revenue/expense, user data
+
+Libraries:
+
+Chart.js or Recharts for dashboard visualization
+
+Flask-SQLAlchemy (ORM)
+
+qrcode for QR code generation
+
+geopy for nearest veterinary location (mock data acceptable for demo)
+
+Requirements:
+
+Make UI clean and farmer-friendly (large buttons, minimal text).
+
+Use mock data where real data is not available.
+
+Comment code properly so that anyone can understand.
+
+Keep code modular so we can later integrate IoT data or real APIs.
+
+Deployable as a single-page demo on Replit.

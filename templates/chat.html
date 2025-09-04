@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Business Chat - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="mb-4">
+        <h1 class="mb-1">Business Chat</h1>
+        <p class="text-muted">Connect with suppliers and other farmers in your network.</p>
+    </div>
+
+    <div class="row">
+        <!-- Chat Area -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-comments me-2"></i>Supplier Chat Room
+                    </h5>
+                </div>
+                <div class="card-body" style="height: 400px; overflow-y: auto;" id="chatMessages">
+                    {% for message in messages %}
+                    <div class="mb-3 {{ 'text-end' if message.sender_type == 'farmer' else '' }}">
+                        <div class="d-inline-block p-3 rounded {{ 'bg-primary text-white' if message.sender_type == 'farmer' else 'bg-light' }}" 
+                             style="max-width: 70%;">
+                            <div class="small text-{{ 'light' if message.sender_type == 'farmer' else 'muted' }} mb-1">
+                                <strong>{{ message.sender }}</strong>
+                                <span class="ms-2">{{ message.timestamp.strftime('%H:%M') }}</span>
+                            </div>
+                            <div>{{ message.message }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <form method="POST" class="d-flex">
+                        <input type="text" class="form-control me-2" name="message" 
+                               placeholder="Type your message..." required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contacts Sidebar -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-users me-2"></i>Contacts
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex align-items-center">
+                            <div class="bg-success rounded-circle me-3" style="width: 10px; height: 10px;"></div>
+                            <div>
+                                <div class="fw-bold">Feed Supply Co.</div>
+                                <small class="text-muted">Quality feed supplier</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <div class="bg-warning rounded-circle me-3" style="width: 10px; height: 10px;"></div>
+                            <div>
+                                <div class="fw-bold">Veterinary Services</div>
+                                <small class="text-muted">Health consultations</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <div class="bg-success rounded-circle me-3" style="width: 10px; height: 10px;"></div>
+                            <div>
+                                <div class="fw-bold">Equipment Rental</div>
+                                <small class="text-muted">Farm equipment</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle me-3" style="width: 10px; height: 10px;"></div>
+                            <div>
+                                <div class="fw-bold">Local Farmers Group</div>
+                                <small class="text-muted">Community support</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card border-0 shadow-sm mt-3">
+                <div class="card-body">
+                    <h6 class="card-title">Quick Actions</h6>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-shopping-cart me-1"></i>Request Feed Quote
+                        </button>
+                        <button class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-truck me-1"></i>Schedule Delivery
+                        </button>
+                        <button class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-handshake me-1"></i>Find Partners
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+// Auto-scroll to bottom of chat
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+</script>
+{% endblock %}

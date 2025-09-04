@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}Farm Alerts - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="mb-4">
+        <h1 class="mb-1">Farm Alerts & Monitoring</h1>
+        <p class="text-muted">Real-time alerts for temperature, health, and emergency situations.</p>
+    </div>
+
+    <!-- Current Status -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-info bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-thermometer-half fa-2x text-info"></i>
+                    </div>
+                    <h4 class="text-info">24.5°C</h4>
+                    <p class="text-muted">Current Temperature</p>
+                    <small class="text-success">
+                        <i class="fas fa-check-circle me-1"></i>Normal Range
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-wind fa-2x text-success"></i>
+                    </div>
+                    <h4 class="text-success">65%</h4>
+                    <p class="text-muted">Humidity Level</p>
+                    <small class="text-success">
+                        <i class="fas fa-check-circle me-1"></i>Optimal
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-warning bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                        <i class="fas fa-shield-virus fa-2x text-warning"></i>
+                    </div>
+                    <h4 class="text-warning">Low</h4>
+                    <p class="text-muted">Disease Risk</p>
+                    <small class="text-warning">
+                        <i class="fas fa-exclamation-triangle me-1"></i>Monitor Closely
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert History -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="fas fa-bell me-2 text-warning"></i>Recent Alerts
+            </h5>
+            
+            {% if alerts %}
+            <div class="list-group list-group-flush">
+                {% for alert in alerts %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge bg-{{ 'danger' if alert.status == 'critical' else 'warning' }} me-2">
+                                    {{ alert.status.title() }}
+                                </span>
+                                <h6 class="mb-0">Temperature Alert</h6>
+                            </div>
+                            <p class="mb-1 text-muted">{{ alert.message }}</p>
+                            <small class="text-muted">{{ alert.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                        </div>
+                        <i class="fas fa-thermometer-{{ 'full' if alert.temperature > 30 else 'empty' }} text-{{ 'danger' if alert.status == 'critical' else 'warning' }}"></i>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                <h5 class="text-success">All Systems Normal</h5>
+                <p class="text-muted">No alerts in the past 24 hours</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Emergency Contacts -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">
+                        <i class="fas fa-phone-alt me-2"></i>Emergency Contacts
+                    </h5>
+                    
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">Emergency Veterinarian</div>
+                                <small class="text-muted">24/7 emergency service</small>
+                            </div>
+                            <a href="tel:+1800123456" class="btn btn-danger btn-sm">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">Local Animal Hospital</div>
+                                <small class="text-muted">Nearest veterinary clinic</small>
+                            </div>
+                            <a href="tel:+1800789012" class="btn btn-primary btn-sm">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold">Farm Insurance</div>
+                                <small class="text-muted">Report incidents</small>
+                            </div>
+                            <a href="tel:+1800345678" class="btn btn-info btn-sm">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Settings -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-cog me-2 text-info"></i>Alert Settings
+                    </h5>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="tempAlerts" checked>
+                        <label class="form-check-label" for="tempAlerts">
+                            Temperature Alerts
+                        </label>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="healthAlerts" checked>
+                        <label class="form-check-label" for="healthAlerts">
+                            Health Monitoring Alerts
+                        </label>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="feedAlerts" checked>
+                        <label class="form-check-label" for="feedAlerts">
+                            Feed Level Alerts
+                        </label>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="securityAlerts">
+                        <label class="form-check-label" for="securityAlerts">
+                            Security Breach Alerts
+                        </label>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <label class="form-label">Min Temp (°C)</label>
+                            <input type="number" class="form-control" value="22" min="15" max="30">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Max Temp (°C)</label>
+                            <input type="number" class="form-control" value="28" min="20" max="35">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

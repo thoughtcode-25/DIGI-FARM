@@ -1,4 +1,4 @@
-/* Custom styles for Poultry Farm Management App */
+/* Enhanced Farmer-Friendly Styles for Poultry Farm Management App */
 
 /* Ensure minimum height for login page */
 .min-vh-100 {
@@ -8,11 +8,31 @@
 /* Custom card hover effects */
 .card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 12px !important;
 }
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Farmer-friendly large buttons */
+.btn-lg {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.btn {
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Chart container styling */
@@ -92,6 +112,99 @@ canvas {
     color: var(--bs-secondary);
 }
 
+/* Farmer-friendly typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Large touch-friendly interactive elements */
+.complete-task {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.form-control, .form-select {
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+/* Enhanced status indicators */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+}
+
+/* Progress bars */
+.progress {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar {
+    border-radius: 8px;
+}
+
+/* Mobile-first design improvements */
+@media (max-width: 768px) {
+    .btn-lg {
+        font-size: 1rem;
+        padding: 0.875rem 1.25rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .navbar-nav .dropdown-menu {
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Dashboard quick actions */
+.quick-action-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.quick-action-card:hover {
+    transform: scale(1.02);
+}
+
+/* Task completion animations */
+.task-completed {
+    background: linear-gradient(45deg, rgba(25, 135, 84, 0.1), rgba(25, 135, 84, 0.2));
+    border-left: 4px solid var(--bs-success);
+}
+
+/* Custom alert styling */
+.alert {
+    border: none;
+    border-radius: 10px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    border-left-color: var(--bs-success);
+}
+
+.alert-danger {
+    border-left-color: var(--bs-danger);
+}
+
+.alert-warning {
+    border-left-color: var(--bs-warning);
+}
+
 /* Custom scrollbar for better UX */
 ::-webkit-scrollbar {
     width: 8px;
@@ -108,4 +221,40 @@ canvas {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--bs-primary);
+}
+
+/* Accessibility improvements */
+.btn:focus, .form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+    border-color: var(--bs-primary);
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* QR Code styling */
+.qr-container {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed var(--bs-primary);
+    border-radius: 12px;
+}
+
+/* Chat message styling */
+.chat-message {
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.chat-message.sent {
+    background: linear-gradient(135deg, var(--bs-primary), #0056b3);
+    color: white;
+    margin-left: auto;
+}
+
+.chat-message.received {
+    background: var(--bs-light);
+    color: var(--bs-dark);
 }

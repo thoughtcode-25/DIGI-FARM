@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Farm Visit Tracking - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="mb-4 text-center">
+        <h1 class="mb-1">Farm Visit Tracking</h1>
+        <p class="text-muted">Generate QR codes and track visitors to your farm.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- QR Code Section -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-qrcode me-2 text-primary"></i>Visitor QR Code
+                    </h5>
+                    <p class="text-muted">Scan this code to log your farm visit</p>
+                    
+                    <div class="bg-white p-4 rounded d-inline-block mb-3">
+                        <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="img-fluid" style="max-width: 200px;">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h3 class="text-success">{{ visit_count }}</h3>
+                        <small class="text-muted">Total Visits Today</small>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-lg" onclick="addVisit()">
+                        <i class="fas fa-plus me-2"></i>Log Manual Visit
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visit Statistics -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-bar me-2 text-info"></i>Visit Statistics
+                    </h5>
+                    
+                    <div class="row text-center mb-4">
+                        <div class="col-4">
+                            <h4 class="text-primary">{{ visit_count }}</h4>
+                            <small class="text-muted">Today</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="text-success">{{ visit_count * 7 }}</h4>
+                            <small class="text-muted">This Week</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="text-info">{{ visit_count * 30 }}</h4>
+                            <small class="text-muted">This Month</small>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Biosecurity Tip:</strong> Always ensure visitors follow proper hygiene protocols before entering farm areas.
+                    </div>
+
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Veterinarian</span>
+                            <span class="badge bg-primary rounded-pill">2</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Feed Supplier</span>
+                            <span class="badge bg-success rounded-pill">1</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Inspector</span>
+                            <span class="badge bg-warning rounded-pill">1</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Other Visitors</span>
+                            <span class="badge bg-info rounded-pill">{{ visit_count - 4 if visit_count > 4 else 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-clipboard-list me-2 text-warning"></i>How to Use Visit Tracking
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-mobile-alt fa-2x text-primary mb-2"></i>
+                                <h6>1. Show QR Code</h6>
+                                <p class="text-muted small">Display the QR code to visitors at farm entrance</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-camera fa-2x text-success mb-2"></i>
+                                <h6>2. Visitor Scans</h6>
+                                <p class="text-muted small">Visitors scan with their smartphone camera</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                                <h6>3. Track Visits</h6>
+                                <p class="text-muted small">Monitor visitor count and maintain records</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+function addVisit() {
+    fetch('/add_visit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+{% endblock %}

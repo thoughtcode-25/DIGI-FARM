@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Training Modules - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">AI Training Modules</h1>
+            <p class="text-muted">Learn modern poultry farming techniques.</p>
+        </div>
+        <div class="btn-group">
+            <a href="?lang=en" class="btn btn-{{ 'primary' if lang == 'en' else 'outline-primary' }}">
+                🇺🇸 English
+            </a>
+            <a href="?lang=hi" class="btn btn-{{ 'primary' if lang == 'hi' else 'outline-primary' }}">
+                🇮🇳 हिंदी
+            </a>
+        </div>
+    </div>
+
+    {% if lang == 'hi' %}
+    <!-- Hindi Content -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">
+                        <i class="fas fa-egg me-2"></i>मुर्गी पालन की मूल बातें
+                    </h5>
+                    <p class="text-muted">मुर्गी पालन की आधारभूत जानकारी और तकनीकें सीखें।</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-primary"></i>
+                    </div>
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-play me-2"></i>वीडियो देखें
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-success">
+                        <i class="fas fa-shield-alt me-2"></i>स्वच्छता और बायो-सिक्यूरिटी
+                    </h5>
+                    <p class="text-muted">बीमारियों से बचाव के लिए सफाई के नियम सीखें।</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-success"></i>
+                    </div>
+                    <button class="btn btn-success w-100">
+                        <i class="fas fa-play me-2"></i>प्रशिक्षण शुरू करें
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">
+                        <i class="fas fa-seedling me-2"></i>आहार प्रबंधन
+                    </h5>
+                    <p class="text-muted">मुर्गियों के लिए संतुलित आहार और पोषण की जानकारी।</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-warning"></i>
+                    </div>
+                    <button class="btn btn-warning w-100">
+                        <i class="fas fa-book me-2"></i>गाइड पढ़ें
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-info">
+                        <i class="fas fa-chart-line me-2"></i>व्यापार प्रबंधन
+                    </h5>
+                    <p class="text-muted">मुर्गी पालन व्यवसाय को लाभदायक बनाने के तरीके।</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-info"></i>
+                    </div>
+                    <button class="btn btn-info w-100">
+                        <i class="fas fa-calculator me-2"></i>केस स्टडी देखें
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- English Content -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">
+                        <i class="fas fa-egg me-2"></i>Poultry Farming Basics
+                    </h5>
+                    <p class="text-muted">Learn the fundamentals of successful poultry farming operations.</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-primary"></i>
+                    </div>
+                    <button class="btn btn-primary w-100">
+                        <i class="fas fa-play me-2"></i>Watch Video
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-success">
+                        <i class="fas fa-shield-alt me-2"></i>Biosecurity & Hygiene
+                    </h5>
+                    <p class="text-muted">Master disease prevention through proper sanitation practices.</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-success"></i>
+                    </div>
+                    <button class="btn btn-success w-100">
+                        <i class="fas fa-play me-2"></i>Start Training
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">
+                        <i class="fas fa-seedling me-2"></i>Feed Management
+                    </h5>
+                    <p class="text-muted">Optimize nutrition and feeding strategies for maximum productivity.</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-warning"></i>
+                    </div>
+                    <button class="btn btn-warning w-100">
+                        <i class="fas fa-book me-2"></i>Read Guide
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-info">
+                        <i class="fas fa-chart-line me-2"></i>Business Management
+                    </h5>
+                    <p class="text-muted">Learn to maximize profitability and sustainable growth.</p>
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded py-4 mb-3">
+                        <i class="fas fa-play-circle fa-3x text-info"></i>
+                    </div>
+                    <button class="btn btn-info w-100">
+                        <i class="fas fa-calculator me-2"></i>View Case Studies
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Progress Section -->
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body">
+            <h5 class="card-title">
+                <i class="fas fa-trophy me-2 text-warning"></i>
+                {% if lang == 'hi' %}आपकी प्रगति{% else %}Your Progress{% endif %}
+            </h5>
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <div class="progress mb-2" style="height: 8px;">
+                        <div class="progress-bar bg-primary" style="width: 75%"></div>
+                    </div>
+                    <small class="text-muted">
+                        {% if lang == 'hi' %}मूल बातें - 75%{% else %}Basics - 75%{% endif %}
+                    </small>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="progress mb-2" style="height: 8px;">
+                        <div class="progress-bar bg-success" style="width: 50%"></div>
+                    </div>
+                    <small class="text-muted">
+                        {% if lang == 'hi' %}स्वच्छता - 50%{% else %}Biosecurity - 50%{% endif %}
+                    </small>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="progress mb-2" style="height: 8px;">
+                        <div class="progress-bar bg-warning" style="width: 25%"></div>
+                    </div>
+                    <small class="text-muted">
+                        {% if lang == 'hi' %}आहार - 25%{% else %}Nutrition - 25%{% endif %}
+                    </small>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="progress mb-2" style="height: 8px;">
+                        <div class="progress-bar bg-info" style="width: 10%"></div>
+                    </div>
+                    <small class="text-muted">
+                        {% if lang == 'hi' %}व्यापार - 10%{% else %}Business - 10%{% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
