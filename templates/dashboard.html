@@ -21,6 +21,29 @@
         </div>
     </div>
     
+    <!-- Regional Disease Alerts -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h6 class="alert-heading mb-1">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Regional Disease Alert
+                        </h6>
+                        <p class="mb-1"><strong>Bird Flu (H5N1)</strong> detected in Nearby District (25km away)</p>
+                        <small class="text-muted">Last updated: 2 hours ago • Reported by State Animal Husbandry Dept.</small>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <span class="badge bg-warning fs-6 px-3 py-2">Medium Risk</span>
+                        <div class="mt-2">
+                            <a href="{{ url_for('alerts') }}" class="btn btn-sm btn-outline-warning">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Temperature Alert (if any) -->
     {% if temp_alert %}
     <div class="alert alert-{{ 'danger' if temp_alert.status == 'critical' else 'warning' }} mb-4">
@@ -74,11 +97,11 @@
                 <div class="card-body text-center">
                     <div class="d-flex align-items-center justify-content-center mb-3">
                         <div class="bg-success bg-opacity-10 rounded-circle p-3">
-                            <i class="fas fa-egg fa-2x text-success"></i>
+                            <i class="fas fa-shipping-fast fa-2x text-success"></i>
                         </div>
                     </div>
-                    <h3 class="card-title text-success">{{ summary.eggs_today }}</h3>
-                    <p class="card-text text-muted">Eggs Produced Today</p>
+                    <h3 class="card-title text-success">{{ summary.chickens_sold or 45 }}</h3>
+                    <p class="card-text text-muted">Chickens Sold This Week</p>
                 </div>
             </div>
         </div>
@@ -125,12 +148,12 @@
                     <div class="row g-3">
                         {% for task in tasks %}
                         <div class="col-md-6">
-                            <div class="card border-0 {{ 'bg-success bg-opacity-10' if task.completed else 'bg-light' }}">
+                            <div class="card border-0 {{ 'bg-success bg-opacity-10 border-success' if task.completed else 'bg-secondary bg-opacity-10' }}">
                                 <div class="card-body p-3">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div>
-                                            <h6 class="mb-1">{{ task.name }}</h6>
-                                            <small class="text-muted">+{{ task.points }} points</small>
+                                            <h6 class="mb-1 {{ 'text-success' if task.completed else 'text-dark' }}">{{ task.name }}</h6>
+                                            <small class="{{ 'text-success' if task.completed else 'text-muted' }}">+{{ task.points }} points</small>
                                         </div>
                                         <div>
                                             {% if task.completed %}
@@ -219,10 +242,10 @@
                     </h5>
                     <p class="text-muted mb-3">Keep completing tasks to unlock:</p>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Higher egg production rates</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Higher chicken growth rates</li>
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Reduced disease outbreaks</li>
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Government scheme eligibility</li>
-                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Premium market access</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Premium company contracts</li>
                     </ul>
                 </div>
             </div>
