@@ -124,13 +124,6 @@ def chart_data():
     chart_data = data_manager.get_chart_data()
     return jsonify(chart_data)
 
-@app.route('/tech_stack')
-def tech_stack():
-    """Technology stack and methodology page"""
-    if 'logged_in' not in session:
-        return redirect(url_for('login'))
-    
-    return render_template('tech_stack.html')
 
 @app.route('/complete_task/<task_id>', methods=['POST'])
 def complete_task(task_id):
