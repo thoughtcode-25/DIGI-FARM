@@ -291,7 +291,7 @@ class DataManager:
     
     def generate_qr_code(self, data):
         """Generate QR code for farm visits"""
-        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+        qr = qrcode.main.QRCode(version=1, box_size=10, border=5)
         qr.add_data(data)
         qr.make(fit=True)
         

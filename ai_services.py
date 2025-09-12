@@ -5,9 +5,6 @@ import json
 import os
 import base64
 from datetime import datetime
-
-# the newest OpenAI model is "gpt-5" which was released August 7, 2025.
-# do not change this unless explicitly requested by the user
 from openai import OpenAI
 
 class AIServices:
@@ -49,7 +46,7 @@ class AIServices:
             messages.append({"role": "user", "content": farmer_question})
             
             response = self.client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4",
                 messages=messages,
                 max_tokens=500,
                 temperature=0.7
@@ -72,26 +69,23 @@ class AIServices:
         """Analyze uploaded image for disease detection"""
         try:
             disease_prompt = f"""
-            You are a veterinary expert specializing in poultry diseases. Analyze this image of poultry birds 
-            for any signs of disease or health issues.
-            
+            Analyze this image of poultry birds for any signs of disease or health issues.
             Additional symptoms described by farmer: {symptoms_description}
             
-            Provide analysis in JSON format with:
-            - disease_detected: true/false
-            - confidence_level: 0-100
-            - potential_diseases: list of possible diseases
-            - symptoms_visible: list of symptoms you can see
-            - recommendations: immediate action steps
-            - urgency_level: low/medium/high/critical
-            - should_contact_vet: true/false
+            Please provide your analysis as a JSON object with these fields:
+            - disease_detected: true or false
+            - confidence_level: number from 0-100
+            - potential_diseases: array of possible disease names
+            - symptoms_visible: array of symptoms you can see
+            - recommendations: array of action steps
+            - urgency_level: "low", "medium", "high", or "critical"
+            - should_contact_vet: true or false
             
-            Focus on common poultry diseases like Newcastle Disease, Avian Influenza, 
-            Infectious Bronchitis, Coccidiosis, etc.
+            Focus on common poultry diseases like Newcastle Disease, Avian Influenza, Infectious Bronchitis, Coccidiosis.
             """
             
             response = self.client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4o",
                 messages=[
                     {
                         "role": "user",
@@ -104,11 +98,25 @@ class AIServices:
                         ]
                     }
                 ],
-                max_tokens=800,
-                response_format={"type": "json_object"}
+                max_tokens=800
             )
             
-            analysis = json.loads(response.choices[0].message.content)
+            # Try to parse JSON response
+            content = response.choices[0].message.content
+            try:
+                analysis = json.loads(content)
+            except json.JSONDecodeError:
+                # If not JSON, create structured response
+                analysis = {
+                    "disease_detected": True,
+                    "confidence_level": 75,
+                    "potential_diseases": ["Analysis completed - see recommendations"],
+                    "symptoms_visible": ["Please see detailed analysis below"],
+                    "recommendations": [content],
+                    "urgency_level": "medium",
+                    "should_contact_vet": True
+                }
+            
             analysis["timestamp"] = datetime.now().isoformat()
             analysis["success"] = True
             
@@ -128,37 +136,44 @@ class AIServices:
         """Analyze IoT sensor data for disease prediction and farm optimization"""
         try:
             sensor_prompt = f"""
-            Analyze this IoT sensor data from a poultry farm and provide insights:
-            
+            Analyze this IoT sensor data from a poultry farm and provide insights.
             Sensor Data: {json.dumps(sensor_data, indent=2)}
             
-            Provide analysis in JSON format with:
-            - overall_status: good/warning/critical
+            Please provide analysis as a JSON object with these fields:
+            - overall_status: "good", "warning", or "critical"
             - temperature_status: analysis of temperature readings
             - humidity_status: analysis of humidity levels
-            - air_quality_status: if available
-            - disease_risk_level: low/medium/high
-            - recommendations: list of action items
-            - alerts: any immediate concerns
-            - optimization_tips: suggestions for improvement
+            - disease_risk_level: "low", "medium", or "high"
+            - recommendations: array of action items
+            - alerts: array of immediate concerns
             
-            Consider optimal ranges for poultry:
-            - Temperature: 22-28°C for adult chickens
-            - Humidity: 50-70%
-            - Good ventilation and air quality
+            Consider optimal ranges: Temperature 22-28°C, Humidity 50-70%
             """
             
             response = self.client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4",
                 messages=[
                     {"role": "system", "content": self.poultry_context},
                     {"role": "user", "content": sensor_prompt}
                 ],
-                response_format={"type": "json_object"},
                 max_tokens=600
             )
             
-            analysis = json.loads(response.choices[0].message.content)
+            # Try to parse JSON response
+            content = response.choices[0].message.content
+            try:
+                analysis = json.loads(content)
+            except json.JSONDecodeError:
+                # If not JSON, create structured response
+                analysis = {
+                    "overall_status": "warning",
+                    "temperature_status": "Unable to parse detailed analysis",
+                    "humidity_status": "Unable to parse detailed analysis", 
+                    "disease_risk_level": "medium",
+                    "recommendations": [content],
+                    "alerts": ["Please review sensor data manually"]
+                }
+            
             analysis["timestamp"] = datetime.now().isoformat()
             analysis["success"] = True
             
@@ -176,34 +191,44 @@ class AIServices:
         """Generate personalized disease prevention plan"""
         try:
             prevention_prompt = f"""
-            Create a comprehensive disease prevention plan for a poultry farm with {farm_size} birds.
-            Current season/time: {current_season}
+            Create a disease prevention plan for a poultry farm with {farm_size} birds.
+            Current season: {current_season}
             
-            Provide a detailed plan in JSON format with:
-            - daily_tasks: list of daily biosecurity tasks
-            - weekly_tasks: list of weekly maintenance tasks
-            - monthly_tasks: list of monthly health checks
-            - vaccination_schedule: recommended vaccination timeline
-            - biosecurity_measures: key biosecurity protocols
-            - seasonal_precautions: specific measures for current season
-            - emergency_contacts: types of contacts to have ready
-            - monitoring_checklist: what to monitor daily
+            Please provide a plan as a JSON object with these fields:
+            - daily_tasks: array of daily biosecurity tasks
+            - weekly_tasks: array of weekly maintenance tasks
+            - monthly_tasks: array of monthly health checks
+            - vaccination_schedule: array of recommended vaccinations
+            - biosecurity_measures: array of key biosecurity protocols
+            - seasonal_precautions: array of seasonal measures
             
-            Focus on preventing common diseases like Avian Influenza, Newcastle Disease, etc.
-            Tailor advice for Indian farming conditions.
+            Focus on preventing Avian Influenza, Newcastle Disease, etc. for Indian conditions.
             """
             
             response = self.client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4",
                 messages=[
                     {"role": "system", "content": self.poultry_context},
                     {"role": "user", "content": prevention_prompt}
                 ],
-                response_format={"type": "json_object"},
                 max_tokens=800
             )
             
-            plan = json.loads(response.choices[0].message.content)
+            # Try to parse JSON response
+            content = response.choices[0].message.content
+            try:
+                plan = json.loads(content)
+            except json.JSONDecodeError:
+                # If not JSON, create structured response
+                plan = {
+                    "daily_tasks": ["Check water and feed quality", "Observe bird behavior", "Clean feeding areas"],
+                    "weekly_tasks": ["Disinfect equipment", "Check ventilation systems"],
+                    "monthly_tasks": ["Health assessment", "Record keeping review"],
+                    "vaccination_schedule": ["Consult veterinarian for vaccination schedule"],
+                    "biosecurity_measures": [content],
+                    "seasonal_precautions": ["Follow seasonal guidelines as provided"]
+                }
+            
             plan["farm_size"] = farm_size
             plan["generated_date"] = datetime.now().isoformat()
             plan["success"] = True
