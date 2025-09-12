@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Farm Leaderboard - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h1 class="mb-2">
+            <i class="fas fa-trophy text-warning me-2"></i>Farm Leaderboard
+        </h1>
+        <p class="text-muted">Compete with farms based on cleanliness, capacity, and biosecurity standards</p>
+    </div>
+
+    <!-- User Farm Stats -->
+    {% if user_stats %}
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-home fa-2x text-primary mb-2"></i>
+                    <h4 class="text-primary">#{{ user_stats.rural.rank }}</h4>
+                    <small class="text-muted">of {{ user_stats.rural.total }} in Village</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-map-marker-alt fa-2x text-success mb-2"></i>
+                    <h4 class="text-success">#{{ user_stats.district.rank }}</h4>
+                    <small class="text-muted">of {{ user_stats.district.total }} in District</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-flag fa-2x text-warning mb-2"></i>
+                    <h4 class="text-warning">#{{ user_stats.state.rank }}</h4>
+                    <small class="text-muted">of {{ user_stats.state.total }} in State</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-globe-asia fa-2x text-danger mb-2"></i>
+                    <h4 class="text-danger">#{{ user_stats.national.rank }}</h4>
+                    <small class="text-muted">of {{ user_stats.national.total }} in India</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Level Tabs -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="leaderboard-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ 'active' if level == 'rural' else '' }}" 
+                            onclick="window.location.href='{{ url_for('leaderboard', level='rural') }}'">
+                        <i class="fas fa-home me-1"></i>Village
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ 'active' if level == 'district' else '' }}" 
+                            onclick="window.location.href='{{ url_for('leaderboard', level='district') }}'">
+                        <i class="fas fa-map-marker-alt me-1"></i>District
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ 'active' if level == 'state' else '' }}" 
+                            onclick="window.location.href='{{ url_for('leaderboard', level='state') }}'">
+                        <i class="fas fa-flag me-1"></i>State
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ 'active' if level == 'national' else '' }}" 
+                            onclick="window.location.href='{{ url_for('leaderboard', level='national') }}'">
+                        <i class="fas fa-globe-asia me-1"></i>National
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    {% if level == 'rural' %}
+                        <i class="fas fa-home me-2 text-primary"></i>Village Ranking
+                    {% elif level == 'district' %}
+                        <i class="fas fa-map-marker-alt me-2 text-success"></i>District Ranking
+                    {% elif level == 'state' %}
+                        <i class="fas fa-flag me-2 text-warning"></i>State Ranking
+                    {% else %}
+                        <i class="fas fa-globe-asia me-2 text-danger"></i>National Ranking
+                    {% endif %}
+                </h5>
+                <small class="text-muted">{{ farms|length }} farms competing</small>
+            </div>
+
+            <!-- Leaderboard Table -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center" style="width: 60px;">Rank</th>
+                            <th>Farm Details</th>
+                            <th class="text-center">Capacity</th>
+                            <th class="text-center">Cleanliness</th>
+                            <th class="text-center">Biosecurity</th>
+                            <th class="text-center">Efficiency</th>
+                            <th class="text-center">Total Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for farm in farms %}
+                        <tr class="{{ 'table-primary' if farm.get('is_user_farm') else '' }}">
+                            <td class="text-center">
+                                {% if farm.rank <= 3 %}
+                                    <span class="fs-4">
+                                        {% if farm.rank == 1 %}🥇
+                                        {% elif farm.rank == 2 %}🥈
+                                        {% else %}🥉
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary fs-6">#{{ farm.rank }}</span>
+                                {% endif %}
+                                {% if farm.get('is_user_farm') %}
+                                    <div><small class="text-primary fw-bold">YOU</small></div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div>
+                                    <h6 class="mb-1 {{ 'text-primary fw-bold' if farm.get('is_user_farm') else '' }}">
+                                        {{ farm.name }}
+                                    </h6>
+                                    <small class="text-muted">
+                                        <i class="fas fa-user me-1"></i>{{ farm.farmer_name }}
+                                    </small>
+                                    <br>
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-pin me-1"></i>
+                                        {{ farm.village }}, {{ farm.district }}, {{ farm.state }}
+                                    </small>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="fw-bold">{{ farm.capacity }}</span>
+                                <br><small class="text-muted">birds</small>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex flex-column align-items-center">
+                                    <span class="fw-bold">{{ farm.cleanliness_score }}%</span>
+                                    <div class="progress mt-1" style="width: 50px; height: 4px;">
+                                        <div class="progress-bar bg-info" 
+                                             style="width: {{ farm.cleanliness_score }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex flex-column align-items-center">
+                                    <span class="fw-bold">{{ farm.biosecurity_score }}%</span>
+                                    <div class="progress mt-1" style="width: 50px; height: 4px;">
+                                        <div class="progress-bar bg-success" 
+                                             style="width: {{ farm.biosecurity_score }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex flex-column align-items-center">
+                                    <span class="fw-bold">{{ farm.production_efficiency }}%</span>
+                                    <div class="progress mt-1" style="width: 50px; height: 4px;">
+                                        <div class="progress-bar bg-warning" 
+                                             style="width: {{ farm.production_efficiency }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="fs-5 fw-bold text-{{ 'primary' if farm.get('is_user_farm') else 'dark' }}">
+                                    {{ farm.total_score }}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scoring Information -->
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle me-2 text-info"></i>How Scoring Works
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center p-3">
+                                <i class="fas fa-broom fa-2x text-info mb-2"></i>
+                                <h6>Cleanliness</h6>
+                                <span class="badge bg-info">30% Weight</span>
+                                <p class="text-muted small mt-2">Farm hygiene and sanitation standards</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center p-3">
+                                <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                <h6>Biosecurity</h6>
+                                <span class="badge bg-success">40% Weight</span>
+                                <p class="text-muted small mt-2">Disease prevention and safety measures</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center p-3">
+                                <i class="fas fa-chart-line fa-2x text-warning mb-2"></i>
+                                <h6>Efficiency</h6>
+                                <span class="badge bg-warning">30% Weight</span>
+                                <p class="text-muted small mt-2">Production efficiency and management</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-target me-2 text-primary"></i>Improve Your Rank
+                    </h5>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item border-0 px-0">
+                            <small class="text-muted">✓ Complete daily biosecurity tasks</small>
+                        </div>
+                        <div class="list-group-item border-0 px-0">
+                            <small class="text-muted">✓ Maintain proper sanitation</small>
+                        </div>
+                        <div class="list-group-item border-0 px-0">
+                            <small class="text-muted">✓ Follow disease prevention protocols</small>
+                        </div>
+                        <div class="list-group-item border-0 px-0">
+                            <small class="text-muted">✓ Optimize production efficiency</small>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-sm mt-3">
+                        <i class="fas fa-arrow-right me-1"></i>Start Improving
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

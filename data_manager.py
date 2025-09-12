@@ -3,6 +3,7 @@ from collections import defaultdict
 import qrcode
 import io
 import base64
+import random
 
 class DataManager:
     """Manages in-memory data storage for the enhanced poultry farm application"""
@@ -24,6 +25,7 @@ class DataManager:
         self.initialize_sample_data()
         self.initialize_diseases_db()
         self.initialize_daily_tasks()
+        self.initialize_farms_data()
     
     def initialize_sample_data(self):
         """Initialize with some sample data for demonstration"""
@@ -334,3 +336,229 @@ class DataManager:
             self.temperature_alerts.append(alert)
             return alert
         return None
+    
+    def initialize_farms_data(self):
+        """Initialize farms data for leaderboard"""
+        # Indian states and districts sample data
+        self.farms_data = [
+            # Current user's farm
+            {
+                'id': 'user_farm',
+                'name': 'Your Farm',
+                'farmer_name': 'Admin',
+                'village': 'Rajkot Village',
+                'district': 'Rajkot',
+                'state': 'Gujarat',
+                'capacity': 150,
+                'cleanliness_score': 85,
+                'biosecurity_score': 90,
+                'production_efficiency': 88,
+                'total_score': 0,  # Will be calculated
+                'is_user_farm': True
+            },
+            # Gujarat farms (same state)
+            {
+                'id': 'farm_001',
+                'name': 'Sunrise Poultry Farm',
+                'farmer_name': 'Ramesh Patel',
+                'village': 'Anand Village',
+                'district': 'Anand',
+                'state': 'Gujarat',
+                'capacity': 200,
+                'cleanliness_score': 92,
+                'biosecurity_score': 85,
+                'production_efficiency': 90,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_002',
+                'name': 'Green Valley Poultry',
+                'farmer_name': 'Kiran Shah',
+                'village': 'Vadodara Rural',
+                'district': 'Vadodara',
+                'state': 'Gujarat',
+                'capacity': 300,
+                'cleanliness_score': 88,
+                'biosecurity_score': 95,
+                'production_efficiency': 85,
+                'total_score': 0
+            },
+            # Same district farms
+            {
+                'id': 'farm_003',
+                'name': 'Modern Poultry Center',
+                'farmer_name': 'Dipak Joshi',
+                'village': 'Rajkot City',
+                'district': 'Rajkot',
+                'state': 'Gujarat',
+                'capacity': 180,
+                'cleanliness_score': 90,
+                'biosecurity_score': 88,
+                'production_efficiency': 92,
+                'total_score': 0
+            },
+            # Different states
+            {
+                'id': 'farm_004',
+                'name': 'Punjab Poultry Excellence',
+                'farmer_name': 'Harpreet Singh',
+                'village': 'Ludhiana Rural',
+                'district': 'Ludhiana',
+                'state': 'Punjab',
+                'capacity': 500,
+                'cleanliness_score': 95,
+                'biosecurity_score': 92,
+                'production_efficiency': 94,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_005',
+                'name': 'Maharashtra Gold Farm',
+                'farmer_name': 'Suresh Patil',
+                'village': 'Pune Rural',
+                'district': 'Pune',
+                'state': 'Maharashtra',
+                'capacity': 400,
+                'cleanliness_score': 89,
+                'biosecurity_score': 90,
+                'production_efficiency': 91,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_006',
+                'name': 'Haryana Prime Poultry',
+                'farmer_name': 'Rajesh Kumar',
+                'village': 'Karnal Village',
+                'district': 'Karnal',
+                'state': 'Haryana',
+                'capacity': 350,
+                'cleanliness_score': 87,
+                'biosecurity_score': 89,
+                'production_efficiency': 88,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_007',
+                'name': 'Tamil Nadu Organic Farm',
+                'farmer_name': 'Murugan Raj',
+                'village': 'Coimbatore Rural',
+                'district': 'Coimbatore',
+                'state': 'Tamil Nadu',
+                'capacity': 250,
+                'cleanliness_score': 93,
+                'biosecurity_score': 91,
+                'production_efficiency': 89,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_008',
+                'name': 'Andhra Model Farm',
+                'farmer_name': 'Venkat Reddy',
+                'village': 'Vijayawada Rural',
+                'district': 'Krishna',
+                'state': 'Andhra Pradesh',
+                'capacity': 280,
+                'cleanliness_score': 86,
+                'biosecurity_score': 94,
+                'production_efficiency': 87,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_009',
+                'name': 'Uttar Pradesh Champion',
+                'farmer_name': 'Amit Sharma',
+                'village': 'Agra Rural',
+                'district': 'Agra',
+                'state': 'Uttar Pradesh',
+                'capacity': 320,
+                'cleanliness_score': 84,
+                'biosecurity_score': 86,
+                'production_efficiency': 90,
+                'total_score': 0
+            },
+            {
+                'id': 'farm_010',
+                'name': 'West Bengal Excellence',
+                'farmer_name': 'Subhas Das',
+                'village': 'Kolkata Rural',
+                'district': 'North 24 Parganas',
+                'state': 'West Bengal',
+                'capacity': 220,
+                'cleanliness_score': 91,
+                'biosecurity_score': 88,
+                'production_efficiency': 85,
+                'total_score': 0
+            }
+        ]
+        
+        # Calculate total scores for all farms
+        for farm in self.farms_data:
+            self.calculate_farm_score(farm)
+    
+    def calculate_farm_score(self, farm):
+        """Calculate total score based on different factors"""
+        # Weighted scoring system
+        cleanliness_weight = 0.3
+        biosecurity_weight = 0.4
+        efficiency_weight = 0.3
+        
+        # Base score calculation
+        base_score = (
+            farm['cleanliness_score'] * cleanliness_weight +
+            farm['biosecurity_score'] * biosecurity_weight +
+            farm['production_efficiency'] * efficiency_weight
+        )
+        
+        # Capacity bonus (larger farms get slight bonus)
+        capacity_bonus = min(farm['capacity'] / 1000 * 5, 10)  # Max 10 bonus points
+        
+        farm['total_score'] = round(base_score + capacity_bonus, 1)
+        return farm['total_score']
+    
+    def get_leaderboard_data(self, level='national'):
+        """Get leaderboard data filtered by geographic level"""
+        user_farm = next((f for f in self.farms_data if f.get('is_user_farm')), None)
+        
+        if level == 'rural' and user_farm:
+            # Same village
+            filtered_farms = [f for f in self.farms_data if f['village'] == user_farm['village']]
+        elif level == 'district' and user_farm:
+            # Same district
+            filtered_farms = [f for f in self.farms_data if f['district'] == user_farm['district']]
+        elif level == 'state' and user_farm:
+            # Same state
+            filtered_farms = [f for f in self.farms_data if f['state'] == user_farm['state']]
+        else:
+            # National level - all farms
+            filtered_farms = self.farms_data
+        
+        # Sort by total score (descending)
+        sorted_farms = sorted(filtered_farms, key=lambda x: x['total_score'], reverse=True)
+        
+        # Add rank
+        for i, farm in enumerate(sorted_farms, 1):
+            farm['rank'] = i
+        
+        return sorted_farms
+    
+    def get_user_farm_stats(self):
+        """Get current user's farm statistics across all levels"""
+        user_farm = next((f for f in self.farms_data if f.get('is_user_farm')), None)
+        if not user_farm:
+            return None
+        
+        stats = {
+            'rural': {'rank': 0, 'total': 0},
+            'district': {'rank': 0, 'total': 0},
+            'state': {'rank': 0, 'total': 0},
+            'national': {'rank': 0, 'total': 0}
+        }
+        
+        for level in stats.keys():
+            leaderboard = self.get_leaderboard_data(level)
+            user_entry = next((f for f in leaderboard if f.get('is_user_farm')), None)
+            if user_entry:
+                stats[level]['rank'] = user_entry['rank']
+                stats[level]['total'] = len(leaderboard)
+        
+        return stats

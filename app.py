@@ -260,5 +260,25 @@ def government_schemes():
     
     return render_template('government_schemes.html')
 
+@app.route('/leaderboard')
+def leaderboard():
+    """Farm leaderboard with geographic levels"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    # Get the level from query parameter, default to 'national'
+    level = request.args.get('level', 'national')
+    if level not in ['rural', 'district', 'state', 'national']:
+        level = 'national'
+    
+    # Get leaderboard data for the selected level
+    farms = data_manager.get_leaderboard_data(level)
+    user_stats = data_manager.get_user_farm_stats()
+    
+    return render_template('leaderboard.html', 
+                         farms=farms, 
+                         level=level, 
+                         user_stats=user_stats)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
