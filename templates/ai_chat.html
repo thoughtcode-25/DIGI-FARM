@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}AI Assistant - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h1 class="mb-2">
+            <i class="fas fa-robot text-primary me-2"></i>AI Farm Assistant
+        </h1>
+        <p class="text-muted">Get expert advice on diseases, prevention, nutrition, and all farming sectors</p>
+    </div>
+
+    <!-- Quick Help Topics -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <button class="btn btn-outline-primary w-100 quick-topic" data-topic="disease prevention">
+                <i class="fas fa-shield-alt me-2"></i>Disease Prevention
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-success w-100 quick-topic" data-topic="nutrition advice">
+                <i class="fas fa-seedling me-2"></i>Nutrition Advice
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-warning w-100 quick-topic" data-topic="biosecurity measures">
+                <i class="fas fa-lock me-2"></i>Biosecurity
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-info w-100 quick-topic" data-topic="market prices">
+                <i class="fas fa-chart-line me-2"></i>Market Trends
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Chat Area -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-comments me-2"></i>Chat with AI Assistant
+                        <span class="badge bg-light text-primary ms-2">Online</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div id="chatMessages" class="p-3" style="height: 400px; overflow-y: auto;">
+                        <!-- Welcome Message -->
+                        <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-robot text-white"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="bg-light rounded p-3">
+                                    <p class="mb-1">Hello! I'm your AI farming assistant. I can help you with:</p>
+                                    <ul class="mb-0 small">
+                                        <li>Disease identification and prevention</li>
+                                        <li>Biosecurity protocols</li>
+                                        <li>Nutrition and feeding advice</li>
+                                        <li>Farm management best practices</li>
+                                        <li>Market trends and selling strategies</li>
+                                    </ul>
+                                    <small class="text-muted">Ask me anything about poultry farming!</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form id="chatForm" class="d-flex">
+                        <input type="text" id="messageInput" class="form-control me-2" 
+                               placeholder="Ask about diseases, prevention, nutrition..." required>
+                        <button type="submit" class="btn btn-primary" id="sendBtn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Panel -->
+        <div class="col-md-4">
+            <!-- Sample Questions -->
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-question-circle me-2 text-info"></i>Sample Questions
+                    </h6>
+                </div>
+                <div class="card-body p-2">
+                    <div class="list-group list-group-flush">
+                        <button class="list-group-item list-group-item-action border-0 px-2 py-1 sample-question">
+                            <small>How to prevent Newcastle Disease?</small>
+                        </button>
+                        <button class="list-group-item list-group-item-action border-0 px-2 py-1 sample-question">
+                            <small>What feed is best for 6-week chickens?</small>
+                        </button>
+                        <button class="list-group-item list-group-item-action border-0 px-2 py-1 sample-question">
+                            <small>Signs of respiratory infection?</small>
+                        </button>
+                        <button class="list-group-item list-group-item-action border-0 px-2 py-1 sample-question">
+                            <small>How to improve egg production?</small>
+                        </button>
+                        <button class="list-group-item list-group-item-action border-0 px-2 py-1 sample-question">
+                            <small>Best vaccination schedule?</small>
+                        </button>
+                        <button class="list-group-item list-group-item-action border-0 px-2 py-1 sample-question">
+                            <small>Current market prices for chickens?</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Farm Context -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-info-circle me-2 text-primary"></i>Your Farm Info
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="small">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Farm Size:</span>
+                            <strong>{{ farm_info.capacity or 150 }} birds</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Location:</span>
+                            <strong>{{ farm_info.location or 'Rajkot, Gujarat' }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Health Status:</span>
+                            <span class="badge bg-{{ 'success' if farm_info.health_status == 'good' else 'warning' }}">
+                                {{ (farm_info.health_status or 'good').title() }}
+                            </span>
+                        </div>
+                        <hr>
+                        <p class="text-muted mb-0">The AI assistant has access to your farm information for personalized advice.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Auto-scroll chat to bottom
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Add message to chat
+    function addMessage(content, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `d-flex mb-3 ${isUser ? 'justify-content-end' : ''}`;
+        
+        messageDiv.innerHTML = `
+            ${!isUser ? `
+                <div class="flex-shrink-0">
+                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                </div>
+            ` : ''}
+            <div class="flex-grow-1 ${isUser ? 'me-3' : 'ms-3'}" style="max-width: 80%;">
+                <div class="${isUser ? 'bg-primary text-white ms-auto' : 'bg-light'} rounded p-3">
+                    ${content}
+                    <div class="small text-${isUser ? 'light' : 'muted'} mt-1">
+                        ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
+                </div>
+            </div>
+            ${isUser ? `
+                <div class="flex-shrink-0">
+                    <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                </div>
+            ` : ''}
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    // Send message to AI
+    async function sendMessage(message) {
+        addMessage(message, true);
+        messageInput.value = '';
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            const response = await fetch('/api/ai_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                addMessage(data.advice);
+            } else {
+                addMessage('Sorry, I encountered an error. Please try again or contact support.', false);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('Connection error. Please check your internet and try again.', false);
+        }
+        
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+    }
+
+    // Handle form submission
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+            sendMessage(message);
+        }
+    });
+
+    // Handle quick topic buttons
+    document.querySelectorAll('.quick-topic').forEach(button => {
+        button.addEventListener('click', function() {
+            const topic = this.dataset.topic;
+            messageInput.value = `Tell me about ${topic} for poultry farming`;
+            sendMessage(`Tell me about ${topic} for poultry farming`);
+        });
+    });
+
+    // Handle sample questions
+    document.querySelectorAll('.sample-question').forEach(button => {
+        button.addEventListener('click', function() {
+            const question = this.textContent.trim();
+            messageInput.value = question;
+            sendMessage(question);
+        });
+    });
+
+    // Auto-focus input
+    messageInput.focus();
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% block title %}AI Disease Detection - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h1 class="mb-2">
+            <i class="fas fa-camera text-info me-2"></i>AI Disease Detection
+        </h1>
+        <p class="text-muted">Upload images/videos or connect IoT sensors for intelligent disease analysis</p>
+    </div>
+
+    <!-- Detection Methods Tabs -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="detection-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="image-tab" data-bs-toggle="tab" data-bs-target="#image-detection" type="button">
+                        <i class="fas fa-camera me-1"></i>Image Analysis
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="iot-tab" data-bs-toggle="tab" data-bs-target="#iot-monitoring" type="button">
+                        <i class="fas fa-wifi me-1"></i>IoT Sensors
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prevention-tab" data-bs-toggle="tab" data-bs-target="#prevention-plan" type="button">
+                        <i class="fas fa-shield-alt me-1"></i>Prevention Plan
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="card-body">
+            <div class="tab-content" id="detection-content">
+                <!-- Image Analysis Tab -->
+                <div class="tab-pane fade show active" id="image-detection" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3">
+                                <i class="fas fa-upload me-2 text-primary"></i>Upload Bird Images/Videos
+                            </h5>
+                            
+                            <form id="imageAnalysisForm" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="imageFile" class="form-label">Select Image or Video</label>
+                                    <input type="file" class="form-control form-control-lg" id="imageFile" 
+                                           accept="image/*,video/*" required>
+                                    <div class="form-text">Supported formats: JPG, PNG, MP4, MOV (Max 10MB)</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="symptomsDescription" class="form-label">Describe Symptoms (Optional)</label>
+                                    <textarea class="form-control" id="symptomsDescription" rows="3" 
+                                              placeholder="e.g., Birds are lethargic, reduced appetite, unusual breathing sounds..."></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-lg w-100" id="analyzeBtn">
+                                    <i class="fas fa-microscope me-2"></i>Analyze with AI
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div id="imagePreview" class="mb-3" style="display: none;">
+                                <h6>Preview:</h6>
+                                <img id="previewImg" class="img-fluid rounded border" style="max-height: 200px;">
+                            </div>
+                            
+                            <div id="analysisResults" style="display: none;">
+                                <h5 class="mb-3">
+                                    <i class="fas fa-clipboard-check me-2 text-success"></i>Analysis Results
+                                </h5>
+                                <div id="resultsContent"></div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Tips for Better Results:</h6>
+                                <ul class="mb-0 small">
+                                    <li>Take clear, well-lit photos of the birds</li>
+                                    <li>Focus on birds showing symptoms</li>
+                                    <li>Include multiple angles if possible</li>
+                                    <li>Describe any behavioral changes observed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- IoT Monitoring Tab -->
+                <div class="tab-pane fade" id="iot-monitoring" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="mb-3">
+                                <i class="fas fa-satellite-dish me-2 text-success"></i>IoT Sensor Monitoring
+                            </h5>
+                            
+                            <!-- Current Sensor Readings -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-thermometer-half fa-2x text-danger mb-2"></i>
+                                            <h4 id="currentTemp">24.5°C</h4>
+                                            <small class="text-muted">Temperature</small>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Normal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-tint fa-2x text-info mb-2"></i>
+                                            <h4 id="currentHumidity">62%</h4>
+                                            <small class="text-muted">Humidity</small>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Optimal</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-wind fa-2x text-primary mb-2"></i>
+                                            <h4 id="airQuality">Good</h4>
+                                            <small class="text-muted">Air Quality</small>
+                                            <div class="mt-2">
+                                                <span class="badge bg-success">Healthy</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Manual Sensor Data Input -->
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title">Manual Sensor Data Entry</h6>
+                                    <p class="card-text small text-muted">If you have IoT sensors, enter the readings here for AI analysis</p>
+                                    
+                                    <form id="sensorDataForm">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <label class="form-label">Temperature (°C)</label>
+                                                <input type="number" class="form-control" id="tempInput" step="0.1" min="0" max="50" placeholder="24.5">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Humidity (%)</label>
+                                                <input type="number" class="form-control" id="humidityInput" step="1" min="0" max="100" placeholder="62">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Ammonia Level (ppm)</label>
+                                                <input type="number" class="form-control" id="ammoniaInput" step="0.1" min="0" placeholder="5.2">
+                                            </div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-success mt-3">
+                                            <i class="fas fa-chart-line me-2"></i>Analyze Sensor Data
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div id="sensorAnalysis" class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-brain me-2 text-primary"></i>AI Analysis
+                                    </h6>
+                                    <div id="sensorResults">
+                                        <p class="text-muted">Enter sensor data to get AI-powered insights and recommendations.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prevention Plan Tab -->
+                <div class="tab-pane fade" id="prevention-plan" role="tabpanel">
+                    <div class="text-center mb-4">
+                        <h5>
+                            <i class="fas fa-clipboard-list me-2 text-warning"></i>AI-Generated Prevention Plan
+                        </h5>
+                        <p class="text-muted">Get a personalized disease prevention plan based on your farm size and conditions</p>
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <form id="preventionPlanForm">
+                                <div class="mb-3">
+                                    <label for="farmSize" class="form-label">Farm Size (Number of Birds)</label>
+                                    <input type="number" class="form-control form-control-lg" id="farmSize" 
+                                           min="1" value="150" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="currentSeason" class="form-label">Current Season/Conditions</label>
+                                    <select class="form-select form-select-lg" id="currentSeason">
+                                        <option value="summer">Summer (Hot & Dry)</option>
+                                        <option value="monsoon">Monsoon (Rainy)</option>
+                                        <option value="winter">Winter (Cold)</option>
+                                        <option value="spring">Spring (Moderate)</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-warning btn-lg w-100">
+                                    <i class="fas fa-magic me-2"></i>Generate Prevention Plan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div id="preventionResults" class="mt-4" style="display: none;">
+                        <div id="preventionContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image preview functionality
+    document.getElementById('imageFile').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+    });
+
+    // Image analysis form
+    document.getElementById('imageAnalysisForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('imageFile');
+        const symptoms = document.getElementById('symptomsDescription').value;
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        
+        if (!fileInput.files[0]) {
+            alert('Please select an image or video file');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+        formData.append('symptoms', symptoms);
+
+        analyzeBtn.disabled = true;
+        analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
+
+        try {
+            const response = await fetch('/api/analyze_disease_image', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            displayImageAnalysisResults(data);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Analysis failed. Please try again.');
+        }
+        
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = '<i class="fas fa-microscope me-2"></i>Analyze with AI';
+    });
+
+    // Sensor data form
+    document.getElementById('sensorDataForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const sensorData = {
+            temperature: parseFloat(document.getElementById('tempInput').value) || null,
+            humidity: parseInt(document.getElementById('humidityInput').value) || null,
+            ammonia_level: parseFloat(document.getElementById('ammoniaInput').value) || null,
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            const response = await fetch('/api/analyze_sensor_data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sensorData)
+            });
+            
+            const data = await response.json();
+            displaySensorAnalysisResults(data);
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('sensorResults').innerHTML = '<p class="text-danger">Analysis failed. Please try again.</p>';
+        }
+    });
+
+    // Prevention plan form
+    document.getElementById('preventionPlanForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const farmSize = document.getElementById('farmSize').value;
+        const season = document.getElementById('currentSeason').value;
+
+        try {
+            const response = await fetch('/api/generate_prevention_plan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ farm_size: farmSize, season: season })
+            });
+            
+            const data = await response.json();
+            displayPreventionPlan(data);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to generate prevention plan. Please try again.');
+        }
+    });
+
+    function displayImageAnalysisResults(data) {
+        const resultsDiv = document.getElementById('resultsContent');
+        
+        if (data.success) {
+            const urgencyColors = {
+                'low': 'success',
+                'medium': 'warning', 
+                'high': 'danger',
+                'critical': 'danger'
+            };
+            
+            resultsDiv.innerHTML = `
+                <div class="alert alert-${data.disease_detected ? 'warning' : 'success'}">
+                    <h6><i class="fas fa-${data.disease_detected ? 'exclamation-triangle' : 'check-circle'} me-2"></i>
+                        ${data.disease_detected ? 'Potential Disease Detected' : 'No Clear Disease Signs'}
+                    </h6>
+                    <p class="mb-0">Confidence: ${data.confidence_level}%</p>
+                </div>
+                
+                ${data.potential_diseases && data.potential_diseases.length > 0 ? `
+                <div class="mb-3">
+                    <h6>Potential Diseases:</h6>
+                    <ul class="mb-0">
+                        ${data.potential_diseases.map(disease => `<li>${disease}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <div class="mb-3">
+                    <h6>Urgency Level:</h6>
+                    <span class="badge bg-${urgencyColors[data.urgency_level] || 'secondary'} fs-6">
+                        ${data.urgency_level ? data.urgency_level.toUpperCase() : 'UNKNOWN'}
+                    </span>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Recommendations:</h6>
+                    <ul class="mb-0">
+                        ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                ${data.should_contact_vet ? `
+                <div class="alert alert-danger">
+                    <i class="fas fa-phone me-2"></i><strong>Contact Veterinarian Immediately</strong>
+                </div>
+                ` : ''}
+            `;
+        } else {
+            resultsDiv.innerHTML = `<div class="alert alert-danger">Analysis failed: ${data.error}</div>`;
+        }
+        
+        document.getElementById('analysisResults').style.display = 'block';
+    }
+
+    function displaySensorAnalysisResults(data) {
+        const resultsDiv = document.getElementById('sensorResults');
+        
+        if (data.success) {
+            const statusColors = {
+                'good': 'success',
+                'warning': 'warning',
+                'critical': 'danger'
+            };
+            
+            resultsDiv.innerHTML = `
+                <div class="alert alert-${statusColors[data.overall_status] || 'info'}">
+                    <h6>Overall Status: ${data.overall_status ? data.overall_status.toUpperCase() : 'UNKNOWN'}</h6>
+                </div>
+                
+                <div class="small mb-3">
+                    <div><strong>Disease Risk:</strong> <span class="text-${data.disease_risk_level === 'high' ? 'danger' : data.disease_risk_level === 'medium' ? 'warning' : 'success'}">${data.disease_risk_level || 'Unknown'}</span></div>
+                </div>
+                
+                <h6>Recommendations:</h6>
+                <ul class="small mb-0">
+                    ${data.recommendations ? data.recommendations.map(rec => `<li>${rec}</li>`).join('') : '<li>No recommendations available</li>'}
+                </ul>
+            `;
+        } else {
+            resultsDiv.innerHTML = `<p class="text-danger">Analysis failed: ${data.error}</p>`;
+        }
+    }
+
+    function displayPreventionPlan(data) {
+        const resultsDiv = document.getElementById('preventionContent');
+        
+        if (data.success) {
+            resultsDiv.innerHTML = `
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0"><i class="fas fa-calendar-day me-2"></i>Daily Tasks</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="mb-0">
+                                    ${data.daily_tasks ? data.daily_tasks.map(task => `<li class="mb-1">${task}</li>`).join('') : '<li>No daily tasks available</li>'}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0"><i class="fas fa-calendar-week me-2"></i>Weekly Tasks</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="mb-0">
+                                    ${data.weekly_tasks ? data.weekly_tasks.map(task => `<li class="mb-1">${task}</li>`).join('') : '<li>No weekly tasks available</li>'}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-warning text-white">
+                                <h6 class="mb-0"><i class="fas fa-syringe me-2"></i>Vaccination Schedule</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="mb-0">
+                                    ${data.vaccination_schedule ? data.vaccination_schedule.map(vaccine => `<li class="mb-1">${vaccine}</li>`).join('') : '<li>No vaccination schedule available</li>'}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Biosecurity Measures</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="mb-0">
+                                    ${data.biosecurity_measures ? data.biosecurity_measures.map(measure => `<li class="mb-1">${measure}</li>`).join('') : '<li>No biosecurity measures available</li>'}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            resultsDiv.innerHTML = `<div class="alert alert-danger">Failed to generate prevention plan: ${data.error}</div>`;
+        }
+        
+        document.getElementById('preventionResults').style.display = 'block';
+    }
+});
+</script>
+{% endblock %}
+{% endblock %}

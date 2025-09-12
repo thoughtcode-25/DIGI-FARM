@@ -1,8 +1,11 @@
 import os
 import logging
+import base64
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from werkzeug.utils import secure_filename
 from data_manager import DataManager
+from ai_services import AIServices
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
@@ -11,8 +14,13 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key-for-demo")
 
-# Initialize data manager
+# Initialize data manager and AI services
 data_manager = DataManager()
+try:
+    ai_services = AIServices()
+except ValueError as e:
+    logging.warning(f"AI services not available: {e}")
+    ai_services = None
 
 # Hardcoded admin credentials
 ADMIN_USERNAME = "admin"
@@ -272,6 +280,155 @@ def leaderboard():
                          farms=farms, 
                          level=level, 
                          user_stats=user_stats)
+
+@app.route('/ai_chat')
+def ai_chat():
+    """AI Chat Assistant for farming guidance"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    # Get current farm info for context
+    summary = data_manager.get_dashboard_summary()
+    farm_info = {
+        'capacity': summary.get('total_chickens', 150),
+        'location': 'Rajkot, Gujarat',
+        'health_status': data_manager.get_farm_health_status()
+    }
+    
+    return render_template('ai_chat.html', farm_info=farm_info)
+
+@app.route('/disease_detection')
+def disease_detection():
+    """AI Disease Detection through images and IoT sensors"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    return render_template('disease_detection.html')
+
+@app.route('/api/ai_chat', methods=['POST'])
+def api_ai_chat():
+    """API endpoint for AI chat assistance"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    if not ai_services:
+        return jsonify({
+            'success': False,
+            'advice': 'AI services are currently unavailable. Please check your API key configuration.'
+        })
+    
+    try:
+        data = request.get_json()
+        message = data.get('message', '').strip()
+        
+        if not message:
+            return jsonify({'success': False, 'error': 'Message is required'})
+        
+        # Get farm context
+        summary = data_manager.get_dashboard_summary()
+        context = f"Farm details: {summary['total_chickens']} birds, located in Gujarat, India"
+        
+        # Get AI advice
+        result = ai_services.get_farming_advice(message, context)
+        return jsonify(result)
+        
+    except Exception as e:
+        logging.error(f"AI chat error: {e}")
+        return jsonify({
+            'success': False,
+            'advice': 'Sorry, I encountered an error. Please try again later.'
+        })
+
+@app.route('/api/analyze_disease_image', methods=['POST'])
+def api_analyze_disease_image():
+    """API endpoint for disease image analysis"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    if not ai_services:
+        return jsonify({
+            'success': False,
+            'error': 'AI services are currently unavailable'
+        })
+    
+    try:
+        if 'image' not in request.files:
+            return jsonify({'success': False, 'error': 'No image file provided'})
+        
+        file = request.files['image']
+        symptoms = request.form.get('symptoms', '')
+        
+        if file.filename == '':
+            return jsonify({'success': False, 'error': 'No file selected'})
+        
+        # Convert image to base64
+        image_data = file.read()
+        image_base64 = base64.b64encode(image_data).decode('utf-8')
+        
+        # Analyze with AI
+        result = ai_services.analyze_disease_image(image_base64, symptoms)
+        return jsonify(result)
+        
+    except Exception as e:
+        logging.error(f"Disease image analysis error: {e}")
+        return jsonify({
+            'success': False,
+            'error': 'Image analysis failed. Please try again.'
+        })
+
+@app.route('/api/analyze_sensor_data', methods=['POST'])
+def api_analyze_sensor_data():
+    """API endpoint for IoT sensor data analysis"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    if not ai_services:
+        return jsonify({
+            'success': False,
+            'error': 'AI services are currently unavailable'
+        })
+    
+    try:
+        sensor_data = request.get_json()
+        
+        # Analyze with AI
+        result = ai_services.analyze_iot_sensor_data(sensor_data)
+        return jsonify(result)
+        
+    except Exception as e:
+        logging.error(f"Sensor data analysis error: {e}")
+        return jsonify({
+            'success': False,
+            'error': 'Sensor data analysis failed. Please try again.'
+        })
+
+@app.route('/api/generate_prevention_plan', methods=['POST'])
+def api_generate_prevention_plan():
+    """API endpoint for generating disease prevention plan"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    if not ai_services:
+        return jsonify({
+            'success': False,
+            'error': 'AI services are currently unavailable'
+        })
+    
+    try:
+        data = request.get_json()
+        farm_size = data.get('farm_size', 150)
+        season = data.get('season', 'current conditions')
+        
+        # Generate prevention plan with AI
+        result = ai_services.get_disease_prevention_plan(farm_size, season)
+        return jsonify(result)
+        
+    except Exception as e:
+        logging.error(f"Prevention plan generation error: {e}")
+        return jsonify({
+            'success': False,
+            'error': 'Prevention plan generation failed. Please try again.'
+        })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
