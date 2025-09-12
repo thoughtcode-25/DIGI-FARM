@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # Create Flask app
 app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key-for-demo")
+app.secret_key = os.environ.get("SESSION_SECRET")
 
 # Initialize data manager and AI services
 data_manager = DataManager()
@@ -22,9 +22,9 @@ except ValueError as e:
     logging.warning(f"AI services not available: {e}")
     ai_services = None
 
-# Hardcoded admin credentials
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "password123"
+# Demo credentials for hackathon (in production, use proper user authentication)
+DEMO_USERNAME = "admin"
+DEMO_PASSWORD = "password123"
 
 @app.route('/')
 def index():
@@ -40,7 +40,7 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        if username == DEMO_USERNAME and password == DEMO_PASSWORD:
             session['logged_in'] = True
             session['username'] = username
             flash('Successfully logged in!', 'success')
