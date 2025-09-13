@@ -40,7 +40,7 @@
         <!-- Chat Area -->
         <div class="col-md-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">
                         <i class="fas fa-comments me-2"></i>Chat with AI Assistant
                         <span class="badge bg-light text-primary ms-2">Online</span>
@@ -52,7 +52,7 @@
                         <div class="d-flex mb-3">
                             <div class="flex-shrink-0">
                                 <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                    <i class="fas fa-robot"></i>
+                                    <i class="fas fa-robot text-white"></i>
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
@@ -170,12 +170,12 @@ document.addEventListener('DOMContentLoaded', function() {
             ${!isUser ? `
                 <div class="flex-shrink-0">
                     <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="fas fa-robot"></i>
+                        <i class="fas fa-robot text-white"></i>
                     </div>
                 </div>
             ` : ''}
             <div class="flex-grow-1 ${isUser ? 'me-3' : 'ms-3'}" style="max-width: 80%;">
-                <div class="${isUser ? 'bg-primary ms-auto' : 'bg-light'} rounded p-3">
+                <div class="${isUser ? 'bg-primary text-white ms-auto' : 'bg-light'} rounded p-3">
                     ${content}
                     <div class="small text-${isUser ? 'light' : 'muted'} mt-1">
                         ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ${isUser ? `
                 <div class="flex-shrink-0">
                     <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-user text-white"></i>
                     </div>
                 </div>
             ` : ''}

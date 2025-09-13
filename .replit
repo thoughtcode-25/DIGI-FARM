@@ -33,5 +33,9 @@ waitForPort = 5000
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 46643
+externalPort = 3001
+
 [agent]
 integrations = ["styling_replit:1.0.0", "python_openai:1.0.0"]
