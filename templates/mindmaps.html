@@ -1,0 +1,435 @@
+
+{% extends "base.html" %}
+
+{% block title %}Mindmaps & Flowcharts - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h1 class="mb-2">
+            <i class="fas fa-project-diagram text-primary me-2"></i>Farm Process Visualization
+        </h1>
+        <p class="text-muted">Create mindmaps and flowcharts for presentations and process documentation</p>
+    </div>
+
+    <!-- Template Selection -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-templates me-2"></i>Visualization Templates</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-primary w-100 template-btn" data-template="methodology">
+                                <i class="fas fa-cogs me-2"></i>Farm Methodology Flow
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-success w-100 template-btn" data-template="ai-process">
+                                <i class="fas fa-robot me-2"></i>AI Integration Process
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-info w-100 template-btn" data-template="data-flow">
+                                <i class="fas fa-database me-2"></i>Data Flow Architecture
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-warning w-100 template-btn" data-template="tech-stack">
+                                <i class="fas fa-layer-group me-2"></i>Technology Stack
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-danger w-100 template-btn" data-template="farm-operations">
+                                <i class="fas fa-tasks me-2"></i>Farm Operations
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-outline-secondary w-100 template-btn" data-template="custom">
+                                <i class="fas fa-plus me-2"></i>Custom Diagram
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualization Container -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Visualization Canvas</h5>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-primary" id="exportPNG">
+                            <i class="fas fa-image me-2"></i>Export PNG
+                        </button>
+                        <button class="btn btn-sm btn-outline-success" id="exportSVG">
+                            <i class="fas fa-vector-square me-2"></i>Export SVG
+                        </button>
+                        <button class="btn btn-sm btn-outline-info" id="fullscreen">
+                            <i class="fas fa-expand me-2"></i>Fullscreen
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div id="mindmapContainer" style="height: 600px; background: #f8f9fa;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Node Editor -->
+    <div class="modal fade" id="nodeEditor" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Node</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="nodeForm">
+                        <div class="mb-3">
+                            <label class="form-label">Node Text</label>
+                            <input type="text" class="form-control" id="nodeText" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Node Color</label>
+                            <select class="form-select" id="nodeColor">
+                                <option value="primary">Primary Blue</option>
+                                <option value="success">Success Green</option>
+                                <option value="warning">Warning Yellow</option>
+                                <option value="danger">Danger Red</option>
+                                <option value="info">Info Light Blue</option>
+                                <option value="secondary">Secondary Gray</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Icon (Font Awesome)</label>
+                            <input type="text" class="form-control" id="nodeIcon" placeholder="e.g., fas fa-egg">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveNode">Save Node</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script src="https://unpkg.com/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+class FarmVisualization {
+    constructor() {
+        this.svg = null;
+        this.width = 0;
+        this.height = 0;
+        this.currentTemplate = null;
+        this.nodes = [];
+        this.links = [];
+        this.init();
+    }
+
+    init() {
+        this.setupCanvas();
+        this.bindEvents();
+    }
+
+    setupCanvas() {
+        const container = d3.select('#mindmapContainer');
+        const rect = container.node().getBoundingClientRect();
+        this.width = rect.width;
+        this.height = rect.height;
+
+        this.svg = container.append('svg')
+            .attr('width', '100%')
+            .attr('height', '100%')
+            .style('background', '#ffffff');
+
+        // Add zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 3])
+            .on('zoom', (event) => {
+                this.svg.select('.main-group').attr('transform', event.transform);
+            });
+
+        this.svg.call(zoom);
+        this.svg.append('g').attr('class', 'main-group');
+    }
+
+    bindEvents() {
+        document.querySelectorAll('.template-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const template = e.currentTarget.dataset.template;
+                this.loadTemplate(template);
+            });
+        });
+
+        document.getElementById('exportPNG').addEventListener('click', () => this.exportPNG());
+        document.getElementById('exportSVG').addEventListener('click', () => this.exportSVG());
+        document.getElementById('fullscreen').addEventListener('click', () => this.toggleFullscreen());
+    }
+
+    loadTemplate(templateName) {
+        this.currentTemplate = templateName;
+        this.clearCanvas();
+
+        switch(templateName) {
+            case 'methodology':
+                this.createMethodologyFlow();
+                break;
+            case 'ai-process':
+                this.createAIProcessFlow();
+                break;
+            case 'data-flow':
+                this.createDataFlowDiagram();
+                break;
+            case 'tech-stack':
+                this.createTechStackDiagram();
+                break;
+            case 'farm-operations':
+                this.createFarmOperationsMindmap();
+                break;
+            case 'custom':
+                this.createCustomDiagram();
+                break;
+        }
+    }
+
+    createMethodologyFlow() {
+        this.nodes = [
+            {id: 'input', text: 'INPUT LAYER', x: 100, y: 100, color: 'primary', icon: 'fas fa-sign-in-alt'},
+            {id: 'forms', text: 'User Forms', x: 50, y: 200, color: 'info', icon: 'fas fa-wpforms'},
+            {id: 'iot', text: 'IoT Sensors', x: 150, y: 200, color: 'info', icon: 'fas fa-microchip'},
+            
+            {id: 'processing', text: 'PROCESSING LAYER', x: 400, y: 100, color: 'success', icon: 'fas fa-cogs'},
+            {id: 'auth', text: 'Authentication', x: 300, y: 200, color: 'warning', icon: 'fas fa-lock'},
+            {id: 'validation', text: 'Data Validation', x: 400, y: 200, color: 'warning', icon: 'fas fa-check'},
+            {id: 'ai', text: 'AI Analysis', x: 500, y: 200, color: 'warning', icon: 'fas fa-robot'},
+            
+            {id: 'output', text: 'OUTPUT LAYER', x: 700, y: 100, color: 'danger', icon: 'fas fa-sign-out-alt'},
+            {id: 'dashboard', text: 'Dashboard', x: 650, y: 200, color: 'secondary', icon: 'fas fa-tachometer-alt'},
+            {id: 'reports', text: 'Reports', x: 750, y: 200, color: 'secondary', icon: 'fas fa-chart-bar'},
+        ];
+
+        this.links = [
+            {source: 'input', target: 'forms'},
+            {source: 'input', target: 'iot'},
+            {source: 'forms', target: 'processing'},
+            {source: 'iot', target: 'processing'},
+            {source: 'processing', target: 'auth'},
+            {source: 'processing', target: 'validation'},
+            {source: 'processing', target: 'ai'},
+            {source: 'auth', target: 'output'},
+            {source: 'validation', target: 'output'},
+            {source: 'ai', target: 'output'},
+            {source: 'output', target: 'dashboard'},
+            {source: 'output', target: 'reports'},
+        ];
+
+        this.renderDiagram();
+    }
+
+    createAIProcessFlow() {
+        this.nodes = [
+            {id: 'user-input', text: 'User Query', x: 100, y: 250, color: 'primary', icon: 'fas fa-user'},
+            {id: 'context', text: 'Context Assembly', x: 300, y: 250, color: 'info', icon: 'fas fa-puzzle-piece'},
+            {id: 'openai', text: 'OpenAI API', x: 500, y: 250, color: 'success', icon: 'fas fa-brain'},
+            {id: 'parsing', text: 'Response Parsing', x: 700, y: 250, color: 'warning', icon: 'fas fa-code'},
+            {id: 'output', text: 'Structured Response', x: 900, y: 250, color: 'danger', icon: 'fas fa-file-alt'},
+            
+            {id: 'chat', text: 'Chat Assistant', x: 300, y: 150, color: 'secondary', icon: 'fas fa-comments'},
+            {id: 'disease', text: 'Disease Detection', x: 500, y: 150, color: 'secondary', icon: 'fas fa-microscope'},
+            {id: 'prevention', text: 'Prevention Plans', x: 700, y: 150, color: 'secondary', icon: 'fas fa-shield-alt'},
+        ];
+
+        this.links = [
+            {source: 'user-input', target: 'context'},
+            {source: 'context', target: 'openai'},
+            {source: 'openai', target: 'parsing'},
+            {source: 'parsing', target: 'output'},
+            {source: 'context', target: 'chat'},
+            {source: 'openai', target: 'disease'},
+            {source: 'parsing', target: 'prevention'},
+        ];
+
+        this.renderDiagram();
+    }
+
+    createTechStackDiagram() {
+        this.nodes = [
+            {id: 'frontend', text: 'FRONTEND', x: 200, y: 100, color: 'primary', icon: 'fas fa-desktop'},
+            {id: 'bootstrap', text: 'Bootstrap 5', x: 100, y: 200, color: 'info', icon: 'fab fa-bootstrap'},
+            {id: 'chartjs', text: 'Chart.js', x: 200, y: 200, color: 'info', icon: 'fas fa-chart-line'},
+            {id: 'fontawesome', text: 'Font Awesome', x: 300, y: 200, color: 'info', icon: 'fab fa-font-awesome'},
+            
+            {id: 'backend', text: 'BACKEND', x: 600, y: 100, color: 'success', icon: 'fas fa-server'},
+            {id: 'python', text: 'Python', x: 500, y: 200, color: 'warning', icon: 'fab fa-python'},
+            {id: 'flask', text: 'Flask', x: 600, y: 200, color: 'warning', icon: 'fas fa-flask'},
+            {id: 'gunicorn', text: 'Gunicorn', x: 700, y: 200, color: 'warning', icon: 'fas fa-rocket'},
+            
+            {id: 'ai', text: 'AI SERVICES', x: 400, y: 300, color: 'danger', icon: 'fas fa-robot'},
+            {id: 'openai', text: 'OpenAI', x: 400, y: 400, color: 'secondary', icon: 'fas fa-brain'},
+        ];
+
+        this.links = [
+            {source: 'frontend', target: 'bootstrap'},
+            {source: 'frontend', target: 'chartjs'},
+            {source: 'frontend', target: 'fontawesome'},
+            {source: 'backend', target: 'python'},
+            {source: 'backend', target: 'flask'},
+            {source: 'backend', target: 'gunicorn'},
+            {source: 'flask', target: 'ai'},
+            {source: 'ai', target: 'openai'},
+        ];
+
+        this.renderDiagram();
+    }
+
+    renderDiagram() {
+        const g = this.svg.select('.main-group');
+        
+        // Clear previous content
+        g.selectAll('*').remove();
+
+        // Create links
+        const link = g.selectAll('.link')
+            .data(this.links)
+            .enter().append('line')
+            .attr('class', 'link')
+            .attr('x1', d => this.getNodeById(d.source).x)
+            .attr('y1', d => this.getNodeById(d.source).y)
+            .attr('x2', d => this.getNodeById(d.target).x)
+            .attr('y2', d => this.getNodeById(d.target).y)
+            .attr('stroke', '#666')
+            .attr('stroke-width', 2)
+            .attr('opacity', 0.6);
+
+        // Create nodes
+        const node = g.selectAll('.node')
+            .data(this.nodes)
+            .enter().append('g')
+            .attr('class', 'node')
+            .attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+        // Add circles
+        node.append('circle')
+            .attr('r', 30)
+            .attr('fill', d => this.getBootstrapColor(d.color))
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 3);
+
+        // Add icons
+        node.append('text')
+            .attr('class', 'node-icon')
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.35em')
+            .style('font-family', 'Font Awesome 6 Free')
+            .style('font-weight', '900')
+            .style('font-size', '16px')
+            .style('fill', 'white')
+            .text(d => this.getIconUnicode(d.icon));
+
+        // Add labels
+        node.append('text')
+            .attr('class', 'node-label')
+            .attr('text-anchor', 'middle')
+            .attr('dy', 50)
+            .style('font-size', '12px')
+            .style('font-weight', 'bold')
+            .style('fill', '#333')
+            .text(d => d.text);
+    }
+
+    getNodeById(id) {
+        return this.nodes.find(n => n.id === id);
+    }
+
+    getBootstrapColor(colorName) {
+        const colors = {
+            primary: '#0d6efd',
+            secondary: '#6c757d',
+            success: '#198754',
+            danger: '#dc3545',
+            warning: '#ffc107',
+            info: '#0dcaf0'
+        };
+        return colors[colorName] || colors.primary;
+    }
+
+    getIconUnicode(iconClass) {
+        // Simplified icon mapping - you can extend this
+        const icons = {
+            'fas fa-user': '\uf007',
+            'fas fa-cogs': '\uf085',
+            'fas fa-robot': '\uf544',
+            'fas fa-database': '\uf1c0',
+            'fas fa-chart-line': '\uf201',
+            'fas fa-desktop': '\uf108',
+            'fas fa-server': '\uf233',
+            'fab fa-python': '\uf3e2',
+            'fas fa-brain': '\uf5dc'
+        };
+        return icons[iconClass] || '\uf1c0';
+    }
+
+    clearCanvas() {
+        this.svg.select('.main-group').selectAll('*').remove();
+    }
+
+    exportPNG() {
+        html2canvas(document.getElementById('mindmapContainer')).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `farm-${this.currentTemplate}-diagram.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+
+    exportSVG() {
+        const svgElement = this.svg.node();
+        const serializer = new XMLSerializer();
+        const svgString = serializer.serializeToString(svgElement);
+        const blob = new Blob([svgString], {type: 'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.download = `farm-${this.currentTemplate}-diagram.svg`;
+        link.href = url;
+        link.click();
+        
+        URL.revokeObjectURL(url);
+    }
+
+    toggleFullscreen() {
+        const container = document.getElementById('mindmapContainer');
+        if (!document.fullscreenElement) {
+            container.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    const viz = new FarmVisualization();
+    
+    // Load default template
+    setTimeout(() => {
+        viz.loadTemplate('methodology');
+    }, 500);
+});
+</script>
+{% endblock %}
+
+{% endblock %}

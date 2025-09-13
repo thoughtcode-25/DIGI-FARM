@@ -198,6 +198,14 @@ def training():
     lang = request.args.get('lang', 'en')
     return render_template('training.html', lang=lang)
 
+@app.route('/mindmaps')
+def mindmaps():
+    """Mindmaps and flowcharts for presentations"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    return render_template('mindmaps.html')
+
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     """Business chat interface"""
