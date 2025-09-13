@@ -1,624 +1,8 @@
-/* Enhanced Farmer-Friendly Styles for Poultry Farm Management App */
+/* === MODERN LIGHT THEME - PROFESSIONAL POULTRY FARM MANAGEMENT === */
 
-/* Ensure minimum height for login page */
-.min-vh-100 {
-    min-height: 100vh;
-}
-
-/* Custom card hover effects */
-.card {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border-radius: 12px !important;
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Farmer-friendly large buttons */
-.btn-lg {
-    font-size: 1.1rem;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    border-radius: 8px;
-}
-
-.btn {
-    font-weight: 500;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-}
-
-.btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Chart container styling */
-canvas {
-    max-height: 300px !important;
-}
-
-/* Icon styling for better visual hierarchy */
-.card-body .fa-2x {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Alert styling improvements */
-.alert {
-    border: none;
-    border-radius: 8px;
-}
-
-/* Button improvements */
-.btn {
-    border-radius: 6px;
-    font-weight: 500;
-}
-
-/* Form styling improvements */
-.form-control {
-    border-radius: 6px;
-    border: 1px solid var(--bs-border-color);
-}
-
-.form-control:focus {
-    border-color: var(--bs-primary);
-    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
-}
-
-/* Navigation improvements */
-.navbar-brand {
-    font-weight: 600;
-    font-size: 1.25rem;
-}
-
-/* Dashboard card improvements */
-.bg-opacity-10 {
-    backdrop-filter: blur(10px);
-}
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-    .container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    
-    .card-body {
-        padding: 1.5rem;
-    }
-    
-    h1 {
-        font-size: 1.75rem;
-    }
-    
-    h2 {
-        font-size: 1.5rem;
-    }
-}
-
-/* Loading states for charts */
-.chart-loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    color: var(--bs-secondary);
-}
-
-/* Farmer-friendly typography */
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-}
-
-.card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-/* Large touch-friendly interactive elements */
-.complete-task {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-.form-control, .form-select {
-    font-size: 1rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-/* Enhanced status indicators */
-.badge {
-    font-size: 0.85rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-}
-
-/* Progress bars */
-.progress {
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.progress-bar {
-    border-radius: 8px;
-}
-
-/* Mobile-first design improvements */
-@media (max-width: 768px) {
-    .btn-lg {
-        font-size: 1rem;
-        padding: 0.875rem 1.25rem;
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-    
-    .card-body {
-        padding: 1.25rem;
-    }
-    
-    .navbar-nav .dropdown-menu {
-        border: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-}
-
-/* Dashboard quick actions */
-.quick-action-card {
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.quick-action-card:hover {
-    transform: scale(1.02);
-}
-
-/* Task completion animations */
-.task-completed {
-    background: linear-gradient(45deg, rgba(25, 135, 84, 0.1), rgba(25, 135, 84, 0.2));
-    border-left: 4px solid var(--bs-success);
-}
-
-/* Custom alert styling */
-.alert {
-    border: none;
-    border-radius: 10px;
-    border-left: 4px solid;
-}
-
-.alert-success {
-    border-left-color: var(--bs-success);
-}
-
-.alert-danger {
-    border-left-color: var(--bs-danger);
-}
-
-.alert-warning {
-    border-left-color: var(--bs-warning);
-}
-
-/* Custom scrollbar for better UX */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bs-dark);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--bs-secondary);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--bs-primary);
-}
-
-/* Accessibility improvements */
-.btn:focus, .form-control:focus, .form-select:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
-    border-color: var(--bs-primary);
-}
-
-/* Loading states */
-.loading {
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-/* QR Code styling */
-.qr-container {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border: 2px dashed var(--bs-primary);
-    border-radius: 12px;
-}
-
-/* Chat message styling */
-.chat-message {
-    max-width: 80%;
-    word-wrap: break-word;
-}
-
-.chat-message.sent {
-    background: linear-gradient(135deg, var(--bs-primary), #0056b3);
-    color: white;
-    margin-left: auto;
-}
-
-.chat-message.received {
-    background: var(--bs-light);
-    color: var(--bs-dark);
-}
-
-/* === DARK THEME IMPROVEMENTS FOR BETTER TEXT VISIBILITY === */
-
-/* Enhanced dark theme variables */
-[data-bs-theme="dark"] {
-    --bs-body-bg: #0d1117;
-    --bs-body-color: #e6edf3;
-    --bs-emphasis-color: #f0f6fc;
-    --bs-secondary-color: #7d8590;
-    --bs-tertiary-color: #656d76;
-    --bs-border-color: #30363d;
-    --bs-secondary-bg: #161b22;
-    --bs-tertiary-bg: #21262d;
-}
-
-/* Global text improvements for dark theme */
-[data-bs-theme="dark"] body {
-    background-color: #0d1117 !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .text-muted {
-    color: #7d8590 !important;
-}
-
-[data-bs-theme="dark"] .text-secondary {
-    color: #7d8590 !important;
-}
-
-/* Card improvements */
-[data-bs-theme="dark"] .card {
-    background-color: #161b22 !important;
-    border: 1px solid #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .card-header {
-    background-color: #21262d !important;
-    border-bottom: 1px solid #30363d !important;
-    color: #f0f6fc !important;
-}
-
-[data-bs-theme="dark"] .card-body {
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .card-title {
-    color: #f0f6fc !important;
-}
-
-/* Form improvements */
-[data-bs-theme="dark"] .form-control {
-    background-color: #0d1117 !important;
-    border: 1px solid #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .form-control:focus {
-    background-color: #0d1117 !important;
-    border-color: #58a6ff !important;
-    box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25) !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .form-select {
-    background-color: #0d1117 !important;
-    border: 1px solid #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .form-label {
-    color: #f0f6fc !important;
-}
-
-[data-bs-theme="dark"] .form-text {
-    color: #7d8590 !important;
-}
-
-/* Button enhancements */
-[data-bs-theme="dark"] .btn-primary {
-    background-color: #238636 !important;
-    border-color: #238636 !important;
-    color: #ffffff !important;
-}
-
-[data-bs-theme="dark"] .btn-primary:hover {
-    background-color: #2ea043 !important;
-    border-color: #2ea043 !important;
-}
-
-[data-bs-theme="dark"] .btn-outline-primary {
-    color: #58a6ff !important;
-    border-color: #58a6ff !important;
-}
-
-[data-bs-theme="dark"] .btn-outline-primary:hover {
-    background-color: #58a6ff !important;
-    border-color: #58a6ff !important;
-    color: #ffffff !important;
-}
-
-/* Navigation improvements */
-[data-bs-theme="dark"] .navbar-dark .navbar-nav .nav-link {
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .navbar-dark .navbar-nav .nav-link:hover {
-    color: #ffffff !important;
-}
-
-[data-bs-theme="dark"] .navbar-brand {
-    color: #f0f6fc !important;
-}
-
-[data-bs-theme="dark"] .dropdown-menu {
-    background-color: #161b22 !important;
-    border: 1px solid #30363d !important;
-}
-
-[data-bs-theme="dark"] .dropdown-item {
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .dropdown-item:hover {
-    background-color: #21262d !important;
-    color: #f0f6fc !important;
-}
-
-/* Alert styling */
-[data-bs-theme="dark"] .alert-info {
-    background-color: #0c2d48 !important;
-    border-color: #1f6feb !important;
-    color: #58a6ff !important;
-}
-
-[data-bs-theme="dark"] .alert-success {
-    background-color: #0f2419 !important;
-    border-color: #238636 !important;
-    color: #2ea043 !important;
-}
-
-[data-bs-theme="dark"] .alert-warning {
-    background-color: #332b00 !important;
-    border-color: #bf8700 !important;
-    color: #f0c33c !important;
-}
-
-[data-bs-theme="dark"] .alert-danger {
-    background-color: #2d1117 !important;
-    border-color: #da3633 !important;
-    color: #f85149 !important;
-}
-
-/* List group improvements */
-[data-bs-theme="dark"] .list-group-item {
-    background-color: #161b22 !important;
-    border: 1px solid #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .list-group-item:hover {
-    background-color: #21262d !important;
-}
-
-[data-bs-theme="dark"] .list-group-item-action:hover {
-    background-color: #21262d !important;
-    color: #f0f6fc !important;
-}
-
-/* Table improvements */
-[data-bs-theme="dark"] .table {
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .table > :not(caption) > * > * {
-    border-bottom-color: #30363d !important;
-}
-
-/* Badge improvements */
-[data-bs-theme="dark"] .badge.bg-success {
-    background-color: #238636 !important;
-    color: #ffffff !important;
-}
-
-[data-bs-theme="dark"] .badge.bg-warning {
-    background-color: #bf8700 !important;
-    color: #ffffff !important;
-}
-
-[data-bs-theme="dark"] .badge.bg-danger {
-    background-color: #da3633 !important;
-    color: #ffffff !important;
-}
-
-[data-bs-theme="dark"] .badge.bg-info {
-    background-color: #1f6feb !important;
-    color: #ffffff !important;
-}
-
-[data-bs-theme="dark"] .badge.bg-light {
-    background-color: #21262d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .badge.bg-secondary {
-    background-color: #373e47 !important;
-    color: #e6edf3 !important;
-}
-
-/* Progress bar styling */
-[data-bs-theme="dark"] .progress {
-    background-color: #21262d !important;
-}
-
-/* Chat specific styling */
-[data-bs-theme="dark"] #chatMessages {
-    background-color: #0d1117 !important;
-    border: 1px solid #30363d !important;
-}
-
-[data-bs-theme="dark"] .bg-light {
-    background-color: #21262d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .message-ai {
-    background-color: #21262d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .message-user {
-    background-color: #238636 !important;
-    color: #ffffff !important;
-}
-
-/* Tab improvements */
-[data-bs-theme="dark"] .nav-tabs .nav-link {
-    color: #7d8590 !important;
-    border: 1px solid transparent !important;
-}
-
-[data-bs-theme="dark"] .nav-tabs .nav-link.active {
-    background-color: #161b22 !important;
-    border-color: #30363d #30363d #161b22 !important;
-    color: #f0f6fc !important;
-}
-
-[data-bs-theme="dark"] .nav-tabs .nav-link:hover {
-    border-color: #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .tab-content {
-    background-color: #161b22 !important;
-    color: #e6edf3 !important;
-}
-
-/* Modal improvements */
-[data-bs-theme="dark"] .modal-content {
-    background-color: #161b22 !important;
-    border: 1px solid #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .modal-header {
-    border-bottom: 1px solid #30363d !important;
-}
-
-[data-bs-theme="dark"] .modal-footer {
-    border-top: 1px solid #30363d !important;
-}
-
-/* Ensure all headings are visible */
-[data-bs-theme="dark"] h1,
-[data-bs-theme="dark"] h2, 
-[data-bs-theme="dark"] h3, 
-[data-bs-theme="dark"] h4, 
-[data-bs-theme="dark"] h5, 
-[data-bs-theme="dark"] h6 {
-    color: #f0f6fc !important;
-}
-
-/* Ensure paragraphs and small text are visible */
-[data-bs-theme="dark"] p {
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] small,
-[data-bs-theme="dark"] .small {
-    color: #7d8590 !important;
-}
-
-/* Link improvements */
-[data-bs-theme="dark"] a {
-    color: #58a6ff !important;
-}
-
-[data-bs-theme="dark"] a:hover {
-    color: #79c0ff !important;
-}
-
-/* Fix specific components */
-[data-bs-theme="dark"] .input-group-text {
-    background-color: #21262d !important;
-    border: 1px solid #30363d !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .border {
-    border-color: #30363d !important;
-}
-
-[data-bs-theme="dark"] .border-secondary {
-    border-color: #373e47 !important;
-}
-
-/* Loading spinner */
-[data-bs-theme="dark"] .spinner-border {
-    color: #58a6ff !important;
-}
-
-/* Ensure button text is always visible */
-[data-bs-theme="dark"] .btn {
-    border-width: 1px !important;
-}
-
-[data-bs-theme="dark"] .btn-secondary {
-    background-color: #373e47 !important;
-    border-color: #373e47 !important;
-    color: #e6edf3 !important;
-}
-
-[data-bs-theme="dark"] .btn-secondary:hover {
-    background-color: #444c56 !important;
-    border-color: #444c56 !important;
-    color: #f0f6fc !important;
-}
-
-/* AI Chat improvements */
-[data-bs-theme="dark"] .quick-topic {
-    border-color: #58a6ff !important;
-    color: #58a6ff !important;
-}
-
-[data-bs-theme="dark"] .quick-topic:hover {
-    background-color: #58a6ff !important;
-    color: #ffffff !important;
-}
-
-/* Disease detection improvements */
-[data-bs-theme="dark"] .preview-container {
-    background-color: #161b22 !important;
-    border: 2px dashed #30363d !important;
-    color: #e6edf3 !important;
-}
-
-/* === MODERN LIGHT THEME - PROFESSIONAL COLORS === */
-
-/* Professional light theme color palette inspired by top websites */
+/* Professional light theme color palette inspired by top websites like Stripe and Linear */
 :root {
-    /* Primary brand colors - Indigo/Blue gradient like Stripe */
+    /* Primary brand colors - Indigo/Blue gradient */
     --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
     --primary-light: #e0e7ff;
     --primary-dark: #3730a3;
@@ -670,16 +54,46 @@ h1, h2, h3, h4, h5, h6 {
     --accent-cyan: #06b6d4;
 }
 
-/* === MODERN LIGHT THEME BASE STYLES === */
+/* === GLOBAL STYLING === */
 
-/* Global light theme styling */
+/* Global light theme styling with Inter font */
 body {
     background-color: var(--bg-secondary) !important;
     color: var(--text-primary) !important;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
 }
 
-/* Professional cards inspired by Notion/Linear */
+/* Ensure Inter font loads properly */
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Text styling */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+}
+
+p {
+    color: var(--text-primary) !important;
+}
+
+.text-muted {
+    color: var(--text-tertiary) !important;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+small, .small {
+    color: var(--text-tertiary) !important;
+}
+
+/* === PROFESSIONAL CARDS === */
+
 .card {
     background: var(--bg-primary) !important;
     border: 1px solid var(--border-light) !important;
@@ -710,16 +124,52 @@ body {
     font-weight: 600 !important;
 }
 
+/* === CHAT BUBBLE STYLING FIX === */
+
+/* Ensure proper contrast for primary background elements */
+.bg-primary, .bg-primary * {
+    color: white !important;
+}
+
+.bg-primary .fas {
+    color: white !important;
+}
+
+/* Card header styling - remove conflicts */
+.card-header.bg-primary {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+}
+
+.card-header.bg-success {
+    background: var(--success-gradient) !important;
+    color: white !important;
+}
+
+.card-header.bg-warning {
+    background: var(--warning-gradient) !important;
+    color: white !important;
+}
+
+.card-header.bg-info {
+    background: var(--info-gradient) !important;
+    color: white !important;
+}
+
 /* === PROFESSIONAL BUTTON STYLING === */
 
-/* Primary buttons - Indigo gradient like modern SaaS apps */
+.btn {
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Primary buttons */
 .btn-primary {
     background: var(--primary-gradient) !important;
     border: none !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-sm) !important;
-    transition: all 0.2s ease !important;
 }
 
 .btn-primary:hover {
@@ -732,7 +182,6 @@ body {
     background: var(--success-gradient) !important;
     border: none !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
@@ -745,7 +194,6 @@ body {
     background: var(--warning-gradient) !important;
     border: none !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
@@ -758,7 +206,6 @@ body {
     background: var(--danger-gradient) !important;
     border: none !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
@@ -771,7 +218,6 @@ body {
     background: var(--info-gradient) !important;
     border: none !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-sm) !important;
 }
 
@@ -780,12 +226,10 @@ body {
     box-shadow: var(--shadow-md) !important;
 }
 
-/* Secondary button - Clean outline style */
 .btn-secondary {
     background: var(--bg-primary) !important;
     border: 1px solid var(--border-medium) !important;
     color: var(--text-secondary) !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-xs) !important;
 }
 
@@ -797,7 +241,6 @@ body {
     box-shadow: var(--shadow-sm) !important;
 }
 
-/* Outline buttons */
 .btn-outline-primary {
     color: var(--primary-dark) !important;
     border-color: var(--primary-dark) !important;
@@ -814,31 +257,32 @@ body {
 
 /* === PROFESSIONAL STATUS INDICATORS === */
 
+.badge {
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+}
+
 .badge.bg-success {
     background: var(--success-gradient) !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-xs) !important;
 }
 
 .badge.bg-warning {
     background: var(--warning-gradient) !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-xs) !important;
 }
 
 .badge.bg-danger {
     background: var(--danger-gradient) !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-xs) !important;
 }
 
 .badge.bg-info {
     background: var(--info-gradient) !important;
     color: white !important;
-    font-weight: 500 !important;
     box-shadow: var(--shadow-xs) !important;
 }
 
@@ -921,21 +365,6 @@ body {
     font-weight: 600 !important;
 }
 
-/* === PROFESSIONAL PROGRESS BARS === */
-
-.progress {
-    background: var(--bg-tertiary) !important;
-    border-radius: 8px !important;
-    height: 8px !important;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-}
-
-.progress-bar {
-    background: var(--primary-gradient) !important;
-    border-radius: 8px !important;
-    transition: width 0.6s ease !important;
-}
-
 /* === MODERN FORM CONTROLS === */
 
 .form-control, .form-select {
@@ -1001,124 +430,19 @@ body {
     color: var(--primary-dark) !important;
 }
 
-/* === MODERN CHAT INTERFACE === */
+/* === PROFESSIONAL PROGRESS BARS === */
 
-.message-user {
+.progress {
+    background: var(--bg-tertiary) !important;
+    border-radius: 8px !important;
+    height: 8px !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.progress-bar {
     background: var(--primary-gradient) !important;
-    color: white !important;
-    border-radius: 18px 18px 4px 18px !important;
-    box-shadow: var(--shadow-sm) !important;
-    padding: 0.75rem 1rem !important;
-    margin: 0.5rem 0 !important;
-    margin-left: auto !important;
-    max-width: 80% !important;
-    font-weight: 500 !important;
-}
-
-.message-ai {
-    background: var(--bg-secondary) !important;
-    color: var(--text-primary) !important;
-    border: 1px solid var(--border-light) !important;
-    border-radius: 18px 18px 18px 4px !important;
-    box-shadow: var(--shadow-xs) !important;
-    padding: 0.75rem 1rem !important;
-    margin: 0.5rem 0 !important;
-    max-width: 80% !important;
-    font-weight: 500 !important;
-}
-
-#chatMessages {
-    background: var(--bg-primary) !important;
-    border: 1px solid var(--border-light) !important;
     border-radius: 8px !important;
-    max-height: 400px !important;
-    overflow-y: auto !important;
-    padding: 1rem !important;
-}
-
-/* Professional metric cards */
-.metric-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 16px !important;
-    backdrop-filter: blur(12px) !important;
-    transition: all 0.3s ease !important;
-}
-
-.metric-card:hover {
-    border-color: rgba(139, 92, 246, 0.3) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1) !important;
-}
-
-/* Status-specific color schemes */
-.status-healthy {
-    border-left: 4px solid var(--accent-teal) !important;
-    background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(20, 184, 166, 0.02)) !important;
-}
-
-.status-warning {
-    border-left: 4px solid var(--accent-orange) !important;
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(249, 115, 22, 0.02)) !important;
-}
-
-.status-critical {
-    border-left: 4px solid var(--accent-pink) !important;
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(236, 72, 153, 0.02)) !important;
-}
-
-/* Enhanced tabs */
-[data-bs-theme="dark"] .nav-tabs {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-[data-bs-theme="dark"] .nav-tabs .nav-link.active {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1)) !important;
-    border-color: rgba(139, 92, 246, 0.3) !important;
-    color: #c4b5fd !important;
-    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.2) !important;
-}
-
-/* Modern modal styling */
-[data-bs-theme="dark"] .modal-content {
-    background: linear-gradient(145deg, #1a1f26 0%, #161b22 100%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 16px !important;
-    backdrop-filter: blur(16px) !important;
-    box-shadow: var(--shadow-strong) !important;
-}
-
-/* Enhanced list groups */
-[data-bs-theme="dark"] .list-group-item {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    transition: all 0.3s ease !important;
-}
-
-[data-bs-theme="dark"] .list-group-item:hover {
-    background: rgba(139, 92, 246, 0.05) !important;
-    border-color: rgba(139, 92, 246, 0.2) !important;
-    transform: translateX(4px) !important;
-}
-
-/* Professional table styling */
-[data-bs-theme="dark"] .table-hover tbody tr:hover {
-    background: rgba(139, 92, 246, 0.05) !important;
-}
-
-/* Enhanced scrollbar */
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-teal)) !important;
-    border-radius: 8px !important;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #a855f7, #06b6d4) !important;
-}
-
-/* Loading states with modern colors */
-[data-bs-theme="dark"] .spinner-border {
-    color: var(--accent-purple) !important;
+    transition: width 0.6s ease !important;
 }
 
 /* === MODERN LIST GROUPS === */
@@ -1215,27 +539,39 @@ body {
     border-radius: 0 0 12px 12px !important;
 }
 
-/* === TEXT AND TYPOGRAPHY === */
+/* === MODERN CHAT INTERFACE === */
 
-h1, h2, h3, h4, h5, h6 {
+.message-user {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    border-radius: 18px 18px 4px 18px !important;
+    box-shadow: var(--shadow-sm) !important;
+    padding: 0.75rem 1rem !important;
+    margin: 0.5rem 0 !important;
+    margin-left: auto !important;
+    max-width: 80% !important;
+    font-weight: 500 !important;
+}
+
+.message-ai {
+    background: var(--bg-secondary) !important;
     color: var(--text-primary) !important;
-    font-weight: 700 !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 18px 18px 18px 4px !important;
+    box-shadow: var(--shadow-xs) !important;
+    padding: 0.75rem 1rem !important;
+    margin: 0.5rem 0 !important;
+    max-width: 80% !important;
+    font-weight: 500 !important;
 }
 
-p {
-    color: var(--text-primary) !important;
-}
-
-.text-muted {
-    color: var(--text-tertiary) !important;
-}
-
-.text-secondary {
-    color: var(--text-secondary) !important;
-}
-
-small, .small {
-    color: var(--text-tertiary) !important;
+#chatMessages {
+    background: var(--bg-primary) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 8px !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    padding: 1rem !important;
 }
 
 /* === LINK STYLING === */
@@ -1248,7 +584,7 @@ a {
 }
 
 a:hover {
-    color: var(--primary-gradient) !important;
+    color: var(--primary-dark) !important;
     text-decoration: underline !important;
 }
 
@@ -1362,4 +698,122 @@ a:hover {
 .preview-container:hover {
     border-color: var(--primary-dark) !important;
     background: var(--primary-light) !important;
+}
+
+/* === RESPONSIVE IMPROVEMENTS === */
+
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .btn-lg {
+        font-size: 1rem;
+        padding: 0.875rem 1.25rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* === HOVER EFFECTS === */
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* === ACCESSIBILITY IMPROVEMENTS === */
+
+.btn:focus, .form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem var(--primary-light);
+    border-color: var(--primary-dark);
+}
+
+/* === CHART STYLING === */
+
+canvas {
+    max-height: 300px !important;
+}
+
+.chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--text-tertiary);
+}
+
+/* === FARMER-FRIENDLY IMPROVEMENTS === */
+
+.btn-lg {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+
+.complete-task {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* === PROFESSIONAL FINISHING TOUCHES === */
+
+/* Ensure minimum height for login page */
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+/* Icon styling for better visual hierarchy */
+.card-body .fa-2x {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dashboard quick actions */
+.quick-action-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.quick-action-card:hover {
+    transform: scale(1.02);
+}
+
+/* Task completion styling */
+.task-completed {
+    background: linear-gradient(45deg, rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.2));
+    border-left: 4px solid var(--success-dark);
+}
+
+/* QR Code styling */
+.qr-container {
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    border: 2px dashed var(--primary-dark);
+    border-radius: 12px;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
 }
