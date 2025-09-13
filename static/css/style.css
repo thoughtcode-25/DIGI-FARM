@@ -613,3 +613,290 @@ h1, h2, h3, h4, h5, h6 {
     border: 2px dashed #30363d !important;
     color: #e6edf3 !important;
 }
+
+/* === PROFESSIONAL COLOR ENHANCEMENTS === */
+
+/* Enhanced primary color palette with modern gradients */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --info-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    
+    /* Modern accent colors */
+    --accent-purple: #8b5cf6;
+    --accent-teal: #14b8a6;
+    --accent-orange: #f97316;
+    --accent-pink: #ec4899;
+    --accent-cyan: #06b6d4;
+    
+    /* Professional shadows */
+    --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --shadow-strong: 0 12px 32px rgba(0, 0, 0, 0.2);
+    
+    /* Glassmorphism effects */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced dashboard cards with modern styling */
+[data-bs-theme="dark"] .card {
+    background: linear-gradient(145deg, #1a1f26 0%, #161b22 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: var(--shadow-soft) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+[data-bs-theme="dark"] .card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: var(--shadow-medium) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+/* Modern button enhancements */
+[data-bs-theme="dark"] .btn-primary {
+    background: var(--primary-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+[data-bs-theme="dark"] .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4) !important;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+}
+
+[data-bs-theme="dark"] .btn-success {
+    background: var(--success-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .btn-success:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4) !important;
+}
+
+[data-bs-theme="dark"] .btn-warning {
+    background: var(--warning-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .btn-danger {
+    background: var(--danger-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .btn-info {
+    background: var(--info-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Enhanced status indicators with professional colors */
+[data-bs-theme="dark"] .badge.bg-success {
+    background: var(--success-gradient) !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .badge.bg-warning {
+    background: var(--warning-gradient) !important;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .badge.bg-danger {
+    background: var(--danger-gradient) !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .badge.bg-info {
+    background: var(--info-gradient) !important;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Modern alert styling with gradients */
+[data-bs-theme="dark"] .alert-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.15)) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    border-left: 4px solid #10b981 !important;
+    color: #6ee7b7 !important;
+}
+
+[data-bs-theme="dark"] .alert-warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.15)) !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    border-left: 4px solid #f59e0b !important;
+    color: #fcd34d !important;
+}
+
+[data-bs-theme="dark"] .alert-danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.15)) !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    border-left: 4px solid #ef4444 !important;
+    color: #fca5a5 !important;
+}
+
+[data-bs-theme="dark"] .alert-info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.15)) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    border-left: 4px solid #3b82f6 !important;
+    color: #93c5fd !important;
+}
+
+/* Enhanced navigation with glassmorphism effect */
+[data-bs-theme="dark"] .navbar-dark {
+    background: linear-gradient(135deg, rgba(26, 31, 38, 0.9), rgba(22, 27, 34, 0.9)) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Professional progress bars */
+[data-bs-theme="dark"] .progress {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 10px !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-bs-theme="dark"] .progress-bar {
+    background: var(--primary-gradient) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Enhanced form controls */
+[data-bs-theme="dark"] .form-control {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(8px) !important;
+    transition: all 0.3s ease !important;
+}
+
+[data-bs-theme="dark"] .form-control:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--accent-purple) !important;
+    box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Modern dropdown styling */
+[data-bs-theme="dark"] .dropdown-menu {
+    background: rgba(22, 27, 34, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: var(--shadow-medium) !important;
+    border-radius: 12px !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:hover {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1)) !important;
+    color: #e2e8f0 !important;
+}
+
+/* Enhanced chat interface */
+[data-bs-theme="dark"] .message-user {
+    background: var(--primary-gradient) !important;
+    border-radius: 18px 18px 4px 18px !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .message-ai {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.05)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 18px 18px 18px 4px !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+/* Professional metric cards */
+.metric-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(12px) !important;
+    transition: all 0.3s ease !important;
+}
+
+.metric-card:hover {
+    border-color: rgba(139, 92, 246, 0.3) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Status-specific color schemes */
+.status-healthy {
+    border-left: 4px solid var(--accent-teal) !important;
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(20, 184, 166, 0.02)) !important;
+}
+
+.status-warning {
+    border-left: 4px solid var(--accent-orange) !important;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(249, 115, 22, 0.02)) !important;
+}
+
+.status-critical {
+    border-left: 4px solid var(--accent-pink) !important;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(236, 72, 153, 0.02)) !important;
+}
+
+/* Enhanced tabs */
+[data-bs-theme="dark"] .nav-tabs {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-bs-theme="dark"] .nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(99, 102, 241, 0.1)) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+    color: #c4b5fd !important;
+    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.2) !important;
+}
+
+/* Modern modal styling */
+[data-bs-theme="dark"] .modal-content {
+    background: linear-gradient(145deg, #1a1f26 0%, #161b22 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(16px) !important;
+    box-shadow: var(--shadow-strong) !important;
+}
+
+/* Enhanced list groups */
+[data-bs-theme="dark"] .list-group-item {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+[data-bs-theme="dark"] .list-group-item:hover {
+    background: rgba(139, 92, 246, 0.05) !important;
+    border-color: rgba(139, 92, 246, 0.2) !important;
+    transform: translateX(4px) !important;
+}
+
+/* Professional table styling */
+[data-bs-theme="dark"] .table-hover tbody tr:hover {
+    background: rgba(139, 92, 246, 0.05) !important;
+}
+
+/* Enhanced scrollbar */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-teal)) !important;
+    border-radius: 8px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #a855f7, #06b6d4) !important;
+}
+
+/* Loading states with modern colors */
+[data-bs-theme="dark"] .spinner-border {
+    color: var(--accent-purple) !important;
+}
+
+.loading-overlay {
+    background: rgba(13, 17, 23, 0.8) !important;
+    backdrop-filter: blur(4px) !important;
+}
