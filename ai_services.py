@@ -4,17 +4,38 @@
 import json
 import os
 import base64
+import logging
 from datetime import datetime
 from openai import OpenAI
+import google.generativeai as genai
 
 class AIServices:
     """AI services for farmer assistance and disease detection"""
     
     def __init__(self):
-        self.api_key = os.environ.get("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("OPENAI_API_KEY environment variable is required")
-        self.client = OpenAI(api_key=self.api_key)
+        # Initialize available AI providers
+        self.providers = {}
+        
+        # Setup OpenAI
+        openai_key = os.environ.get("OPENAI_API_KEY")
+        if openai_key:
+            self.providers['openai'] = OpenAI(api_key=openai_key)
+        
+        # Setup Google Gemini
+        gemini_key = os.environ.get("GEMINI_API_KEY")
+        if gemini_key:
+            genai.configure(api_key=gemini_key)
+            self.providers['gemini'] = genai.GenerativeModel('gemini-1.5-flash')
+        
+        # Set preferred provider (Gemini first for cost savings, fallback to OpenAI)
+        if 'gemini' in self.providers:
+            self.primary_provider = 'gemini'
+        elif 'openai' in self.providers:
+            self.primary_provider = 'openai'
+        else:
+            raise ValueError("Either GEMINI_API_KEY or OPENAI_API_KEY environment variable is required")
+        
+        logging.info(f"AI Services initialized with {self.primary_provider} as primary provider")
         
         # Poultry-specific knowledge base
         self.poultry_context = """
@@ -36,38 +57,63 @@ class AIServices:
     def get_farming_advice(self, farmer_question, context=None):
         """Get AI-powered farming advice for any question"""
         try:
-            messages = [
-                {"role": "system", "content": self.poultry_context},
-            ]
-            
+            prompt = self.poultry_context + "\n\n"
             if context:
-                messages.append({"role": "user", "content": f"Context: {context}"})
+                prompt += f"Context: {context}\n\n"
+            prompt += f"Question: {farmer_question}\n\nPlease provide practical farming advice:"
             
-            messages.append({"role": "user", "content": farmer_question})
+            # Try Gemini first (cost-effective)
+            if self.primary_provider == 'gemini' and 'gemini' in self.providers:
+                try:
+                    response = self.providers['gemini'].generate_content(
+                        prompt,
+                        generation_config=genai.types.GenerationConfig(
+                            max_output_tokens=500,
+                            temperature=0.7,
+                        )
+                    )
+                    return {
+                        "success": True,
+                        "advice": response.text,
+                        "timestamp": datetime.now().isoformat(),
+                        "provider": "gemini"
+                    }
+                except Exception as gemini_error:
+                    logging.warning(f"Gemini API error: {str(gemini_error)}")
             
-            response = self.client.chat.completions.create(
-                model="gpt-4",
-                messages=messages,
-                max_tokens=500,
-                temperature=0.7
-            )
-            
-            return {
-                "success": True,
-                "advice": response.choices[0].message.content,
-                "timestamp": datetime.now().isoformat()
-            }
-            
+            # Fallback to OpenAI if available
+            if 'openai' in self.providers:
+                messages = [
+                    {"role": "system", "content": self.poultry_context},
+                    {"role": "user", "content": prompt}
+                ]
+                
+                response = self.providers['openai'].chat.completions.create(
+                    model="gpt-4",
+                    messages=messages,
+                    max_tokens=500,
+                    temperature=0.7
+                )
+                
+                return {
+                    "success": True,
+                    "advice": response.choices[0].message.content,
+                    "timestamp": datetime.now().isoformat(),
+                    "provider": "openai"
+                }
+                
         except Exception as e:
-            logging.error(f"OpenAI API error: {str(e)}")
-            # Provide helpful farming advice as fallback
-            fallback_advice = self._get_fallback_advice(farmer_question)
-            return {
-                "success": True,  # Don't show error to user, provide fallback
-                "advice": fallback_advice,
-                "timestamp": datetime.now().isoformat(),
-                "note": "This is general farming advice. For specific issues, please consult with a veterinarian."
-            }
+            logging.error(f"All AI providers failed: {str(e)}")
+            
+        # Provide helpful farming advice as fallback
+        fallback_advice = self._get_fallback_advice(farmer_question)
+        return {
+            "success": True,  # Don't show error to user, provide fallback
+            "advice": fallback_advice,
+            "timestamp": datetime.now().isoformat(),
+            "provider": "fallback",
+            "note": "This is general farming advice. For specific issues, please consult with a veterinarian."
+        }
     
     def analyze_disease_image(self, image_base64, symptoms_description=""):
         """Analyze uploaded image for disease detection"""
@@ -88,38 +134,68 @@ class AIServices:
             Focus on common poultry diseases like Newcastle Disease, Avian Influenza, Infectious Bronchitis, Coccidiosis.
             """
             
-            # Try models with vision capabilities
-            vision_models = ["gpt-4-turbo", "gpt-4o", "gpt-4-vision-preview"]
             response = None
             
-            for model in vision_models:
+            # Try Gemini first for vision analysis (cost-effective)
+            if self.primary_provider == 'gemini' and 'gemini' in self.providers:
                 try:
-                    response = self.client.chat.completions.create(
-                        model=model,
-                        messages=[
-                            {
-                                "role": "user",
-                                "content": [
-                                    {"type": "text", "text": disease_prompt},
-                                    {
-                                        "type": "image_url",
-                                        "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"}
-                                    }
-                                ]
-                            }
-                        ],
-                        max_tokens=800
-                    )
-                    break
-                except Exception as model_error:
-                    logging.warning(f"Vision model {model} failed: {str(model_error)}") 
-                    continue
+                    # Convert base64 to image for Gemini
+                    import io
+                    from PIL import Image
+                    image_data = base64.b64decode(image_base64)
+                    image = Image.open(io.BytesIO(image_data))
                     
+                    response = self.providers['gemini'].generate_content(
+                        [disease_prompt, image],
+                        generation_config=genai.types.GenerationConfig(
+                            max_output_tokens=800,
+                            temperature=0.3,
+                        )
+                    )
+                    
+                    if response and response.text:
+                        content = response.text
+                        provider_used = "gemini"
+                    else:
+                        raise Exception("Gemini vision analysis failed")
+                        
+                except Exception as gemini_error:
+                    logging.warning(f"Gemini vision analysis error: {str(gemini_error)}")
+                    response = None
+            
+            # Fallback to OpenAI vision models
+            if not response and 'openai' in self.providers:
+                vision_models = ["gpt-4-turbo", "gpt-4o", "gpt-4-vision-preview"]
+                
+                for model in vision_models:
+                    try:
+                        response = self.providers['openai'].chat.completions.create(
+                            model=model,
+                            messages=[
+                                {
+                                    "role": "user",
+                                    "content": [
+                                        {"type": "text", "text": disease_prompt},
+                                        {
+                                            "type": "image_url",
+                                            "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"}
+                                        }
+                                    ]
+                                }
+                            ],
+                            max_tokens=800
+                        )
+                        content = response.choices[0].message.content
+                        provider_used = f"openai-{model}"
+                        break
+                    except Exception as model_error:
+                        logging.warning(f"Vision model {model} failed: {str(model_error)}") 
+                        continue
+                        
             if not response:
                 raise Exception("All vision models failed")
             
             # Try to parse JSON response
-            content = response.choices[0].message.content
             try:
                 analysis = json.loads(content)
             except json.JSONDecodeError:
@@ -136,6 +212,7 @@ class AIServices:
             
             analysis["timestamp"] = datetime.now().isoformat()
             analysis["success"] = True
+            analysis["provider"] = provider_used
             
             return analysis
             
