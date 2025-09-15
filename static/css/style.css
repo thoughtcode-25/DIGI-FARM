@@ -5,18 +5,15 @@
     min-height: 100vh;
 }
 
-/* Custom card hover effects - Professional and subtle */
+/* Custom card hover effects */
 .card {
-    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     border-radius: 12px !important;
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
-    color: #e2e8f0 !important;
 }
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Farmer-friendly large buttons */
@@ -30,12 +27,12 @@
 .btn {
     font-weight: 500;
     border-radius: 8px;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
 }
 
 .btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Chart container styling */
@@ -56,7 +53,6 @@ canvas {
 .alert {
     border: none;
     border-radius: 8px;
-    color: #1a202c !important;
 }
 
 /* Button improvements */
@@ -68,23 +64,18 @@ canvas {
 /* Form styling improvements */
 .form-control {
     border-radius: 6px;
-    border: 1px solid #4a5568;
-    background-color: #2d3748 !important;
-    color: #e2e8f0 !important;
+    border: 1px solid var(--bs-border-color);
 }
 
 .form-control:focus {
-    border-color: #4299e1;
-    box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
-    background-color: #2d3748 !important;
-    color: #e2e8f0 !important;
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
 }
 
 /* Navigation improvements */
 .navbar-brand {
     font-weight: 600;
     font-size: 1.25rem;
-    color: #e2e8f0 !important;
 }
 
 /* Dashboard card improvements */
@@ -118,23 +109,17 @@ canvas {
     align-items: center;
     justify-content: center;
     height: 300px;
-    color: #a0aec0;
+    color: var(--bs-secondary);
 }
 
-/* Professional typography */
+/* Farmer-friendly typography */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
-    color: #f7fafc !important;
 }
 
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #f7fafc !important;
-}
-
-.card-text {
-    color: #e2e8f0 !important;
 }
 
 /* Large touch-friendly interactive elements */
@@ -159,7 +144,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Progress bars */
 .progress {
     border-radius: 8px;
-    background-color: rgba(74, 85, 104, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .progress-bar {
@@ -185,20 +170,20 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-/* Dashboard quick actions - Reduced animation for professionalism */
+/* Dashboard quick actions */
 .quick-action-card {
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .quick-action-card:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
 }
 
-/* Task completion animations - Subtle */
+/* Task completion animations */
 .task-completed {
-    background: linear-gradient(45deg, rgba(72, 187, 120, 0.1), rgba(72, 187, 120, 0.2));
-    border-left: 4px solid #48bb78;
+    background: linear-gradient(45deg, rgba(25, 135, 84, 0.1), rgba(25, 135, 84, 0.2));
+    border-left: 4px solid var(--bs-success);
 }
 
 /* Custom alert styling */
@@ -209,21 +194,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .alert-success {
-    border-left-color: #48bb78;
-    background-color: rgba(72, 187, 120, 0.1) !important;
-    color: #1a202c !important;
+    border-left-color: var(--bs-success);
 }
 
 .alert-danger {
-    border-left-color: #f56565;
-    background-color: rgba(245, 101, 101, 0.1) !important;
-    color: #1a202c !important;
+    border-left-color: var(--bs-danger);
 }
 
 .alert-warning {
-    border-left-color: #ed8936;
-    background-color: rgba(237, 137, 54, 0.1) !important;
-    color: #1a202c !important;
+    border-left-color: var(--bs-warning);
 }
 
 /* Custom scrollbar for better UX */
@@ -232,22 +211,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-    background: #2d3748;
+    background: var(--bs-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #4a5568;
+    background: var(--bs-secondary);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #718096;
+    background: var(--bs-primary);
 }
 
 /* Accessibility improvements */
 .btn:focus, .form-control:focus, .form-select:focus {
-    box-shadow: 0 0 0 0.25rem rgba(66, 153, 225, 0.25);
-    border-color: #4299e1;
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+    border-color: var(--bs-primary);
 }
 
 /* Loading states */
@@ -258,8 +237,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* QR Code styling */
 .qr-container {
-    background: linear-gradient(135deg, #2d3748, #4a5568);
-    border: 2px dashed #4299e1;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed var(--bs-primary);
     border-radius: 12px;
 }
 
@@ -270,119 +249,119 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .chat-message.sent {
-    background: linear-gradient(135deg, #4299e1, #3182ce);
+    background: linear-gradient(135deg, var(--bs-primary), #0056b3);
     color: white;
     margin-left: auto;
 }
 
 .chat-message.received {
-    background: #4a5568;
-    color: #e2e8f0;
+    background: var(--bs-light);
+    color: var(--bs-dark);
 }
 
-/* PROFESSIONAL DARK THEME */
+/* === DARK THEME IMPROVEMENTS FOR BETTER TEXT VISIBILITY === */
 
 /* Enhanced dark theme variables */
 [data-bs-theme="dark"] {
-    --bs-body-bg: #1a202c;
-    --bs-body-color: #e2e8f0;
-    --bs-emphasis-color: #f7fafc;
-    --bs-secondary-color: #a0aec0;
-    --bs-tertiary-color: #718096;
-    --bs-border-color: #4a5568;
-    --bs-secondary-bg: #2d3748;
-    --bs-tertiary-bg: #4a5568;
+    --bs-body-bg: #0d1117;
+    --bs-body-color: #e6edf3;
+    --bs-emphasis-color: #f0f6fc;
+    --bs-secondary-color: #7d8590;
+    --bs-tertiary-color: #656d76;
+    --bs-border-color: #30363d;
+    --bs-secondary-bg: #161b22;
+    --bs-tertiary-bg: #21262d;
 }
 
 /* Global text improvements for dark theme */
 [data-bs-theme="dark"] body {
-    background-color: #1a202c !important;
-    color: #e2e8f0 !important;
+    background-color: #0d1117 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .text-muted {
-    color: #a0aec0 !important;
+    color: #7d8590 !important;
 }
 
 [data-bs-theme="dark"] .text-secondary {
-    color: #a0aec0 !important;
+    color: #7d8590 !important;
 }
 
 /* Card improvements */
 [data-bs-theme="dark"] .card {
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #161b22 !important;
+    border: 1px solid #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .card-header {
-    background-color: #4a5568 !important;
-    border-bottom: 1px solid #718096 !important;
-    color: #f7fafc !important;
+    background-color: #21262d !important;
+    border-bottom: 1px solid #30363d !important;
+    color: #f0f6fc !important;
 }
 
 [data-bs-theme="dark"] .card-body {
-    color: #e2e8f0 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .card-title {
-    color: #f7fafc !important;
+    color: #f0f6fc !important;
 }
 
 /* Form improvements */
 [data-bs-theme="dark"] .form-control {
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #0d1117 !important;
+    border: 1px solid #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .form-control:focus {
-    background-color: #2d3748 !important;
-    border-color: #4299e1 !important;
-    box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25) !important;
-    color: #e2e8f0 !important;
+    background-color: #0d1117 !important;
+    border-color: #58a6ff !important;
+    box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25) !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .form-select {
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #0d1117 !important;
+    border: 1px solid #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .form-label {
-    color: #f7fafc !important;
+    color: #f0f6fc !important;
 }
 
 [data-bs-theme="dark"] .form-text {
-    color: #a0aec0 !important;
+    color: #7d8590 !important;
 }
 
 /* Button enhancements */
 [data-bs-theme="dark"] .btn-primary {
-    background-color: #4299e1 !important;
-    border-color: #4299e1 !important;
+    background-color: #238636 !important;
+    border-color: #238636 !important;
     color: #ffffff !important;
 }
 
 [data-bs-theme="dark"] .btn-primary:hover {
-    background-color: #3182ce !important;
-    border-color: #3182ce !important;
+    background-color: #2ea043 !important;
+    border-color: #2ea043 !important;
 }
 
 [data-bs-theme="dark"] .btn-outline-primary {
-    color: #4299e1 !important;
-    border-color: #4299e1 !important;
+    color: #58a6ff !important;
+    border-color: #58a6ff !important;
 }
 
 [data-bs-theme="dark"] .btn-outline-primary:hover {
-    background-color: #4299e1 !important;
-    border-color: #4299e1 !important;
+    background-color: #58a6ff !important;
+    border-color: #58a6ff !important;
     color: #ffffff !important;
 }
 
 /* Navigation improvements */
 [data-bs-theme="dark"] .navbar-dark .navbar-nav .nav-link {
-    color: #e2e8f0 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .navbar-dark .navbar-nav .nav-link:hover {
@@ -390,165 +369,165 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [data-bs-theme="dark"] .navbar-brand {
-    color: #f7fafc !important;
+    color: #f0f6fc !important;
 }
 
 [data-bs-theme="dark"] .dropdown-menu {
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
+    background-color: #161b22 !important;
+    border: 1px solid #30363d !important;
 }
 
 [data-bs-theme="dark"] .dropdown-item {
-    color: #e2e8f0 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .dropdown-item:hover {
-    background-color: #4a5568 !important;
-    color: #f7fafc !important;
+    background-color: #21262d !important;
+    color: #f0f6fc !important;
 }
 
 /* Alert styling */
 [data-bs-theme="dark"] .alert-info {
-    background-color: rgba(66, 153, 225, 0.1) !important;
-    border-color: #4299e1 !important;
-    color: #1a202c !important;
+    background-color: #0c2d48 !important;
+    border-color: #1f6feb !important;
+    color: #58a6ff !important;
 }
 
 [data-bs-theme="dark"] .alert-success {
-    background-color: rgba(72, 187, 120, 0.1) !important;
-    border-color: #48bb78 !important;
-    color: #1a202c !important;
+    background-color: #0f2419 !important;
+    border-color: #238636 !important;
+    color: #2ea043 !important;
 }
 
 [data-bs-theme="dark"] .alert-warning {
-    background-color: rgba(237, 137, 54, 0.1) !important;
-    border-color: #ed8936 !important;
-    color: #1a202c !important;
+    background-color: #332b00 !important;
+    border-color: #bf8700 !important;
+    color: #f0c33c !important;
 }
 
 [data-bs-theme="dark"] .alert-danger {
-    background-color: rgba(245, 101, 101, 0.1) !important;
-    border-color: #f56565 !important;
-    color: #1a202c !important;
+    background-color: #2d1117 !important;
+    border-color: #da3633 !important;
+    color: #f85149 !important;
 }
 
 /* List group improvements */
 [data-bs-theme="dark"] .list-group-item {
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #161b22 !important;
+    border: 1px solid #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .list-group-item:hover {
-    background-color: #4a5568 !important;
+    background-color: #21262d !important;
 }
 
 [data-bs-theme="dark"] .list-group-item-action:hover {
-    background-color: #4a5568 !important;
-    color: #f7fafc !important;
+    background-color: #21262d !important;
+    color: #f0f6fc !important;
 }
 
 /* Table improvements */
 [data-bs-theme="dark"] .table {
-    color: #e2e8f0 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .table > :not(caption) > * > * {
-    border-bottom-color: #4a5568 !important;
+    border-bottom-color: #30363d !important;
 }
 
 /* Badge improvements */
 [data-bs-theme="dark"] .badge.bg-success {
-    background-color: #48bb78 !important;
+    background-color: #238636 !important;
     color: #ffffff !important;
 }
 
 [data-bs-theme="dark"] .badge.bg-warning {
-    background-color: #ed8936 !important;
+    background-color: #bf8700 !important;
     color: #ffffff !important;
 }
 
 [data-bs-theme="dark"] .badge.bg-danger {
-    background-color: #f56565 !important;
+    background-color: #da3633 !important;
     color: #ffffff !important;
 }
 
 [data-bs-theme="dark"] .badge.bg-info {
-    background-color: #4299e1 !important;
+    background-color: #1f6feb !important;
     color: #ffffff !important;
 }
 
 [data-bs-theme="dark"] .badge.bg-light {
-    background-color: #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #21262d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .badge.bg-secondary {
-    background-color: #718096 !important;
-    color: #e2e8f0 !important;
+    background-color: #373e47 !important;
+    color: #e6edf3 !important;
 }
 
 /* Progress bar styling */
 [data-bs-theme="dark"] .progress {
-    background-color: #4a5568 !important;
+    background-color: #21262d !important;
 }
 
 /* Chat specific styling */
 [data-bs-theme="dark"] #chatMessages {
-    background-color: #1a202c !important;
-    border: 1px solid #4a5568 !important;
+    background-color: #0d1117 !important;
+    border: 1px solid #30363d !important;
 }
 
 [data-bs-theme="dark"] .bg-light {
-    background-color: #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #21262d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .message-ai {
-    background-color: #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #21262d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .message-user {
-    background-color: #4299e1 !important;
+    background-color: #238636 !important;
     color: #ffffff !important;
 }
 
 /* Tab improvements */
 [data-bs-theme="dark"] .nav-tabs .nav-link {
-    color: #a0aec0 !important;
+    color: #7d8590 !important;
     border: 1px solid transparent !important;
 }
 
 [data-bs-theme="dark"] .nav-tabs .nav-link.active {
-    background-color: #2d3748 !important;
-    border-color: #4a5568 #4a5568 #2d3748 !important;
-    color: #f7fafc !important;
+    background-color: #161b22 !important;
+    border-color: #30363d #30363d #161b22 !important;
+    color: #f0f6fc !important;
 }
 
 [data-bs-theme="dark"] .nav-tabs .nav-link:hover {
-    border-color: #4a5568 !important;
-    color: #e2e8f0 !important;
+    border-color: #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .tab-content {
-    background-color: #2d3748 !important;
-    color: #e2e8f0 !important;
+    background-color: #161b22 !important;
+    color: #e6edf3 !important;
 }
 
 /* Modal improvements */
 [data-bs-theme="dark"] .modal-content {
-    background-color: #2d3748 !important;
-    border: 1px solid #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #161b22 !important;
+    border: 1px solid #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .modal-header {
-    border-bottom: 1px solid #4a5568 !important;
+    border-bottom: 1px solid #30363d !important;
 }
 
 [data-bs-theme="dark"] .modal-footer {
-    border-top: 1px solid #4a5568 !important;
+    border-top: 1px solid #30363d !important;
 }
 
 /* Ensure all headings are visible */
@@ -558,46 +537,46 @@ h1, h2, h3, h4, h5, h6 {
 [data-bs-theme="dark"] h4, 
 [data-bs-theme="dark"] h5, 
 [data-bs-theme="dark"] h6 {
-    color: #f7fafc !important;
+    color: #f0f6fc !important;
 }
 
 /* Ensure paragraphs and small text are visible */
 [data-bs-theme="dark"] p {
-    color: #e2e8f0 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] small,
 [data-bs-theme="dark"] .small {
-    color: #a0aec0 !important;
+    color: #7d8590 !important;
 }
 
 /* Link improvements */
 [data-bs-theme="dark"] a {
-    color: #4299e1 !important;
+    color: #58a6ff !important;
 }
 
 [data-bs-theme="dark"] a:hover {
-    color: #63b3ed !important;
+    color: #79c0ff !important;
 }
 
 /* Fix specific components */
 [data-bs-theme="dark"] .input-group-text {
-    background-color: #4a5568 !important;
-    border: 1px solid #718096 !important;
-    color: #e2e8f0 !important;
+    background-color: #21262d !important;
+    border: 1px solid #30363d !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .border {
-    border-color: #4a5568 !important;
+    border-color: #30363d !important;
 }
 
 [data-bs-theme="dark"] .border-secondary {
-    border-color: #718096 !important;
+    border-color: #373e47 !important;
 }
 
 /* Loading spinner */
 [data-bs-theme="dark"] .spinner-border {
-    color: #4299e1 !important;
+    color: #58a6ff !important;
 }
 
 /* Ensure button text is always visible */
@@ -606,86 +585,230 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [data-bs-theme="dark"] .btn-secondary {
-    background-color: #718096 !important;
-    border-color: #718096 !important;
-    color: #e2e8f0 !important;
+    background-color: #373e47 !important;
+    border-color: #373e47 !important;
+    color: #e6edf3 !important;
 }
 
 [data-bs-theme="dark"] .btn-secondary:hover {
-    background-color: #a0aec0 !important;
-    border-color: #a0aec0 !important;
-    color: #1a202c !important;
+    background-color: #444c56 !important;
+    border-color: #444c56 !important;
+    color: #f0f6fc !important;
 }
 
 /* AI Chat improvements */
 [data-bs-theme="dark"] .quick-topic {
-    border-color: #4299e1 !important;
-    color: #4299e1 !important;
+    border-color: #58a6ff !important;
+    color: #58a6ff !important;
 }
 
 [data-bs-theme="dark"] .quick-topic:hover {
-    background-color: #4299e1 !important;
+    background-color: #58a6ff !important;
     color: #ffffff !important;
 }
 
 /* Disease detection improvements */
 [data-bs-theme="dark"] .preview-container {
-    background-color: #2d3748 !important;
-    border: 2px dashed #4a5568 !important;
-    color: #e2e8f0 !important;
+    background-color: #161b22 !important;
+    border: 2px dashed #30363d !important;
+    color: #e6edf3 !important;
 }
 
-/* Professional hover effects - Reduced animations */
+/* Custom styles for enhanced poultry farm dashboard - Rural Farmer Friendly */
+
+/* Dark theme customization */
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.card {
+    background-color: #2d2d2d;
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Visual hover effects for action cards */
 .hover-card {
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     transform: perspective(1000px) rotateX(0deg);
 }
 
 .hover-card:hover {
-    transform: perspective(1000px) rotateX(-2deg) translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: perspective(1000px) rotateX(-5deg) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Remove excessive animations */
+/* Large, readable fonts for rural farmers */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.card-text {
+    font-size: 1.1rem;
+}
+
+/* Visual progress indicators */
+.progress {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    background: linear-gradient(45deg, #4caf50, #8bc34a);
+    animation: progressAnimation 2s ease-in-out;
+}
+
+@keyframes progressAnimation {
+    0% { width: 0%; }
+    100% { width: var(--progress-width); }
+}
+
+/* Visual status indicators */
 .status-indicator {
     font-size: 2rem;
+    animation: pulse 2s infinite;
 }
 
-/* Professional progress bars */
-.progress-bar {
-    background: linear-gradient(45deg, #4299e1, #63b3ed);
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
-/* Remove bounce animation for professionalism */
-.bounce-animation {
-    /* Removed animation for professional look */
+/* Enhanced buttons for rural farmers */
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
-/* Simple fade in for content */
-.fade-in {
-    opacity: 1;
-    transform: translateY(0);
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Professional responsive improvements */
-@media (max-width: 768px) {
-    .icon-large {
-        font-size: 2.5rem;
-    }
-
-    .hindi-text {
-        font-size: 1.1rem;
-    }
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
 }
 
-/* Professional table styling */
+/* Color-coded sections */
+.profit-section {
+    background: linear-gradient(135deg, #4caf50, #8bc34a);
+}
+
+.loss-section {
+    background: linear-gradient(135deg, #f44336, #ff7043);
+}
+
+.neutral-section {
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+}
+
+/* Visual icons and emojis enhancement */
+.icon-large {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Multilingual text styling */
+.hindi-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffc107;
+}
+
+/* Enhanced navigation */
+.navbar {
+    background: linear-gradient(135deg, #2d2d2d, #404040) !important;
+    border-bottom: 3px solid #007bff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* Form enhancements */
+.form-control {
+    background-color: #3d3d3d;
+    border: 2px solid #555;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    background-color: #3d3d3d;
+    border-color: #007bff;
+    color: #fff;
+    box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.25);
+    transform: scale(1.02);
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Alert enhancements */
+.alert {
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    padding: 1.5rem;
+    border-left: 5px solid;
+}
+
+.alert-warning {
+    border-left-color: #ffc107;
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    color: #856404;
+}
+
+.alert-danger {
+    border-left-color: #dc3545;
+    background: linear-gradient(135deg, #f8d7da, #fab1a0);
+    color: #721c24;
+}
+
+.alert-success {
+    border-left-color: #28a745;
+    background: linear-gradient(135deg, #d4edda, #00b894);
+    color: #155724;
+}
+
+/* Table enhancements */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 1.1rem;
+}
+
 .table-dark {
-    background-color: #2d3748;
+    background-color: #2d2d2d;
 }
 
 .table th {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     padding: 1rem;
 }
 
@@ -694,16 +817,109 @@ h1, h2, h3, h4, h5, h6 {
     vertical-align: middle;
 }
 
-/* Enhanced chart containers */
-.chart-container {
-    background-color: #2d3748;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+/* Badge enhancements */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
 }
 
-/* Professional spinner */
+/* Chart containers */
+.chart-container {
+    background-color: #2d2d2d;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading animation */
+.chart-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-color: #2d2d2d;
+    border-radius: 15px;
+}
+
 .spinner-border {
-    border-color: #4299e1;
+    border-color: #007bff;
     border-right-color: transparent;
+}
+
+/* Visual feedback animations */
+@keyframes bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+}
+
+.bounce-animation {
+    animation: bounce 2s infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-in;
+}
+
+/* Mobile responsiveness for rural areas */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .btn-lg {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.6rem;
+    }
+
+    .icon-large {
+        font-size: 3rem;
+    }
+
+    .hindi-text {
+        font-size: 1.4rem;
+    }
+}
+
+/* High contrast mode for better visibility */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid #fff;
+    }
+
+    .btn {
+        border: 2px solid #fff;
+    }
+}
+
+/* Print styles for rural documentation */
+@media print {
+    .card {
+        background-color: #fff !important;
+        color: #000 !important;
+        border: 1px solid #000;
+    }
+
+    .btn {
+        display: none;
+    }
 }
