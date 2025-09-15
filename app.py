@@ -32,10 +32,7 @@ def inject_translations():
     """Make translation functions available in all templates"""
     return {
         'get_text': get_text,
-        'lang': session.get('language', 'en'),
-        'abs': abs,
-        'float': float,
-        'int': int
+        'lang': session.get('language', 'en')
     }
 
 @app.route('/')
