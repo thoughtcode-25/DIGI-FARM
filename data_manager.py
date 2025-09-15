@@ -33,13 +33,13 @@ class DataManager:
         base_date = datetime.now().date()
         
         sample_data = [
-            {'chickens': 150, 'eggs': 120, 'feed': 25.5, 'expenses': 150.0},
-            {'chickens': 148, 'eggs': 115, 'feed': 24.8, 'expenses': 140.0},
-            {'chickens': 152, 'eggs': 125, 'feed': 26.2, 'expenses': 160.0},
-            {'chickens': 151, 'eggs': 118, 'feed': 25.0, 'expenses': 145.0},
-            {'chickens': 149, 'eggs': 122, 'feed': 24.5, 'expenses': 155.0},
-            {'chickens': 153, 'eggs': 128, 'feed': 26.8, 'expenses': 170.0},
-            {'chickens': 150, 'eggs': 130, 'feed': 25.2, 'expenses': 165.0},
+            {'chickens': 150, 'eggs': 120, 'feed': 25.5, 'expenses': 1500.0},
+            {'chickens': 148, 'eggs': 115, 'feed': 24.8, 'expenses': 1400.0},
+            {'chickens': 152, 'eggs': 125, 'feed': 26.2, 'expenses': 1600.0},
+            {'chickens': 151, 'eggs': 118, 'feed': 25.0, 'expenses': 1450.0},
+            {'chickens': 149, 'eggs': 122, 'feed': 24.5, 'expenses': 1550.0},
+            {'chickens': 153, 'eggs': 128, 'feed': 26.8, 'expenses': 1700.0},
+            {'chickens': 150, 'eggs': 130, 'feed': 25.2, 'expenses': 1650.0},
         ]
         
         for i, data in enumerate(sample_data):
@@ -71,9 +71,9 @@ class DataManager:
                 'profit_loss': 0.0
             }
         
-        # Calculate profit/loss (assuming $0.50 per egg, $2.00 per kg feed)
-        egg_price = 0.50
-        feed_cost_per_kg = 2.00
+        # Calculate profit/loss (assuming ₹5.00 per egg, ₹40.00 per kg feed)
+        egg_price = 5.00
+        feed_cost_per_kg = 40.00
         
         revenue = today_data.get('eggs', 0) * egg_price
         feed_cost = today_data.get('feed', 0) * feed_cost_per_kg
@@ -177,10 +177,10 @@ class DataManager:
         
         # Add some sample revenue/expense data
         self.revenue_expenses = [
-            {'date': today - timedelta(days=1), 'type': 'revenue', 'amount': 250.0, 'description': 'Egg sales'},
-            {'date': today - timedelta(days=2), 'type': 'expense', 'amount': 150.0, 'description': 'Feed purchase'},
-            {'date': today - timedelta(days=3), 'type': 'revenue', 'amount': 300.0, 'description': 'Chicken sales'},
-            {'date': today - timedelta(days=4), 'type': 'expense', 'amount': 80.0, 'description': 'Veterinary visit'},
+            {'date': today - timedelta(days=1), 'type': 'revenue', 'amount': 2500.0, 'description': 'Egg sales'},
+            {'date': today - timedelta(days=2), 'type': 'expense', 'amount': 1500.0, 'description': 'Feed purchase'},
+            {'date': today - timedelta(days=3), 'type': 'revenue', 'amount': 3000.0, 'description': 'Chicken sales'},
+            {'date': today - timedelta(days=4), 'type': 'expense', 'amount': 800.0, 'description': 'Veterinary visit'},
         ]
         
         # Initialize user progress

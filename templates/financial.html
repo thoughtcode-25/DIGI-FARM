@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="card border-0 shadow-sm">
                 <div class="card-body text-center">
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="card border-0 shadow-sm">
                 <div class="card-body text-center">
@@ -48,7 +48,7 @@
                         <i class="fas fa-chart-line fa-2x text-{{ 'success' if financial.profit_loss >= 0 else 'warning' }}"></i>
                     </div>
                     <h3 class="text-{{ 'success' if financial.profit_loss >= 0 else 'warning' }}">
-                        ${{ "%.2f"|format(financial.profit_loss) }}
+                        ₹{{ "%.2f"|format(financial.profit_loss) }}
                     </h3>
                     <p class="text-muted">{{ get_text('net_profit_loss', lang) if get_text else 'Net Profit/Loss' }}</p>
                 </div>
@@ -144,7 +144,7 @@
                             </select>
                         </div>
                         <div class="col-12">
-                            <label for="amount" class="form-label">{{ get_text('amount', lang) if get_text else 'Amount' }} ($)</label>
+                            <label for="amount" class="form-label">{{ get_text('amount', lang) if get_text else 'Amount' }} (₹)</label>
                             <input type="number" class="form-control" id="amount" name="amount" 
                                    step="0.01" min="0" required>
                         </div>

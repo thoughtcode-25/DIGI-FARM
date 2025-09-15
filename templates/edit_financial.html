@@ -40,7 +40,7 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label for="amount" class="form-label">{{ get_text('amount', lang) if get_text else 'Amount' }} ($)</label>
+                                <label for="amount" class="form-label">{{ get_text('amount', lang) if get_text else 'Amount' }} (₹)</label>
                                 <input type="number" class="form-control" id="amount" name="amount" 
                                        value="{{ entry.amount }}" step="0.01" min="0" required>
                             </div>

@@ -211,19 +211,19 @@
                     </h5>
                     <div class="row text-center">
                         <div class="col-4">
-                            <h4 class="text-success">${{ "%.0f"|format(financial.total_revenue) }}</h4>
+                            <h4 class="text-success">₹{{ "%.0f"|format(financial.total_revenue) }}</h4>
                             <small class="text-muted">Revenue</small>
                         </div>
                         <div class="col-4">
-                            <h4 class="text-danger">${{ "%.0f"|format(financial.total_expenses) }}</h4>
+                            <h4 class="text-danger">₹{{ "%.0f"|format(financial.total_expenses) }}</h4>
                             <small class="text-muted">Expenses</small>
                         </div>
                         <div class="col-4">
                             <h4 class="text-{{ 'success' if financial.profit_loss >= 0 else 'danger' }}">
-                                ${{ "%.0f"|format(financial.profit_loss) }}
+                                ₹{{ "%.0f"|format(financial.profit_loss) }}
                             </h4>
                             <small class="text-muted">Profit/Loss</small>
-                        </div>
+                        </div></div>
                     </div>
                     <div class="mt-3">
                         <a href="{{ url_for('financial') }}" class="btn btn-outline-success btn-sm">
