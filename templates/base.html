@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="{{ lang or 'en' }}" data-bs-theme="dark" {% if lang == 'ar' %}dir="rtl"{% endif %}>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-                <i class="fas fa-egg me-2"></i>Poultry Farm Manager
+                <i class="fas fa-egg me-2"></i>{{ get_text('navbar_brand', lang) if get_text else 'Poultry Farm Manager' }}
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -34,70 +34,70 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('dashboard') }}">
-                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                            <i class="fas fa-tachometer-alt me-1"></i>{{ get_text('dashboard', lang) if get_text else 'Dashboard' }}
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-database me-1"></i>Farm Data
+                            <i class="fas fa-database me-1"></i>{{ get_text('farm_data', lang) if get_text else 'Farm Data' }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('add_data') }}">
-                                <i class="fas fa-plus me-1"></i>Add Daily Data
+                                <i class="fas fa-plus me-1"></i>{{ get_text('add_daily_data', lang) if get_text else 'Add Daily Data' }}
                             </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('financial') }}">
-                                <i class="fas fa-dollar-sign me-1"></i>Financial Records
+                                <i class="fas fa-dollar-sign me-1"></i>{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}
                             </a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-tools me-1"></i>Farm Tools
+                            <i class="fas fa-tools me-1"></i>{{ get_text('farm_tools', lang) if get_text else 'Farm Tools' }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('diseases') }}">
-                                <i class="fas fa-stethoscope me-1"></i>Disease Solutions
+                                <i class="fas fa-stethoscope me-1"></i>{{ get_text('disease_solutions', lang) if get_text else 'Disease Solutions' }}
                             </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('training') }}">
-                                <i class="fas fa-graduation-cap me-1"></i>Training
+                                <i class="fas fa-graduation-cap me-1"></i>{{ get_text('training', lang) if get_text else 'Training' }}
                             </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('chat') }}">
-                                <i class="fas fa-comments me-1"></i>Business Chat
+                                <i class="fas fa-comments me-1"></i>{{ get_text('business_chat', lang) if get_text else 'Business Chat' }}
                             </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('visits') }}">
-                                <i class="fas fa-qrcode me-1"></i>Visit Tracking
+                                <i class="fas fa-qrcode me-1"></i>{{ get_text('visit_tracking', lang) if get_text else 'Visit Tracking' }}
                             </a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-chart-line me-1"></i>Analytics
+                            <i class="fas fa-chart-line me-1"></i>{{ get_text('analytics', lang) if get_text else 'Analytics' }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('reports') }}">
-                                <i class="fas fa-chart-bar me-1"></i>Production Reports
+                                <i class="fas fa-chart-bar me-1"></i>{{ get_text('production_reports', lang) if get_text else 'Production Reports' }}
                             </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('alerts') }}">
-                                <i class="fas fa-exclamation-triangle me-1"></i>Alerts
+                                <i class="fas fa-exclamation-triangle me-1"></i>{{ get_text('alerts', lang) if get_text else 'Alerts' }}
                             </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('government_schemes') }}">
-                                <i class="fas fa-landmark me-1"></i>Gov Schemes
+                                <i class="fas fa-landmark me-1"></i>{{ get_text('gov_schemes', lang) if get_text else 'Gov Schemes' }}
                             </a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('leaderboard') }}">
-                            <i class="fas fa-trophy me-1"></i>Leaderboard
+                            <i class="fas fa-trophy me-1"></i>{{ get_text('leaderboard', lang) if get_text else 'Leaderboard' }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('ai_chat') }}">
-                            <i class="fas fa-robot me-1"></i>AI Assistant
+                            <i class="fas fa-robot me-1"></i>{{ get_text('ai_assistant', lang) if get_text else 'AI Assistant' }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('disease_detection') }}">
-                            <i class="fas fa-camera me-1"></i>Disease Detection
+                            <i class="fas fa-camera me-1"></i>{{ get_text('disease_detection', lang) if get_text else 'Disease Detection' }}
                         </a>
                     </li>
                 </ul>
@@ -108,8 +108,11 @@
                             <i class="fas fa-user me-1"></i>{{ session.username }}
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('language_select') }}">
+                                <i class="fas fa-globe me-1"></i>{{ get_text('select_language', lang) if get_text else 'Change Language' }}
+                            </a></li>
                             <li><a class="dropdown-item" href="{{ url_for('logout') }}">
-                                <i class="fas fa-sign-out-alt me-1"></i>Logout
+                                <i class="fas fa-sign-out-alt me-1"></i>{{ get_text('logout', lang) if get_text else 'Logout' }}
                             </a></li>
                         </ul>
                     </li>

@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from werkzeug.utils import secure_filename
 from data_manager import DataManager
 from ai_services import AIServices
+from translations import get_text, get_available_languages
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
@@ -26,6 +27,14 @@ except ValueError as e:
 DEMO_USERNAME = "admin"
 DEMO_PASSWORD = "password123"
 
+@app.context_processor
+def inject_translations():
+    """Make translation functions available in all templates"""
+    return {
+        'get_text': get_text,
+        'lang': session.get('language', 'en')
+    }
+
 @app.route('/')
 def index():
     """Redirect to dashboard if logged in, otherwise to login"""
@@ -43,25 +52,60 @@ def login():
         if username == DEMO_USERNAME and password == DEMO_PASSWORD:
             session['logged_in'] = True
             session['username'] = username
-            flash('Successfully logged in!', 'success')
-            return redirect(url_for('dashboard'))
+            # Set default language if not already set
+            if 'language' not in session:
+                session['language'] = 'en'
+            flash(get_text('login_successful', session.get('language', 'en')), 'success')
+            return redirect(url_for('language_select'))
         else:
-            flash('Invalid username or password!', 'danger')
+            flash(get_text('invalid_credentials', session.get('language', 'en')), 'danger')
     
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     """Logout and clear session"""
+    lang = session.get('language', 'en')
     session.clear()
-    flash('Successfully logged out!', 'success')
+    flash(get_text('logout', lang), 'success')
     return redirect(url_for('login'))
+
+@app.route('/language_select')
+def language_select():
+    """Language selection page shown after login"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    # Allow users to change language even if already selected
+    languages = get_available_languages()
+    current_lang = session.get('language', 'en')
+    return render_template('language_select.html', languages=languages, current_lang=current_lang)
+
+@app.route('/set_language', methods=['POST'])
+def set_language():
+    """Set user's language preference"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    lang = request.json.get('language', 'en')
+    if lang in get_available_languages():
+        session['language'] = lang
+        session['language_selected'] = True
+        return jsonify({'success': True})
+    
+    return jsonify({'error': 'Invalid language'}), 400
 
 @app.route('/dashboard')
 def dashboard():
     """Enhanced dashboard with farm score, tasks, and gamification"""
     if 'logged_in' not in session:
         return redirect(url_for('login'))
+    
+    # Redirect to language selection if not done
+    if not session.get('language_selected'):
+        return redirect(url_for('language_select'))
+    
+    lang = session.get('language', 'en')
     
     # Get today's summary data
     summary = data_manager.get_dashboard_summary()
@@ -77,13 +121,20 @@ def dashboard():
                          tasks=tasks,
                          health_status=health_status,
                          financial=financial,
-                         temp_alert=temp_alert)
+                         temp_alert=temp_alert,
+                         lang=lang,
+                         get_text=get_text)
 
 @app.route('/add_data', methods=['GET', 'POST'])
 def add_data():
     """Add/Update daily farm data"""
     if 'logged_in' not in session:
         return redirect(url_for('login'))
+    
+    if not session.get('language_selected'):
+        return redirect(url_for('language_select'))
+    
+    lang = session.get('language', 'en')
     
     if request.method == 'POST':
         try:
@@ -102,17 +153,17 @@ def add_data():
             
             # Add data
             data_manager.add_daily_data(date_obj, chickens, eggs, feed, expenses)
-            flash('Data added successfully!', 'success')
+            flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('dashboard'))
             
         except ValueError as e:
-            flash('Invalid data format. Please check your inputs.', 'danger')
+            flash(get_text('invalid_data', lang), 'danger')
         except Exception as e:
-            flash(f'Error adding data: {str(e)}', 'danger')
+            flash(f"{get_text('error_adding_data', lang)}: {str(e)}", 'danger')
     
     # Get today's date for form default
     today = datetime.now().date()
-    return render_template('add_data.html', today=today)
+    return render_template('add_data.html', today=today, lang=lang, get_text=get_text)
 
 @app.route('/reports')
 def reports():
