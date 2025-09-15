@@ -82,7 +82,13 @@ class DataManager:
         profit_loss = revenue - total_expenses
         
         # Ensure we always return a valid number
-        if profit_loss is None or str(profit_loss) == 'nan':
+        if profit_loss is None or str(profit_loss) == 'nan' or not isinstance(profit_loss, (int, float)):
+            profit_loss = 0.0
+        
+        # Convert to float to ensure it's a proper number
+        try:
+            profit_loss = float(profit_loss)
+        except (ValueError, TypeError):
             profit_loss = 0.0
         
         return {
