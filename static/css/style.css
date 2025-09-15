@@ -89,15 +89,15 @@ canvas {
         padding-left: 15px;
         padding-right: 15px;
     }
-    
+
     .card-body {
         padding: 1.5rem;
     }
-    
+
     h1 {
         font-size: 1.75rem;
     }
-    
+
     h2 {
         font-size: 1.5rem;
     }
@@ -159,11 +159,11 @@ h1, h2, h3, h4, h5, h6 {
         width: 100%;
         margin-bottom: 0.5rem;
     }
-    
+
     .card-body {
         padding: 1.25rem;
     }
-    
+
     .navbar-nav .dropdown-menu {
         border: none;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -612,4 +612,314 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #161b22 !important;
     border: 2px dashed #30363d !important;
     color: #e6edf3 !important;
+}
+
+/* Custom styles for enhanced poultry farm dashboard - Rural Farmer Friendly */
+
+/* Dark theme customization */
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.card {
+    background-color: #2d2d2d;
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Visual hover effects for action cards */
+.hover-card {
+    transition: all 0.3s ease;
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.hover-card:hover {
+    transform: perspective(1000px) rotateX(-5deg) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Large, readable fonts for rural farmers */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.card-text {
+    font-size: 1.1rem;
+}
+
+/* Visual progress indicators */
+.progress {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.progress-bar {
+    border-radius: 10px;
+    background: linear-gradient(45deg, #4caf50, #8bc34a);
+    animation: progressAnimation 2s ease-in-out;
+}
+
+@keyframes progressAnimation {
+    0% { width: 0%; }
+    100% { width: var(--progress-width); }
+}
+
+/* Visual status indicators */
+.status-indicator {
+    font-size: 2rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Enhanced buttons for rural farmers */
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* Color-coded sections */
+.profit-section {
+    background: linear-gradient(135deg, #4caf50, #8bc34a);
+}
+
+.loss-section {
+    background: linear-gradient(135deg, #f44336, #ff7043);
+}
+
+.neutral-section {
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+}
+
+/* Visual icons and emojis enhancement */
+.icon-large {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Multilingual text styling */
+.hindi-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffc107;
+}
+
+/* Enhanced navigation */
+.navbar {
+    background: linear-gradient(135deg, #2d2d2d, #404040) !important;
+    border-bottom: 3px solid #007bff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* Form enhancements */
+.form-control {
+    background-color: #3d3d3d;
+    border: 2px solid #555;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    background-color: #3d3d3d;
+    border-color: #007bff;
+    color: #fff;
+    box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.25);
+    transform: scale(1.02);
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Alert enhancements */
+.alert {
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    padding: 1.5rem;
+    border-left: 5px solid;
+}
+
+.alert-warning {
+    border-left-color: #ffc107;
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    color: #856404;
+}
+
+.alert-danger {
+    border-left-color: #dc3545;
+    background: linear-gradient(135deg, #f8d7da, #fab1a0);
+    color: #721c24;
+}
+
+.alert-success {
+    border-left-color: #28a745;
+    background: linear-gradient(135deg, #d4edda, #00b894);
+    color: #155724;
+}
+
+/* Table enhancements */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 1.1rem;
+}
+
+.table-dark {
+    background-color: #2d2d2d;
+}
+
+.table th {
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Badge enhancements */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Chart containers */
+.chart-container {
+    background-color: #2d2d2d;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading animation */
+.chart-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    background-color: #2d2d2d;
+    border-radius: 15px;
+}
+
+.spinner-border {
+    border-color: #007bff;
+    border-right-color: transparent;
+}
+
+/* Visual feedback animations */
+@keyframes bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+}
+
+.bounce-animation {
+    animation: bounce 2s infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-in;
+}
+
+/* Mobile responsiveness for rural areas */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .btn-lg {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.6rem;
+    }
+
+    .icon-large {
+        font-size: 3rem;
+    }
+
+    .hindi-text {
+        font-size: 1.4rem;
+    }
+}
+
+/* High contrast mode for better visibility */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid #fff;
+    }
+
+    .btn {
+        border: 2px solid #fff;
+    }
+}
+
+/* Print styles for rural documentation */
+@media print {
+    .card {
+        background-color: #fff !important;
+        color: #000 !important;
+        border: 1px solid #000;
+    }
+
+    .btn {
+        display: none;
+    }
 }

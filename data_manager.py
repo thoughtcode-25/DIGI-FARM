@@ -71,14 +71,19 @@ class DataManager:
                 'profit_loss': 0.0
             }
         
-        # Calculate profit/loss (assuming ₹5.00 per egg, ₹40.00 per kg feed)
-        egg_price = 5.00
-        feed_cost_per_kg = 40.00
+        # Calculate profit/loss (assuming ₹6.00 per egg, ₹45.00 per kg feed)
+        egg_price = 6.00  # Rupees per egg
+        feed_cost_per_kg = 45.00  # Rupees per kg feed
         
         revenue = today_data.get('eggs', 0) * egg_price
         feed_cost = today_data.get('feed', 0) * feed_cost_per_kg
-        total_expenses = today_data.get('expenses', 0) + feed_cost
+        other_expenses = today_data.get('expenses', 0)
+        total_expenses = feed_cost + other_expenses
         profit_loss = revenue - total_expenses
+        
+        # Ensure we always return a valid number
+        if profit_loss is None or str(profit_loss) == 'nan':
+            profit_loss = 0.0
         
         return {
             'total_chickens': today_data.get('chickens', 0),
