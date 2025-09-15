@@ -204,6 +204,11 @@ def financial():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
+    if not session.get('language_selected'):
+        return redirect(url_for('language_select'))
+    
+    lang = session.get('language', 'en')
+    
     if request.method == 'POST':
         try:
             date_str = request.form.get('date')
@@ -217,17 +222,73 @@ def financial():
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             data_manager.add_revenue_expense(date_obj, type_val, amount, description)
             
-            flash('Financial entry added successfully!', 'success')
+            flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('financial'))
             
         except ValueError as e:
-            flash('Invalid data format. Please check your inputs.', 'danger')
+            flash(get_text('invalid_data', lang), 'danger')
         except Exception as e:
-            flash(f'Error adding entry: {str(e)}', 'danger')
+            flash(f'{get_text("error_adding_data", lang)}: {str(e)}', 'danger')
     
     financial_data = data_manager.get_financial_summary()
     today = datetime.now().date()
-    return render_template('financial.html', financial=financial_data, today=today)
+    return render_template('financial.html', financial=financial_data, today=today, lang=lang, get_text=get_text)
+
+@app.route('/financial/edit/<int:entry_id>', methods=['GET', 'POST'])
+def edit_financial_entry(entry_id):
+    """Edit financial entry"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    if not session.get('language_selected'):
+        return redirect(url_for('language_select'))
+    
+    lang = session.get('language', 'en')
+    
+    entry = data_manager.get_revenue_expense_by_id(entry_id)
+    if not entry:
+        flash(get_text('error_adding_data', lang), 'danger')
+        return redirect(url_for('financial'))
+    
+    if request.method == 'POST':
+        try:
+            date_str = request.form.get('date')
+            if not date_str:
+                raise ValueError("Date is required")
+            
+            type_val = request.form.get('type')
+            amount = float(request.form.get('amount', 0))
+            description = request.form.get('description', '')
+            
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
+            
+            if data_manager.edit_revenue_expense(entry_id, date_obj, type_val, amount, description):
+                flash(get_text('data_added_successfully', lang), 'success')
+            else:
+                flash(get_text('error_adding_data', lang), 'danger')
+            
+            return redirect(url_for('financial'))
+            
+        except ValueError as e:
+            flash(get_text('invalid_data', lang), 'danger')
+        except Exception as e:
+            flash(f'{get_text("error_adding_data", lang)}: {str(e)}', 'danger')
+    
+    return render_template('edit_financial.html', entry=entry, lang=lang, get_text=get_text)
+
+@app.route('/financial/delete/<int:entry_id>', methods=['POST'])
+def delete_financial_entry(entry_id):
+    """Delete financial entry"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    lang = session.get('language', 'en')
+    
+    if data_manager.delete_revenue_expense(entry_id):
+        flash(get_text('data_added_successfully', lang), 'success')
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False, 'error': get_text('error_adding_data', lang)})
 
 @app.route('/diseases')
 def diseases():

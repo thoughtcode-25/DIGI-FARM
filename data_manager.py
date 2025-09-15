@@ -250,12 +250,44 @@ class DataManager:
         total_expenses = sum(item['amount'] for item in self.revenue_expenses if item['type'] == 'expense')
         profit_loss = total_revenue - total_expenses
         
+        # Add IDs to entries if not present
+        for i, entry in enumerate(self.revenue_expenses):
+            if 'id' not in entry:
+                entry['id'] = i + 1
+        
         return {
             'total_revenue': total_revenue,
             'total_expenses': total_expenses,
             'profit_loss': profit_loss,
-            'recent_entries': sorted(self.revenue_expenses, key=lambda x: x['date'], reverse=True)[:5]
+            'recent_entries': sorted(self.revenue_expenses, key=lambda x: x['date'], reverse=True)[:10],
+            'all_entries': sorted(self.revenue_expenses, key=lambda x: x['date'], reverse=True)
         }
+    
+    def edit_revenue_expense(self, entry_id, date, type_val, amount, description):
+        """Edit an existing revenue or expense entry"""
+        for entry in self.revenue_expenses:
+            if entry.get('id') == int(entry_id):
+                entry['date'] = date
+                entry['type'] = type_val
+                entry['amount'] = float(amount)
+                entry['description'] = description
+                return True
+        return False
+    
+    def delete_revenue_expense(self, entry_id):
+        """Delete a revenue or expense entry"""
+        for i, entry in enumerate(self.revenue_expenses):
+            if entry.get('id') == int(entry_id):
+                self.revenue_expenses.pop(i)
+                return True
+        return False
+    
+    def get_revenue_expense_by_id(self, entry_id):
+        """Get a specific revenue/expense entry by ID"""
+        for entry in self.revenue_expenses:
+            if entry.get('id') == int(entry_id):
+                return entry
+        return None
     
     def search_diseases(self, query):
         """Search diseases database"""

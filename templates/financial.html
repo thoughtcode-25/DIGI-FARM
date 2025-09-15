@@ -7,11 +7,11 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="mb-1">Financial Records</h1>
-            <p class="text-muted">Track revenue and expenses for better farm profitability.</p>
+            <h1 class="mb-1">{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}</h1>
+            <p class="text-muted">{{ get_text('track_revenue_expenses', lang) if get_text else 'Track revenue and expenses for better farm profitability.' }}</p>
         </div>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEntryModal">
-            <i class="fas fa-plus me-2"></i>Add Entry
+            <i class="fas fa-plus me-2"></i>{{ get_text('add_entry', lang) if get_text else 'Add Entry' }}
         </button>
     </div>
 
@@ -24,7 +24,7 @@
                         <i class="fas fa-arrow-up fa-2x text-success"></i>
                     </div>
                     <h3 class="text-success">${{ "%.2f"|format(financial.total_revenue) }}</h3>
-                    <p class="text-muted">Total Revenue</p>
+                    <p class="text-muted">{{ get_text('total_revenue', lang) if get_text else 'Total Revenue' }}</p>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                         <i class="fas fa-arrow-down fa-2x text-danger"></i>
                     </div>
                     <h3 class="text-danger">${{ "%.2f"|format(financial.total_expenses) }}</h3>
-                    <p class="text-muted">Total Expenses</p>
+                    <p class="text-muted">{{ get_text('total_expenses', lang) if get_text else 'Total Expenses' }}</p>
                 </div>
             </div>
         </div>
@@ -50,41 +50,69 @@
                     <h3 class="text-{{ 'success' if financial.profit_loss >= 0 else 'warning' }}">
                         ${{ "%.2f"|format(financial.profit_loss) }}
                     </h3>
-                    <p class="text-muted">Net Profit/Loss</p>
+                    <p class="text-muted">{{ get_text('net_profit_loss', lang) if get_text else 'Net Profit/Loss' }}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Recent Entries -->
+    <!-- All Entries -->
     <div class="card border-0 shadow-sm">
         <div class="card-body">
-            <h5 class="card-title mb-3">Recent Entries</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}</h5>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary me-2" onclick="toggleView()">
+                        <i class="fas fa-list me-1"></i>{{ get_text('toggle_view', lang) if get_text else 'Toggle View' }}
+                    </button>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Amount</th>
+                            <th>{{ get_text('date', lang) if get_text else 'Date' }}</th>
+                            <th>{{ get_text('type', lang) if get_text else 'Type' }}</th>
+                            <th>{{ get_text('description', lang) if get_text else 'Description' }}</th>
+                            <th>{{ get_text('amount', lang) if get_text else 'Amount' }}</th>
+                            <th>{{ get_text('actions', lang) if get_text else 'Actions' }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in financial.recent_entries %}
+                        {% for entry in financial.all_entries %}
                         <tr>
                             <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>
                             <td>
                                 <span class="badge bg-{{ 'success' if entry.type == 'revenue' else 'danger' }}">
-                                    {{ entry.type.title() }}
+                                    {{ get_text('revenue', lang) if entry.type == 'revenue' and get_text else (get_text('expense', lang) if entry.type == 'expense' and get_text else entry.type.title()) }}
                                 </span>
                             </td>
                             <td>{{ entry.description }}</td>
                             <td class="text-{{ 'success' if entry.type == 'revenue' else 'danger' }}">
                                 ${{ "%.2f"|format(entry.amount) }}
                             </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('edit_financial_entry', entry_id=entry.id) }}" 
+                                       class="btn btn-sm btn-outline-primary" title="{{ get_text('edit', lang) if get_text else 'Edit' }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-danger" 
+                                            onclick="deleteEntry({{ entry.id }})" 
+                                            title="{{ get_text('delete', lang) if get_text else 'Delete' }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                         {% endfor %}
+                        {% if not financial.all_entries %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                {{ get_text('no_entries_found', lang) if get_text else 'No entries found. Add your first financial record!' }}
+                            </td>
+                        </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -97,42 +125,72 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Financial Entry</h5>
+                <h5 class="modal-title">{{ get_text('add_financial_entry', lang) if get_text else 'Add Financial Entry' }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form method="POST">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="date" class="form-label">Date</label>
+                            <label for="date" class="form-label">{{ get_text('date', lang) if get_text else 'Date' }}</label>
                             <input type="date" class="form-control" id="date" name="date" 
                                    value="{{ today }}" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="type" class="form-label">Type</label>
+                            <label for="type" class="form-label">{{ get_text('type', lang) if get_text else 'Type' }}</label>
                             <select class="form-select" id="type" name="type" required>
-                                <option value="revenue">Revenue</option>
-                                <option value="expense">Expense</option>
+                                <option value="revenue">{{ get_text('revenue', lang) if get_text else 'Revenue' }}</option>
+                                <option value="expense">{{ get_text('expense', lang) if get_text else 'Expense' }}</option>
                             </select>
                         </div>
                         <div class="col-12">
-                            <label for="amount" class="form-label">Amount ($)</label>
+                            <label for="amount" class="form-label">{{ get_text('amount', lang) if get_text else 'Amount' }} ($)</label>
                             <input type="number" class="form-control" id="amount" name="amount" 
                                    step="0.01" min="0" required>
                         </div>
                         <div class="col-12">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label">{{ get_text('description', lang) if get_text else 'Description' }}</label>
                             <input type="text" class="form-control" id="description" name="description" 
-                                   placeholder="e.g., Egg sales, Feed purchase" required>
+                                   placeholder="{{ get_text('description_placeholder', lang) if get_text else 'e.g., Egg sales, Feed purchase' }}" required>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Entry</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ get_text('cancel', lang) if get_text else 'Cancel' }}</button>
+                    <button type="submit" class="btn btn-primary">{{ get_text('add_entry', lang) if get_text else 'Add Entry' }}</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+function deleteEntry(entryId) {
+    if (confirm('{{ get_text("confirm_delete", lang) if get_text else "Are you sure you want to delete this entry?" }}')) {
+        fetch(`/financial/delete/${entryId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('{{ get_text("error_deleting", lang) if get_text else "Error deleting entry" }}');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('{{ get_text("error_deleting", lang) if get_text else "Error deleting entry" }}');
+        });
+    }
+}
+
+function toggleView() {
+    // Future enhancement: toggle between table and card view
+    alert('{{ get_text("feature_coming_soon", lang) if get_text else "Feature coming soon!" }}');
+}
+</script>
 {% endblock %}

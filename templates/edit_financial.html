@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ get_text('edit_financial_entry', lang) if get_text else 'Edit Financial Entry' }} - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">{{ get_text('edit_financial_entry', lang) if get_text else 'Edit Financial Entry' }}</h1>
+            <p class="text-muted">{{ get_text('modify_entry_details', lang) if get_text else 'Modify the financial entry details below.' }}</p>
+        </div>
+        <a href="{{ url_for('financial') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>{{ get_text('back_to_financial', lang) if get_text else 'Back to Financial' }}
+        </a>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="date" class="form-label">{{ get_text('date', lang) if get_text else 'Date' }}</label>
+                                <input type="date" class="form-control" id="date" name="date" 
+                                       value="{{ entry.date.strftime('%Y-%m-%d') }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="type" class="form-label">{{ get_text('type', lang) if get_text else 'Type' }}</label>
+                                <select class="form-select" id="type" name="type" required>
+                                    <option value="revenue" {{ 'selected' if entry.type == 'revenue' else '' }}>
+                                        {{ get_text('revenue', lang) if get_text else 'Revenue' }}
+                                    </option>
+                                    <option value="expense" {{ 'selected' if entry.type == 'expense' else '' }}>
+                                        {{ get_text('expense', lang) if get_text else 'Expense' }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="amount" class="form-label">{{ get_text('amount', lang) if get_text else 'Amount' }} ($)</label>
+                                <input type="number" class="form-control" id="amount" name="amount" 
+                                       value="{{ entry.amount }}" step="0.01" min="0" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="description" class="form-label">{{ get_text('description', lang) if get_text else 'Description' }}</label>
+                                <input type="text" class="form-control" id="description" name="description" 
+                                       value="{{ entry.description }}" 
+                                       placeholder="{{ get_text('description_placeholder', lang) if get_text else 'e.g., Egg sales, Feed purchase' }}" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>{{ get_text('save_changes', lang) if get_text else 'Save Changes' }}
+                            </button>
+                            <a href="{{ url_for('financial') }}" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>{{ get_text('cancel', lang) if get_text else 'Cancel' }}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Info Card -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="fas fa-info-circle me-2 text-info"></i>{{ get_text('edit_guidelines', lang) if get_text else 'Edit Guidelines' }}
+                    </h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>{{ get_text('ensure_accurate_data', lang) if get_text else 'Ensure all data is accurate before saving' }}</li>
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>{{ get_text('amount_positive', lang) if get_text else 'Amount should be a positive number' }}</li>
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>{{ get_text('description_clear', lang) if get_text else 'Provide a clear description' }}</li>
+                        <li><i class="fas fa-check text-success me-2"></i>{{ get_text('date_correct', lang) if get_text else 'Verify the date is correct' }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
