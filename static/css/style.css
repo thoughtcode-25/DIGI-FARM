@@ -63,11 +63,31 @@ body::after {
 .navbar .dropdown-menu {
     z-index: 9999 !important;
     position: absolute !important;
+    min-width: 200px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar .dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
 }
 
 .navbar .nav-item.dropdown {
     position: relative;
     z-index: 9998;
+}
+
+/* Logout button styling */
+.btn-outline-danger {
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: #ffffff !important;
 }
 
 /* Enhanced Farm-Themed Cards */
