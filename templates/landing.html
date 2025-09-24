@@ -681,7 +681,7 @@
                                         <i class="fas fa-wifi me-1"></i>Live
                                     </span>
                                     <span class="badge bg-info">
-                                        <i class="fas fa-clock me-1"></i>Updated: {{ moment().format('DD MMM YYYY, HH:mm') }}
+                                        <i class="fas fa-clock me-1"></i>Updated: 24 Sep 2024, 14:41
                                     </span>
                                 </div>
                             </div>
@@ -991,7 +991,9 @@
             const html = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
 
-            html.setAttribute('data-bs-theme', savedTheme);
+            if (html) {
+                html.setAttribute('data-bs-theme', savedTheme);
+            }
             if (themeIcon) {
                 themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
             }
@@ -1050,8 +1052,14 @@
             setTimeout(function() {
                 const alerts = document.querySelectorAll('.alert-danger');
                 alerts.forEach(alert => {
-                    const bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
+                    if (alert && typeof bootstrap !== 'undefined' && bootstrap.Alert) {
+                        try {
+                            const bsAlert = new bootstrap.Alert(alert);
+                            bsAlert.close();
+                        } catch (e) {
+                            console.warn('Could not close alert:', e);
+                        }
+                    }
                 });
             }, 5000);
         });
