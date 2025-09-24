@@ -59,6 +59,17 @@ body::after {
     min-height: 100vh;
 }
 
+/* Navigation Dropdown Z-index Fix */
+.navbar .dropdown-menu {
+    z-index: 9999 !important;
+    position: absolute !important;
+}
+
+.navbar .nav-item.dropdown {
+    position: relative;
+    z-index: 9998;
+}
+
 /* Enhanced Farm-Themed Cards */
 .card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -67,6 +78,8 @@ body::after {
     border: 1px solid rgba(34, 139, 34, 0.2);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
 }
 
 .card:hover {
