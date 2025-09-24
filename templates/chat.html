@@ -115,5 +115,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatMessages = document.getElementById('chatMessages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
+
+// Fix for login.html JavaScript errors
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            // Add your login validation logic here
+        });
+    }
+
+    const registerLink = document.getElementById('registerLink');
+    if (registerLink) {
+        registerLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Add logic to show registration form or redirect
+        });
+    }
+});
 </script>
 {% endblock %}

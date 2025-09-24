@@ -75,7 +75,7 @@ def logout():
     lang = session.get('language', 'en')
     session.clear()
     flash(get_text('logout', lang), 'success')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 @app.route('/language_select')
 def language_select():

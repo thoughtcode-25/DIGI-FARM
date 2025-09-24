@@ -277,7 +277,9 @@ document.querySelectorAll('input[name="userType"]').forEach(radio => {
             const html = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
 
-            html.setAttribute('data-bs-theme', savedTheme);
+            if (html) {
+                html.setAttribute('data-bs-theme', savedTheme);
+            }
             if (themeIcon) {
                 themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
             }
