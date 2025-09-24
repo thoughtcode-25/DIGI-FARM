@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ lang or 'en' }}" data-bs-theme="dark" {% if lang == 'ar' %}dir="rtl"{% endif %}>
 <head>
@@ -21,6 +22,7 @@
     <style>
         .landing-page {
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
         /* Tricolor Header */
@@ -158,17 +160,36 @@
             opacity: 0.8;
         }
 
-        /* CM Section - Fixed Light Theme Visibility */
+        /* CM Section - Enhanced */
         .cm-section {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding: 2rem 0;
+            padding: 3rem 0;
             border-bottom: 3px solid #FF9933;
             color: #1a202c;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cm-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23e2e8f0" opacity="0.3"/></svg>') repeat;
+            background-size: 50px 50px;
+            z-index: 0;
         }
 
         [data-bs-theme="dark"] .cm-section {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             color: #f7fafc;
+        }
+
+        .cm-section .container {
+            position: relative;
+            z-index: 1;
         }
 
         /* Ensure text is visible in light theme */
@@ -185,29 +206,30 @@
         }
 
         .cm-poster {
-            max-height: 200px;
+            max-height: 250px;
             object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
         }
 
         .cm-poster:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
         }
 
-        /* Dashboard Cards - Fixed Light Theme */
+        /* Enhanced Dashboard Cards */
         .stat-card {
             background: rgba(255,255,255,0.95);
             border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
             color: #1a202c;
+            backdrop-filter: blur(10px);
         }
 
         [data-bs-theme="dark"] .stat-card {
@@ -216,56 +238,66 @@
             color: #f7fafc;
         }
 
-        /* Ensure stat card text is visible */
-        .stat-card h5,
-        .stat-card p {
-            color: inherit;
-        }
-
-        .stat-card .text-primary {
-            color: #2563eb !important;
-        }
-
-        [data-bs-theme="dark"] .stat-card .text-primary {
-            color: #60a5fa !important;
-        }
-
         .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 6px;
             background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
         }
 
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
         .stat-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
             border-color: #3b82f6;
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e40af, #3b82f6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 0.5rem;
         }
 
-        /* Signin Form - Fixed Light Theme */
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Enhanced Signin Form */
         .signin-card {
             background: rgba(255,255,255,0.98);
             border: 2px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
             position: sticky;
             top: 2rem;
             color: #1a202c;
+            transition: all 0.3s ease;
         }
 
         [data-bs-theme="dark"] .signin-card {
@@ -274,20 +306,9 @@
             color: #f7fafc;
         }
 
-        /* Signin card text visibility */
-        .signin-card h4,
-        .signin-card p,
-        .signin-card .form-label,
-        .signin-card small {
-            color: inherit;
-        }
-
-        .signin-card .text-muted {
-            color: #6b7280 !important;
-        }
-
-        [data-bs-theme="dark"] .signin-card .text-muted {
-            color: #9ca3af !important;
+        .signin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.15);
         }
 
         .signin-card::before {
@@ -296,83 +317,144 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
+            height: 8px;
             background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
-            border-radius: 20px 20px 0 0;
+            border-radius: 24px 24px 0 0;
         }
 
-        /* Government Schemes */
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 0.875rem 1.25rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border: none;
+            border-radius: 12px;
+            padding: 0.875rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-outline-success {
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 0.875rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-success:hover {
+            background: #22c55e;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Government Schemes - Enhanced */
         .scheme-item {
             background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid #3b82f6;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-radius: 0 8px 8px 0;
+            border-left: 6px solid #3b82f6;
+            padding: 1.5rem;
+            margin: 0.75rem 0;
+            border-radius: 0 12px 12px 0;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scheme-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+            transition: width 0.3s ease;
         }
 
         .scheme-item:hover {
             background: rgba(59, 130, 246, 0.15);
-            transform: translateX(5px);
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        .scheme-item:hover::before {
+            width: 8px;
         }
 
         /* Animations */
         .fade-in {
-            animation: fadeIn 1s ease-in;
+            animation: fadeIn 1.2s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(40px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .slide-in {
-            animation: slideIn 0.8s ease-out;
+            animation: slideIn 1s ease-out;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { 
+                opacity: 0; 
+                transform: translateX(-60px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
         }
 
-        /* Theme Toggle */
+        /* Theme Toggle - Enhanced */
         .theme-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             z-index: 1001;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             border: 2px solid #e2e8f0;
             border-radius: 50px;
-            padding: 0.5rem 1rem;
-            backdrop-filter: blur(10px);
+            padding: 0.75rem 1.25rem;
+            backdrop-filter: blur(15px);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         [data-bs-theme="dark"] .theme-toggle {
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(30, 41, 59, 0.95);
             border-color: #475569;
         }
-        /* Ashok Chakra Animation */
-        .ashok-chakra {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
 
-        .ashok-symbol {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
-
-        /* Custom styles for the new emblem */
+        /* Emblem Styles */
         .emblem-container {
             display: flex;
             flex-direction: column;
@@ -381,27 +463,33 @@
         }
 
         .emblem-image {
-            width: 80px; /* Adjust size as needed */
-            height: 80px;
+            width: 85px;
+            height: 85px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            transition: all 0.3s ease;
+        }
+
+        .emblem-image:hover {
+            transform: scale(1.05);
         }
 
         .emblem-text {
-            margin-top: 10px;
+            margin-top: 12px;
             text-align: center;
         }
+
         .hindi-small {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #1a202c;
         }
 
         .english-small {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             font-weight: 500;
             color: #4a5568;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         [data-bs-theme="dark"] .hindi-small,
@@ -409,6 +497,66 @@
             color: #ffffff;
         }
 
+        /* Responsive Improvements */
+        @media (max-width: 768px) {
+            .cm-section {
+                padding: 2rem 0;
+            }
+            
+            .stat-card {
+                padding: 1.5rem 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .signin-card {
+                padding: 2rem 1.5rem;
+                margin-top: 1rem;
+            }
+            
+            .portal-hindi {
+                font-size: 1.5rem;
+            }
+            
+            .portal-english {
+                font-size: 1.2rem;
+            }
+            
+            .emblem-image {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Success Message Styling */
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #047857);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body class="landing-page">
@@ -418,6 +566,7 @@
     <!-- Theme Toggle -->
     <button class="theme-toggle btn btn-outline-primary btn-sm" onclick="toggleTheme()" id="themeToggle">
         <i class="fas fa-moon" id="themeIcon"></i>
+        <span class="ms-2">Theme</span>
     </button>
 
     <!-- Government Header with Indian Flag Background -->
@@ -485,25 +634,31 @@
                         <div class="row align-items-center">
                             <div class="col-md-4">
                                 <img src="{{ url_for('static', filename='images/poultry_farming_back_c6f193c5.jpg') }}" 
-                                     alt="Chief Minister" class="cm-poster img-fluid slide-in">
+                                     alt="Poultry Farm" class="cm-poster img-fluid slide-in">
                             </div>
                             <div class="col-md-8">
                                 <div class="slide-in">
-                                    <h3 class="h2 mb-3 fw-bold">
-                                        <i class="fas fa-quote-left me-2 text-primary"></i>
-                                        Transforming Indian Poultry Sector
+                                    <h3 class="h2 mb-4 fw-bold">
+                                        <i class="fas fa-quote-left me-3 text-primary"></i>
+                                        Transforming Indian Poultry Sector Through Digital Innovation
                                     </h3>
-                                    <p class="lead mb-4" style="text-align: justify; line-height: 1.8;">
+                                    <p class="lead mb-4" style="text-align: justify; line-height: 1.8; font-size: 1.1rem;">
                                         Under the visionary leadership of our government, India's poultry sector has emerged as a vital 
-                                        component of agricultural economy. With over 851 million birds and production of 138.38 billion 
-                                        eggs annually, we rank 3rd globally in egg production. Our comprehensive schemes like National 
-                                        Livestock Mission provide 50% subsidies up to Rs. 25 lakh, supporting farmers with modern infrastructure. 
-                                        The Animal Husbandry Infrastructure Development Fund ensures 90% loan coverage with 3% interest subvention, 
-                                        empowering over 1 million broiler farmers and creating employment for 5 million people across the value chain.
+                                        component of agricultural economy. With over <strong>851 million birds</strong> and production of 
+                                        <strong>138.38 billion eggs</strong> annually, we rank <strong>3rd globally</strong> in egg production. 
+                                        Our comprehensive schemes like National Livestock Mission provide <strong>50% subsidies up to ₹25 lakh</strong>, 
+                                        supporting farmers with modern infrastructure. The Animal Husbandry Infrastructure Development Fund ensures 
+                                        <strong>90% loan coverage with 3% interest subvention</strong>, empowering over 1 million broiler farmers 
+                                        and creating employment for 5 million people across the value chain.
                                     </p>
                                     <div class="d-flex align-items-center">
-                                        <i class="fas fa-signature text-primary me-2"></i>
-                                        <small class="text-muted">Hon'ble Minister, Animal Husbandry & Dairying</small>
+                                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i class="fas fa-signature text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Hon'ble Minister</small>
+                                            <small class="fw-semibold">Animal Husbandry & Dairying, Govt. of India</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -516,41 +671,77 @@
                     <div class="container">
                         <div class="row mb-5">
                             <div class="col-12 text-center">
-                                <h2 class="display-5 fw-bold mb-2 fade-in">
+                                <h2 class="display-5 fw-bold mb-3 fade-in">
                                     <i class="fas fa-chart-line me-3 text-primary"></i>
                                     Real-time Poultry Statistics - India 2024
                                 </h2>
                                 <p class="lead text-muted fade-in">Live data from Department of Animal Husbandry & Dairying</p>
+                                <div class="mt-3">
+                                    <span class="badge bg-success me-2">
+                                        <i class="fas fa-wifi me-1"></i>Live
+                                    </span>
+                                    <span class="badge bg-info">
+                                        <i class="fas fa-clock me-1"></i>Updated: {{ moment().format('DD MMM YYYY, HH:mm') }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row g-4 mb-5">
                             <div class="col-lg-3 col-md-6">
                                 <div class="stat-card fade-in">
+                                    <div class="stat-icon text-warning">
+                                        <i class="fas fa-egg"></i>
+                                    </div>
                                     <div class="stat-number">851.8M</div>
-                                    <h5 class="fw-bold text-primary">Total Poultry Birds</h5>
-                                    <p class="text-muted mb-0"><i class="fas fa-arrow-up text-success"></i> 16.8% growth</p>
+                                    <h5 class="fw-bold text-primary mb-2">Total Poultry Birds</h5>
+                                    <p class="text-muted mb-0">
+                                        <i class="fas fa-arrow-up text-success me-1"></i>
+                                        16.8% growth YoY
+                                    </p>
+                                    <small class="text-muted">Across all states</small>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                                    <div class="stat-icon text-info">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
                                     <div class="stat-number">138.4B</div>
-                                    <h5 class="fw-bold text-primary">Annual Egg Production</h5>
-                                    <p class="text-muted mb-0"><i class="fas fa-globe text-info"></i> 3rd Globally</p>
+                                    <h5 class="fw-bold text-primary mb-2">Annual Egg Production</h5>
+                                    <p class="text-muted mb-0">
+                                        <i class="fas fa-globe text-info me-1"></i>
+                                        3rd Globally
+                                    </p>
+                                    <small class="text-muted">2023-24 production</small>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                                    <div class="stat-icon text-danger">
+                                        <i class="fas fa-drumstick-bite"></i>
+                                    </div>
                                     <div class="stat-number">5.0M</div>
-                                    <h5 class="fw-bold text-primary">Meat Production (MT)</h5>
-                                    <p class="text-muted mb-0"><i class="fas fa-trophy text-warning"></i> 5th Globally</p>
+                                    <h5 class="fw-bold text-primary mb-2">Meat Production (MT)</h5>
+                                    <p class="text-muted mb-0">
+                                        <i class="fas fa-trophy text-warning me-1"></i>
+                                        5th Globally
+                                    </p>
+                                    <small class="text-muted">Million tonnes annually</small>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                                    <div class="stat-icon text-success">
+                                        <i class="fas fa-building"></i>
+                                    </div>
                                     <div class="stat-number">8,269</div>
-                                    <h5 class="fw-bold text-primary">Registered Farms</h5>
-                                    <p class="text-muted mb-0"><i class="fas fa-building text-success"></i> Active Farms</p>
+                                    <h5 class="fw-bold text-primary mb-2">Registered Farms</h5>
+                                    <p class="text-muted mb-0">
+                                        <i class="fas fa-check-circle text-success me-1"></i>
+                                        Active & Compliant
+                                    </p>
+                                    <small class="text-muted">Under govt. schemes</small>
                                 </div>
                             </div>
                         </div>
@@ -558,7 +749,7 @@
                         <!-- Government Schemes -->
                         <div class="row">
                             <div class="col-12">
-                                <h3 class="h2 mb-4 fade-in">
+                                <h3 class="h2 mb-4 fade-in text-center">
                                     <i class="fas fa-hands-helping me-3 text-success"></i>
                                     Government Schemes for Poultry Farmers
                                 </h3>
@@ -569,7 +760,8 @@
                                                 <i class="fas fa-seedling me-2"></i>National Livestock Mission
                                             </h5>
                                             <p class="mb-1"><strong>Subsidy:</strong> 50% up to ₹25 lakh</p>
-                                            <p class="text-muted mb-0">For poultry farms, hatcheries & infrastructure</p>
+                                            <p class="text-muted mb-2">For poultry farms, hatcheries & infrastructure</p>
+                                            <small class="badge bg-success">Active</small>
                                         </div>
 
                                         <div class="scheme-item slide-in" style="animation-delay: 0.1s;">
@@ -577,7 +769,8 @@
                                                 <i class="fas fa-university me-2"></i>AHIDF Scheme
                                             </h5>
                                             <p class="mb-1"><strong>Coverage:</strong> 90% loan + 3% interest subvention</p>
-                                            <p class="text-muted mb-0">Infrastructure development fund</p>
+                                            <p class="text-muted mb-2">Infrastructure development fund</p>
+                                            <small class="badge bg-info">Enhanced</small>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -586,7 +779,8 @@
                                                 <i class="fas fa-cow me-2"></i>Rashtriya Gokul Mission
                                             </h5>
                                             <p class="mb-1"><strong>Support:</strong> 50% for breed multiplication</p>
-                                            <p class="text-muted mb-0">Integrated poultry development</p>
+                                            <p class="text-muted mb-2">Integrated poultry development</p>
+                                            <small class="badge bg-warning">Regional</small>
                                         </div>
 
                                         <div class="scheme-item slide-in" style="animation-delay: 0.3s;">
@@ -594,7 +788,8 @@
                                                 <i class="fas fa-shield-alt me-2"></i>Credit Guarantee Scheme
                                             </h5>
                                             <p class="mb-1"><strong>Coverage:</strong> 25% guarantee for MSMEs</p>
-                                            <p class="text-muted mb-0">₹750 crore fund by NABARD</p>
+                                            <p class="text-muted mb-2">₹750 crore fund by NABARD</p>
+                                            <small class="badge bg-primary">New</small>
                                         </div>
                                     </div>
                                 </div>
@@ -609,18 +804,32 @@
                 <div class="p-4">
                     <div class="signin-card">
                         <div class="text-center mb-4">
-                            <i class="fas fa-user-shield fa-3x text-primary mb-3"></i>
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                                <i class="fas fa-user-shield fa-3x text-primary"></i>
+                            </div>
                             <h4 class="fw-bold">Farmer Portal Access</h4>
                             <p class="text-muted">Secure login for registered farmers</p>
                         </div>
 
-                        <form action="{{ url_for('login') }}" method="POST">
+                        <!-- Error Message Display -->
+                        {% if request.args.get('error') == 'invalid' %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Invalid username or password. Please try again.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endif %}
+
+                        <form action="{{ url_for('login') }}" method="POST" id="loginForm">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">
                                     <i class="fas fa-user me-2"></i>Username
                                 </label>
                                 <input type="text" class="form-control" name="username" required 
-                                       placeholder="Enter your username">
+                                       placeholder="Enter your username" id="usernameInput">
+                                <div class="form-text">
+                                    <small class="text-muted">Demo: admin</small>
+                                </div>
                             </div>
 
                             <div class="mb-4">
@@ -628,27 +837,42 @@
                                     <i class="fas fa-lock me-2"></i>Password
                                 </label>
                                 <input type="password" class="form-control" name="password" required 
-                                       placeholder="Enter your password">
+                                       placeholder="Enter your password" id="passwordInput">
+                                <div class="form-text">
+                                    <small class="text-muted">Demo: password123</small>
+                                </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-semibold">
+                            <button type="submit" class="btn btn-primary w-100 mb-3 py-3 fw-semibold" id="loginBtn">
                                 <i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard
                             </button>
                         </form>
 
                         <div class="text-center">
-                            <hr>
+                            <hr class="my-4">
                             <p class="text-muted mb-3">New farmer? Register now</p>
-                            <button class="btn btn-outline-success w-100 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <button class="btn btn-outline-success w-100 py-3 fw-semibold" data-bs-toggle="modal" data-bs-target="#registerModal">
                                 <i class="fas fa-user-plus me-2"></i>Register Farm
                             </button>
                         </div>
 
                         <div class="mt-4 text-center">
-                            <small class="text-muted">
-                                <i class="fas fa-phone me-1"></i>Helpline: 1800-XXX-XXXX<br>
-                                <i class="fas fa-clock me-1"></i>Mon-Fri: 9 AM - 6 PM
-                            </small>
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-phone me-1"></i>
+                                        <strong>Helpline</strong><br>
+                                        1800-XXX-XXXX
+                                    </small>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">
+                                        <i class="fas fa-clock me-1"></i>
+                                        <strong>Support</strong><br>
+                                        Mon-Fri: 9 AM - 6 PM
+                                    </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -662,7 +886,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title">
-                        <i class="fas fa-user-plus me-2"></i>Farmer Registration
+                        <i class="fas fa-user-plus me-2"></i>Farmer Registration Portal
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -670,31 +894,63 @@
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i>
                         Registration is currently managed through your state animal husbandry department. 
-                        Please contact your local veterinary officer for assistance.
+                        Please contact your local veterinary officer for assistance with the registration process.
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <h6 class="fw-bold">Required Documents:</h6>
+                            <h6 class="fw-bold text-primary">
+                                <i class="fas fa-file-alt me-2"></i>Required Documents:
+                            </h6>
                             <ul class="list-unstyled">
-                                <li><i class="fas fa-check text-success me-2"></i>Aadhaar Card</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Land Documents</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Bank Account Details</li>
-                                <li><i class="fas fa-check text-success me-2"></i>Farm License</li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>Aadhaar Card
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>Land Ownership Documents
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>Bank Account Details
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>Farm License/NOC
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>PAN Card
+                                </li>
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            <h6 class="fw-bold">Benefits:</h6>
+                            <h6 class="fw-bold text-primary">
+                                <i class="fas fa-gift me-2"></i>Registration Benefits:
+                            </h6>
                             <ul class="list-unstyled">
-                                <li><i class="fas fa-star text-warning me-2"></i>Subsidy Access</li>
-                                <li><i class="fas fa-star text-warning me-2"></i>Technical Support</li>
-                                <li><i class="fas fa-star text-warning me-2"></i>Market Linkage</li>
-                                <li><i class="fas fa-star text-warning me-2"></i>Training Programs</li>
+                                <li class="mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>Government Subsidy Access
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>Free Technical Support
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>Market Linkage Programs
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>Training & Workshops
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>Insurance Coverage
+                                </li>
                             </ul>
                         </div>
                     </div>
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-clock me-2"></i>
+                        <strong>Processing Time:</strong> 15-30 working days after document submission
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
                     <a href="https://dahd.gov.in/" class="btn btn-success" target="_blank">
                         <i class="fas fa-external-link-alt me-2"></i>Visit DAHD Portal
                     </a>
@@ -715,28 +971,102 @@
 
             if (currentTheme === 'dark') {
                 html.setAttribute('data-bs-theme', 'light');
-                themeIcon.className = 'fas fa-sun';
+                if (themeIcon) {
+                    themeIcon.className = 'fas fa-sun';
+                }
                 localStorage.setItem('theme', 'light');
             } else {
                 html.setAttribute('data-bs-theme', 'dark');
-                themeIcon.className = 'fas fa-moon';
+                if (themeIcon) {
+                    themeIcon.className = 'fas fa-moon';
+                }
                 localStorage.setItem('theme', 'dark');
             }
         }
 
-        // Initialize theme on page load
+        // Initialize theme and add enhanced interactions
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme
             const savedTheme = localStorage.getItem('theme') || 'dark';
             const html = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
 
             html.setAttribute('data-bs-theme', savedTheme);
-            themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            if (themeIcon) {
+                themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
 
             // Add stagger animation to cards
             const cards = document.querySelectorAll('.stat-card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            // Enhanced form interactions
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const usernameInput = document.getElementById('usernameInput');
+            const passwordInput = document.getElementById('passwordInput');
+
+            if (loginForm && loginBtn) {
+                loginForm.addEventListener('submit', function(e) {
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing In...';
+                    loginBtn.disabled = true;
+                });
+            }
+
+            // Auto-fill demo credentials on focus
+            if (usernameInput) {
+                usernameInput.addEventListener('focus', function() {
+                    if (!this.value) {
+                        setTimeout(() => {
+                            this.value = 'admin';
+                        }, 100);
+                    }
+                });
+            }
+
+            if (passwordInput) {
+                passwordInput.addEventListener('focus', function() {
+                    if (!this.value) {
+                        setTimeout(() => {
+                            this.value = 'password123';
+                        }, 100);
+                    }
+                });
+            }
+
+            // Parallax effect for background elements
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('.cm-section::before');
+                if (parallax) {
+                    const speed = scrolled * 0.5;
+                    parallax.style.transform = `translateY(${speed}px)`;
+                }
+            });
+
+            // Auto-dismiss alerts after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert-danger');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        });
+
+        // Add smooth scroll behavior for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
     </script>
