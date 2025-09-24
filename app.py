@@ -37,6 +37,11 @@ def inject_translations():
 
 @app.route('/')
 def index():
+    """Show landing page with government theme"""
+    return render_template('landing.html')
+
+@app.route('/portal')  
+def portal():
     """Redirect to dashboard if logged in, otherwise to login"""
     if 'logged_in' in session:
         return redirect(url_for('dashboard'))
@@ -59,6 +64,8 @@ def login():
             return redirect(url_for('language_select'))
         else:
             flash(get_text('invalid_credentials', session.get('language', 'en')), 'danger')
+            # Redirect back to landing page with error
+            return redirect(url_for('index') + '?error=invalid')
     
     return render_template('login.html')
 

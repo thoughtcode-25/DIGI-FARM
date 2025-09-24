@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="{{ lang or 'en' }}" data-bs-theme="dark" {% if lang == 'ar' %}dir="rtl"{% endif %}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government of India - Poultry Farm Management Portal</title>
+    
+    <!-- Bootstrap CSS with Replit theme -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts for Professional Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .landing-page {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Tricolor Header */
+        .tricolor-header {
+            background: linear-gradient(to bottom, 
+                #FF9933 0%, #FF9933 33.33%, 
+                #FFFFFF 33.33%, #FFFFFF 66.66%, 
+                #138808 66.66%, #138808 100%);
+            height: 8px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Government Header */
+        .govt-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            color: white;
+            padding: 1rem 0;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .govt-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: floating 20s linear infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+        
+        .ministry-logo {
+            max-height: 80px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .ministry-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        /* CM Section */
+        .cm-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem 0;
+            border-bottom: 3px solid #FF9933;
+        }
+        
+        [data-bs-theme="dark"] .cm-section {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+        
+        .cm-poster {
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .cm-poster:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        /* Dashboard Cards */
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        [data-bs-theme="dark"] .stat-card {
+            background: rgba(30, 41, 59, 0.95);
+            border-color: #475569;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border-color: #3b82f6;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Signin Form */
+        .signin-card {
+            background: rgba(255,255,255,0.98);
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 2rem;
+        }
+        
+        [data-bs-theme="dark"] .signin-card {
+            background: rgba(30, 41, 59, 0.98);
+            border-color: #475569;
+        }
+        
+        .signin-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        /* Government Schemes */
+        .scheme-item {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .scheme-item:hover {
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateX(5px);
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        [data-bs-theme="dark"] .theme-toggle {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: #475569;
+        }
+    </style>
+</head>
+<body class="landing-page">
+    <!-- Tricolor Header -->
+    <div class="tricolor-header"></div>
+    
+    <!-- Theme Toggle -->
+    <button class="theme-toggle btn btn-outline-primary btn-sm" onclick="toggleTheme()" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    
+    <!-- Government Header with Ministry and PM -->
+    <section class="govt-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <img src="{{ url_for('static', filename='images/indian_government_mi_f4ec7d4e.jpg') }}" 
+                         alt="Ministry Logo" class="ministry-logo img-fluid">
+                </div>
+                <div class="col-md-8 text-center">
+                    <h1 class="display-4 fw-bold mb-2 fade-in">Government of India</h1>
+                    <h2 class="h3 mb-1 fade-in">Ministry of Fisheries, Animal Husbandry & Dairying</h2>
+                    <p class="lead mb-0 fade-in">Department of Animal Husbandry & Dairying</p>
+                    <p class="mb-0 fade-in"><i class="fas fa-feather-alt me-2"></i>National Poultry Farm Management Portal</p>
+                </div>
+                <div class="col-md-2 text-end">
+                    <img src="{{ url_for('static', filename='images/indian_government_mi_4b93c250.jpg') }}" 
+                         alt="Government Emblem" class="ministry-logo img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container-fluid px-0">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- CM Section -->
+                <section class="cm-section">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <img src="{{ url_for('static', filename='images/poultry_farming_back_c6f193c5.jpg') }}" 
+                                     alt="Chief Minister" class="cm-poster img-fluid slide-in">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="slide-in">
+                                    <h3 class="h2 mb-3 fw-bold">
+                                        <i class="fas fa-quote-left me-2 text-primary"></i>
+                                        Transforming Indian Poultry Sector
+                                    </h3>
+                                    <p class="lead mb-4" style="text-align: justify; line-height: 1.8;">
+                                        Under the visionary leadership of our government, India's poultry sector has emerged as a vital 
+                                        component of agricultural economy. With over 851 million birds and production of 138.38 billion 
+                                        eggs annually, we rank 3rd globally in egg production. Our comprehensive schemes like National 
+                                        Livestock Mission provide 50% subsidies up to Rs. 25 lakh, supporting farmers with modern infrastructure. 
+                                        The Animal Husbandry Infrastructure Development Fund ensures 90% loan coverage with 3% interest subvention, 
+                                        empowering over 1 million broiler farmers and creating employment for 5 million people across the value chain.
+                                    </p>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-signature text-primary me-2"></i>
+                                        <small class="text-muted">Hon'ble Minister, Animal Husbandry & Dairying</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Dashboard Section -->
+                <section class="py-5">
+                    <div class="container">
+                        <div class="row mb-5">
+                            <div class="col-12 text-center">
+                                <h2 class="display-5 fw-bold mb-2 fade-in">
+                                    <i class="fas fa-chart-line me-3 text-primary"></i>
+                                    Real-time Poultry Statistics - India 2024
+                                </h2>
+                                <p class="lead text-muted fade-in">Live data from Department of Animal Husbandry & Dairying</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-4 mb-5">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stat-card fade-in">
+                                    <div class="stat-number">851.8M</div>
+                                    <h5 class="fw-bold text-primary">Total Poultry Birds</h5>
+                                    <p class="text-muted mb-0"><i class="fas fa-arrow-up text-success"></i> 16.8% growth</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                                    <div class="stat-number">138.4B</div>
+                                    <h5 class="fw-bold text-primary">Annual Egg Production</h5>
+                                    <p class="text-muted mb-0"><i class="fas fa-globe text-info"></i> 3rd Globally</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                                    <div class="stat-number">5.0M</div>
+                                    <h5 class="fw-bold text-primary">Meat Production (MT)</h5>
+                                    <p class="text-muted mb-0"><i class="fas fa-trophy text-warning"></i> 5th Globally</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                                    <div class="stat-number">8,269</div>
+                                    <h5 class="fw-bold text-primary">Registered Farms</h5>
+                                    <p class="text-muted mb-0"><i class="fas fa-building text-success"></i> Active Farms</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Government Schemes -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="h2 mb-4 fw-bold fade-in">
+                                    <i class="fas fa-hands-helping me-3 text-success"></i>
+                                    Government Schemes for Poultry Farmers
+                                </h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="scheme-item slide-in">
+                                            <h5 class="fw-bold text-primary mb-2">
+                                                <i class="fas fa-seedling me-2"></i>National Livestock Mission
+                                            </h5>
+                                            <p class="mb-1"><strong>Subsidy:</strong> 50% up to ₹25 lakh</p>
+                                            <p class="text-muted mb-0">For poultry farms, hatcheries & infrastructure</p>
+                                        </div>
+                                        
+                                        <div class="scheme-item slide-in" style="animation-delay: 0.1s;">
+                                            <h5 class="fw-bold text-primary mb-2">
+                                                <i class="fas fa-university me-2"></i>AHIDF Scheme
+                                            </h5>
+                                            <p class="mb-1"><strong>Coverage:</strong> 90% loan + 3% interest subvention</p>
+                                            <p class="text-muted mb-0">Infrastructure development fund</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="scheme-item slide-in" style="animation-delay: 0.2s;">
+                                            <h5 class="fw-bold text-primary mb-2">
+                                                <i class="fas fa-cow me-2"></i>Rashtriya Gokul Mission
+                                            </h5>
+                                            <p class="mb-1"><strong>Support:</strong> 50% for breed multiplication</p>
+                                            <p class="text-muted mb-0">Integrated poultry development</p>
+                                        </div>
+                                        
+                                        <div class="scheme-item slide-in" style="animation-delay: 0.3s;">
+                                            <h5 class="fw-bold text-primary mb-2">
+                                                <i class="fas fa-shield-alt me-2"></i>Credit Guarantee Scheme
+                                            </h5>
+                                            <p class="mb-1"><strong>Coverage:</strong> 25% guarantee for MSMEs</p>
+                                            <p class="text-muted mb-0">₹750 crore fund by NABARD</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Signin/Signup Card -->
+            <div class="col-lg-3">
+                <div class="p-4">
+                    <div class="signin-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-shield fa-3x text-primary mb-3"></i>
+                            <h4 class="fw-bold">Farmer Portal Access</h4>
+                            <p class="text-muted">Secure login for registered farmers</p>
+                        </div>
+                        
+                        <form action="{{ url_for('login') }}" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-user me-2"></i>Username
+                                </label>
+                                <input type="text" class="form-control" name="username" required 
+                                       placeholder="Enter your username">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-lock me-2"></i>Password
+                                </label>
+                                <input type="password" class="form-control" name="password" required 
+                                       placeholder="Enter your password">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-semibold">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard
+                            </button>
+                        </form>
+                        
+                        <div class="text-center">
+                            <hr>
+                            <p class="text-muted mb-3">New farmer? Register now</p>
+                            <button class="btn btn-outline-success w-100 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#registerModal">
+                                <i class="fas fa-user-plus me-2"></i>Register Farm
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-phone me-1"></i>Helpline: 1800-XXX-XXXX<br>
+                                <i class="fas fa-clock me-1"></i>Mon-Fri: 9 AM - 6 PM
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Registration Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-plus me-2"></i>Farmer Registration
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Registration is currently managed through your state animal husbandry department. 
+                        Please contact your local veterinary officer for assistance.
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Required Documents:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Aadhaar Card</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Land Documents</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Bank Account Details</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Farm License</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Benefits:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-star text-warning me-2"></i>Subsidy Access</li>
+                                <li><i class="fas fa-star text-warning me-2"></i>Technical Support</li>
+                                <li><i class="fas fa-star text-warning me-2"></i>Market Linkage</li>
+                                <li><i class="fas fa-star text-warning me-2"></i>Training Programs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="https://dahd.gov.in/" class="btn btn-success" target="_blank">
+                        <i class="fas fa-external-link-alt me-2"></i>Visit DAHD Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            const currentTheme = html.getAttribute('data-bs-theme');
+            
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-bs-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-bs-theme', 'dark');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            html.setAttribute('data-bs-theme', savedTheme);
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            // Add stagger animation to cards
+            const cards = document.querySelectorAll('.stat-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
