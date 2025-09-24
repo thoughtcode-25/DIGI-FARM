@@ -1,38 +1,187 @@
 /* Enhanced Farmer-Friendly Styles for Poultry Farm Management App */
 
+/* Poultry Farm Background Theme */
+body {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 25%, #21262d 50%, #161b22 75%, #0d1117 100%);
+    background-attachment: fixed;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/images/poultry_farming_back_9a585480.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.03;
+    z-index: -2;
+    pointer-events: none;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(13, 17, 23, 0.8) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Enhanced Navigation with Farm Theme */
+.navbar {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(34, 139, 34, 0.1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand {
+    color: #58a6ff !important;
+    text-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
+    font-weight: 700;
+}
+
+.navbar-brand:hover {
+    color: #79c0ff !important;
+    text-shadow: 0 0 15px rgba(88, 166, 255, 0.5);
+}
+
 /* Ensure minimum height for login page */
 .min-vh-100 {
     min-height: 100vh;
 }
 
-/* Custom card hover effects */
+/* Enhanced Farm-Themed Cards */
 .card {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     border-radius: 12px !important;
+    background: rgba(22, 27, 34, 0.95) !important;
+    border: 1px solid rgba(34, 139, 34, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(34, 139, 34, 0.3) !important;
+    border-color: rgba(34, 139, 34, 0.4);
 }
 
-/* Farmer-friendly large buttons */
+/* Farm Score Card Enhancement */
+.bg-primary.bg-opacity-10 {
+    background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(34, 139, 34, 0.1)) !important;
+    border: 1px solid rgba(88, 166, 255, 0.2) !important;
+}
+
+/* Alert Cards with Farm Theme */
+.alert {
+    border: none;
+    border-radius: 8px;
+    background: rgba(22, 27, 34, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-left: 4px solid;
+}
+
+.alert-warning {
+    border-left-color: #f39c12 !important;
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(22, 27, 34, 0.95)) !important;
+}
+
+.alert-danger {
+    border-left-color: #e74c3c !important;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(22, 27, 34, 0.95)) !important;
+}
+
+/* Enhanced Farm-Themed Buttons */
 .btn-lg {
     font-size: 1.1rem;
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     border-radius: 8px;
+    background: linear-gradient(135deg, #58a6ff, #4a9eff);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .btn {
     font-weight: 500;
     border-radius: 8px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #58a6ff 0%, #4a9eff 50%, #3d8bdb 100%);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Container and Layout Enhancements */
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Form Enhancements with Farm Theme */
+.form-control {
+    border-radius: 8px;
+    border: 1px solid rgba(34, 139, 34, 0.2);
+    background: rgba(22, 27, 34, 0.8);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
+    background: rgba(22, 27, 34, 0.95);
+}
+
+/* Farm-themed icons and text enhancements */
+.fas.fa-egg, .fas.fa-feather-alt {
+    color: #f7d794;
+    text-shadow: 0 0 5px rgba(247, 215, 148, 0.3);
+}
+
+.fas.fa-tachometer-alt, .fas.fa-chart-line {
+    color: #58a6ff;
+}
+
+.fas.fa-database {
+    color: #22c55e;
 }
 
 /* Chart container styling */
