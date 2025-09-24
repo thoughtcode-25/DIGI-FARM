@@ -87,7 +87,8 @@ def set_language():
     if 'logged_in' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     
-    lang = request.json.get('language', 'en')
+    data = request.get_json() or {}
+    lang = data.get('language', 'en')
     if lang in get_available_languages():
         session['language'] = lang
         session['language_selected'] = True
