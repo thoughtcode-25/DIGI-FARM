@@ -542,5 +542,15 @@ def api_generate_prevention_plan():
             'error': 'Prevention plan generation failed. Please try again.'
         })
 
+@app.route('/rollback')
+def rollback():
+    """Trigger rollback options"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    # This will show rollback options to the user
+    flash("Here you can view project checkpoints to restore previous versions.", 'info')
+    return redirect(url_for('dashboard'))
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

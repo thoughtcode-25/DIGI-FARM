@@ -236,6 +236,80 @@ body::after {
     background: linear-gradient(135deg, #ef4444, #dc2626) !important;
 }
 
+/* Light Theme Styles for Poultry Farm Theme */
+[data-bs-theme="light"] body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f8fafc 100%);
+    background-attachment: fixed;
+}
+
+[data-bs-theme="light"] body::before {
+    background-image: url('/static/images/poultry_farming_back_c6f193c5.jpg');
+    opacity: 0.2;
+}
+
+[data-bs-theme="light"] body::after {
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(248, 250, 252, 0.7) 100%);
+}
+
+[data-bs-theme="light"] .navbar {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%) !important;
+    border-bottom: 1px solid rgba(34, 139, 34, 0.2);
+}
+
+[data-bs-theme="light"] .navbar-brand {
+    color: #0369a1 !important;
+    text-shadow: 0 0 10px rgba(3, 105, 161, 0.2);
+}
+
+[data-bs-theme="light"] .navbar-brand:hover {
+    color: #0284c7 !important;
+    text-shadow: 0 0 15px rgba(3, 105, 161, 0.3);
+}
+
+[data-bs-theme="light"] .card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(34, 139, 34, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="light"] .card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(34, 139, 34, 0.2) !important;
+    border-color: rgba(34, 139, 34, 0.3);
+}
+
+[data-bs-theme="light"] .alert {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #374151 !important;
+}
+
+[data-bs-theme="light"] .form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(34, 139, 34, 0.2);
+    color: #374151;
+}
+
+[data-bs-theme="light"] .form-control:focus {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #0369a1;
+    box-shadow: 0 0 0 0.2rem rgba(3, 105, 161, 0.15);
+}
+
+/* Light theme farm icons */
+[data-bs-theme="light"] .fas.fa-egg, 
+[data-bs-theme="light"] .fas.fa-feather-alt {
+    color: #d97706;
+    text-shadow: 0 0 5px rgba(217, 119, 6, 0.2);
+}
+
+[data-bs-theme="light"] .fas.fa-tachometer-alt, 
+[data-bs-theme="light"] .fas.fa-chart-line {
+    color: #0369a1;
+}
+
+[data-bs-theme="light"] .fas.fa-database {
+    color: #059669;
+}
+
 /* Chart container styling */
 canvas {
     max-height: 300px !important;
