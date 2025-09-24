@@ -372,6 +372,43 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
+        /* Custom styles for the new emblem */
+        .emblem-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emblem-image {
+            width: 80px; /* Adjust size as needed */
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .emblem-text {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .hindi-small {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .english-small {
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: #4a5568;
+            line-height: 1.2;
+        }
+
+        [data-bs-theme="dark"] .hindi-small,
+        [data-bs-theme="dark"] .english-small {
+            color: #ffffff;
+        }
+
     </style>
 </head>
 <body class="landing-page">
@@ -388,14 +425,12 @@
         <div class="flag-overlay"></div>
         <div class="container-fluid">
             <div class="row align-items-center py-3">
-                <!-- Left: Ashok Chakra Symbol -->
+                <!-- Left: Satyamev Jayate Emblem -->
                 <div class="col-md-2 text-center">
-                    <div class="ashok-chakra-container">
-                        <div class="ashok-chakra">
-                            <img src="{{ url_for('static', filename='images/Satyamev_Jayate_Emblem.png') }}" 
-                                 alt="Satyamev Jayate Emblem" class="ashok-symbol">
-                        </div>
-                        <div class="chakra-text">
+                    <div class="emblem-container">
+                        <img src="{{ url_for('static', filename='images/Satyamev_Jayate_Emblem.png') }}" 
+                             alt="Satyamev Jayate Emblem" class="emblem-image">
+                        <div class="emblem-text">
                             <div class="hindi-small">सत्यमेव जयते</div>
                             <div class="english-small">SATYAMEVA JAYATE</div>
                         </div>
@@ -523,7 +558,7 @@
                         <!-- Government Schemes -->
                         <div class="row">
                             <div class="col-12">
-                                <h3 class="h2 mb-4 fw-bold fade-in">
+                                <h3 class="h2 mb-4 fade-in">
                                     <i class="fas fa-hands-helping me-3 text-success"></i>
                                     Government Schemes for Poultry Farmers
                                 </h3>
