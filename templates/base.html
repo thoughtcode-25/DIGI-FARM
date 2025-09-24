@@ -23,7 +23,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-                <i class="fas fa-egg me-2"></i>{{ get_text('navbar_brand', lang) if get_text else 'Poultry Farm Manager' }}
+                <i class="fas fa-egg me-2"></i>
+                <i class="fas fa-feather-alt me-1" style="font-size: 0.8em; opacity: 0.7;"></i>
+                {{ get_text('navbar_brand', lang) if get_text else 'Poultry Farm Manager' }}
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -140,6 +142,11 @@
     <main>
         {% block content %}{% endblock %}
     </main>
+    
+    <!-- Farm-themed decorative elements -->
+    <div class="farm-decoration">
+        <div class="farm-pattern-overlay"></div>
+    </div>
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
