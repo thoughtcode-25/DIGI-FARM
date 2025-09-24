@@ -364,15 +364,15 @@ canvas {
         padding-left: 15px;
         padding-right: 15px;
     }
-    
+
     .card-body {
         padding: 1.5rem;
     }
-    
+
     h1 {
         font-size: 1.75rem;
     }
-    
+
     h2 {
         font-size: 1.5rem;
     }
@@ -434,11 +434,11 @@ h1, h2, h3, h4, h5, h6 {
         width: 100%;
         margin-bottom: 0.5rem;
     }
-    
+
     .card-body {
         padding: 1.25rem;
     }
-    
+
     .navbar-nav .dropdown-menu {
         border: none;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -888,3 +888,220 @@ h1, h2, h3, h4, h5, h6 {
     border: 2px dashed #30363d !important;
     color: #e6edf3 !important;
 }
+
+/* Government Header with Indian Flag Background */
+        .govt-header-flag {
+            background: linear-gradient(to right, 
+                #FF9933 0%, #FF9933 33.33%, 
+                #FFFFFF 33.33%, #FFFFFF 66.66%, 
+                #138808 66.66%, #138808 100%);
+            color: #1a202c;
+            padding: 1rem 0;
+            margin-top: 8px;
+            position: relative;
+            border-bottom: 3px solid #FFD700;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-height: 120px;
+        }
+
+        .flag-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(255, 255, 255, 0.8) 50%, 
+                rgba(255, 255, 255, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .govt-header-flag .container-fluid {
+            position: relative;
+            z-index: 2;
+        }
+
+        [data-bs-theme="dark"] .govt-header-flag {
+            background: linear-gradient(to right, 
+                #FF9933 0%, #FF9933 33.33%, 
+                #FFFFFF 33.33%, #FFFFFF 66.66%, 
+                #138808 66.66%, #138808 100%);
+        }
+
+        [data-bs-theme="dark"] .flag-overlay {
+            background: linear-gradient(135deg, 
+                rgba(13, 17, 23, 0.85) 0%, 
+                rgba(13, 17, 23, 0.8) 50%, 
+                rgba(13, 17, 23, 0.85) 100%);
+        }
+
+/* Ashok Chakra Section */
+        .ashok-chakra-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ashok-chakra {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            animation: rotate 20s linear infinite;
+        }
+
+        .ashok-symbol {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .chakra-text {
+            text-align: center;
+        }
+
+        .hindi-small {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 2px;
+        }
+
+        .english-small {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        [data-bs-theme="dark"] .hindi-small {
+            color: #ffffff;
+        }
+
+        [data-bs-theme="dark"] .english-small {
+            color: #e2e8f0;
+        }
+
+        /* Portal Name Section */
+        .portal-name-container {
+            text-align: center;
+        }
+
+        .portal-hindi {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        .portal-english {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .portal-subtitle {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        .hindi-subtitle {
+            font-weight: 600;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        .separator {
+            margin: 0 1rem;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .english-subtitle {
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .portal-govt {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d3748;
+            letter-spacing: 0.5px;
+        }
+
+        [data-bs-theme="dark"] .portal-hindi,
+        [data-bs-theme="dark"] .portal-english,
+        [data-bs-theme="dark"] .portal-govt {
+            color: #ffffff;
+        }
+
+        [data-bs-theme="dark"] .portal-subtitle {
+            color: #e2e8f0;
+        }
+
+        /* Ministry Logos Grid */
+        .ministry-logos-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .ministry-logo-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .ministry-logo-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-color: #FFD700;
+        }
+
+        .ministry-logo {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .ministry-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1a202c;
+            text-align: left;
+            line-height: 1.2;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        [data-bs-theme="dark"] .ministry-logo-item {
+            background: rgba(22, 27, 34, 0.9);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        [data-bs-theme="dark"] .ministry-name {
+            color: #ffffff;
+        }

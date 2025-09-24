@@ -16,6 +16,7 @@
     
     <!-- Google Fonts for Professional Look -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         .landing-page {
@@ -363,50 +364,56 @@
         <i class="fas fa-moon" id="themeIcon"></i>
     </button>
     
-    <!-- Government Header with Ministry Logos -->
-    <section class="govt-header">
+    <!-- Government Header with Indian Flag Background -->
+    <section class="govt-header-flag">
+        <div class="flag-overlay"></div>
         <div class="container-fluid">
-            <div class="row align-items-center py-2">
-                <div class="col-md-2">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ url_for('static', filename='images/government_of_india__13c31981.jpg') }}" 
-                             alt="Government of India Emblem" class="govt-emblem me-3">
-                        <div>
-                            <div class="hindi-text">पशुपालन और डेयरी विभाग</div>
-                            <div class="english-text">DEPARTMENT OF ANIMAL HUSBANDRY</div>
-                            <div class="english-text">AND DAIRYING</div>
+            <div class="row align-items-center py-3">
+                <!-- Left: Ashok Chakra Symbol -->
+                <div class="col-md-2 text-center">
+                    <div class="ashok-chakra-container">
+                        <div class="ashok-chakra">
+                            <img src="{{ url_for('static', filename='images/government_of_india__13c31981.jpg') }}" 
+                                 alt="Ashok Chakra" class="ashok-symbol">
+                        </div>
+                        <div class="chakra-text">
+                            <div class="hindi-small">सत्यमेव जयते</div>
+                            <div class="english-small">SATYAMEVA JAYATE</div>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Center: Portal Name in Hindi and English -->
                 <div class="col-md-8 text-center">
-                    <div class="ministry-logos-container">
-                        <img src="{{ url_for('static', filename='images/government_of_india__c9d64be3.jpg') }}" 
-                             alt="Ministry Logo 1" class="ministry-logo-small">
-                        <img src="{{ url_for('static', filename='images/government_of_india__1ce673f4.jpg') }}" 
-                             alt="Ministry Logo 2" class="ministry-logo-small">
-                        <img src="{{ url_for('static', filename='images/government_of_india__476f1d32.jpg') }}" 
-                             alt="Ministry Logo 3" class="ministry-logo-small">
+                    <div class="portal-name-container">
+                        <h2 class="portal-hindi">राष्ट्रीय कुक्कुट पालन प्रबंधन पोर्टल</h2>
+                        <h3 class="portal-english">NATIONAL POULTRY FARM MANAGEMENT PORTAL</h3>
+                        <div class="portal-subtitle">
+                            <span class="hindi-subtitle">पशुपालन और डेयरी विभाग</span>
+                            <span class="separator">|</span>
+                            <span class="english-subtitle">DEPARTMENT OF ANIMAL HUSBANDRY AND DAIRYING</span>
+                        </div>
+                        <div class="portal-govt">भारत सरकार | GOVERNMENT OF INDIA</div>
                     </div>
-                    <h4 class="portal-title mt-2 mb-0">
-                        <i class="fas fa-feather-alt me-2"></i>National Poultry Farm Management Portal
-                    </h4>
                 </div>
                 
+                <!-- Right: Related Ministry Logos -->
                 <div class="col-md-2 text-end">
-                    <div class="celebration-logos">
-                        <div class="international-year-logo mb-2">
-                            <div class="celebration-badge">
-                                <span class="badge-text">International Year</span>
-                                <span class="badge-subtext">2024</span>
-                            </div>
+                    <div class="ministry-logos-grid">
+                        <div class="ministry-logo-item">
+                            <img src="{{ url_for('static', filename='images/government_of_india__c9d64be3.jpg') }}" 
+                                 alt="Ministry of Agriculture" class="ministry-logo">
+                            <div class="ministry-name">कृषि मंत्रालय</div>
                         </div>
-                        <div class="independence-logo">
-                            <div class="celebration-badge tricolor-badge">
-                                <span class="badge-number">75</span>
-                                <span class="badge-text">आज़ादी का</span>
-                                <span class="badge-subtext">अमृत महोत्सव</span>
-                            </div>
+                        <div class="ministry-logo-item">
+                            <img src="{{ url_for('static', filename='images/government_of_india__1ce673f4.jpg') }}" 
+                                 alt="Ministry of Rural Development" class="ministry-logo">
+                            <div class="ministry-name">ग्रामीण विकास</div>
+                        </div>
+                        <div class="ministry-logo-item">
+                            <img src="{{ url_for('static', filename='images/government_of_india__476f1d32.jpg') }}" 
+                                 alt="Ministry of IT" class="ministry-logo">
+                            <div class="ministry-name">इलेक्ट्रॉनिक्स एवं सूचना</div>
                         </div>
                     </div>
                 </div>
