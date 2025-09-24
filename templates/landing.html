@@ -38,51 +38,149 @@
         
         /* Government Header */
         .govt-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
-            color: white;
-            padding: 1rem 0;
+            background: #ffffff;
+            color: #1a202c;
+            padding: 0.5rem 0;
             margin-top: 8px;
             position: relative;
-            overflow: hidden;
+            border-bottom: 2px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
-        .govt-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            animation: floating 20s linear infinite;
+        [data-bs-theme="dark"] .govt-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            color: white;
+            border-bottom-color: rgba(255,255,255,0.1);
         }
         
-        @keyframes floating {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50px, -50px); }
-        }
-        
-        .ministry-logo {
-            max-height: 80px;
+        /* Government Emblem */
+        .govt-emblem {
+            max-height: 60px;
+            width: auto;
             object-fit: contain;
+        }
+        
+        /* Text Styling */
+        .hindi-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 2px;
+        }
+        
+        .english-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #4a5568;
+            line-height: 1.2;
+        }
+        
+        [data-bs-theme="dark"] .hindi-text,
+        [data-bs-theme="dark"] .english-text {
+            color: #ffffff;
+        }
+        
+        /* Ministry Logos */
+        .ministry-logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .ministry-logo-small {
+            max-height: 40px;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .ministry-logo-small:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Portal Title */
+        .portal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-top: 0.5rem;
+        }
+        
+        [data-bs-theme="dark"] .portal-title {
+            color: #ffffff;
+        }
+        
+        /* Celebration Logos */
+        .celebration-logos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .celebration-badge {
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.7rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            min-width: 80px;
         }
         
-        .ministry-logo:hover {
-            transform: scale(1.05);
+        .tricolor-badge {
+            background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+            color: #1a202c;
+            border: 1px solid #e2e8f0;
         }
         
-        /* CM Section */
+        .badge-number {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .badge-text {
+            display: block;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+        
+        .badge-subtext {
+            display: block;
+            font-size: 0.5rem;
+            opacity: 0.8;
+        }
+        
+        /* CM Section - Fixed Light Theme Visibility */
         .cm-section {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             padding: 2rem 0;
             border-bottom: 3px solid #FF9933;
+            color: #1a202c;
         }
         
         [data-bs-theme="dark"] .cm-section {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: #f7fafc;
+        }
+        
+        /* Ensure text is visible in light theme */
+        .cm-section h3,
+        .cm-section p,
+        .cm-section .lead {
+            color: #1a202c !important;
+        }
+        
+        [data-bs-theme="dark"] .cm-section h3,
+        [data-bs-theme="dark"] .cm-section p,
+        [data-bs-theme="dark"] .cm-section .lead {
+            color: #f7fafc !important;
         }
         
         .cm-poster {
@@ -98,7 +196,7 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
         
-        /* Dashboard Cards */
+        /* Dashboard Cards - Fixed Light Theme */
         .stat-card {
             background: rgba(255,255,255,0.95);
             border: 2px solid #e2e8f0;
@@ -108,11 +206,27 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            color: #1a202c;
         }
         
         [data-bs-theme="dark"] .stat-card {
             background: rgba(30, 41, 59, 0.95);
             border-color: #475569;
+            color: #f7fafc;
+        }
+        
+        /* Ensure stat card text is visible */
+        .stat-card h5,
+        .stat-card p {
+            color: inherit;
+        }
+        
+        .stat-card .text-primary {
+            color: #2563eb !important;
+        }
+        
+        [data-bs-theme="dark"] .stat-card .text-primary {
+            color: #60a5fa !important;
         }
         
         .stat-card::before {
@@ -140,7 +254,7 @@
             background-clip: text;
         }
         
-        /* Signin Form */
+        /* Signin Form - Fixed Light Theme */
         .signin-card {
             background: rgba(255,255,255,0.98);
             border: 2px solid #e2e8f0;
@@ -150,11 +264,29 @@
             backdrop-filter: blur(10px);
             position: sticky;
             top: 2rem;
+            color: #1a202c;
         }
         
         [data-bs-theme="dark"] .signin-card {
             background: rgba(30, 41, 59, 0.98);
             border-color: #475569;
+            color: #f7fafc;
+        }
+        
+        /* Signin card text visibility */
+        .signin-card h4,
+        .signin-card p,
+        .signin-card .form-label,
+        .signin-card small {
+            color: inherit;
+        }
+        
+        .signin-card .text-muted {
+            color: #6b7280 !important;
+        }
+        
+        [data-bs-theme="dark"] .signin-card .text-muted {
+            color: #9ca3af !important;
         }
         
         .signin-card::before {
@@ -231,23 +363,52 @@
         <i class="fas fa-moon" id="themeIcon"></i>
     </button>
     
-    <!-- Government Header with Ministry and PM -->
+    <!-- Government Header with Ministry Logos -->
     <section class="govt-header">
-        <div class="container">
-            <div class="row align-items-center">
+        <div class="container-fluid">
+            <div class="row align-items-center py-2">
                 <div class="col-md-2">
-                    <img src="{{ url_for('static', filename='images/indian_government_mi_f4ec7d4e.jpg') }}" 
-                         alt="Ministry Logo" class="ministry-logo img-fluid">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ url_for('static', filename='images/government_of_india__13c31981.jpg') }}" 
+                             alt="Government of India Emblem" class="govt-emblem me-3">
+                        <div>
+                            <div class="hindi-text">पशुपालन और डेयरी विभाग</div>
+                            <div class="english-text">DEPARTMENT OF ANIMAL HUSBANDRY</div>
+                            <div class="english-text">AND DAIRYING</div>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="col-md-8 text-center">
-                    <h1 class="display-4 fw-bold mb-2 fade-in">Government of India</h1>
-                    <h2 class="h3 mb-1 fade-in">Ministry of Fisheries, Animal Husbandry & Dairying</h2>
-                    <p class="lead mb-0 fade-in">Department of Animal Husbandry & Dairying</p>
-                    <p class="mb-0 fade-in"><i class="fas fa-feather-alt me-2"></i>National Poultry Farm Management Portal</p>
+                    <div class="ministry-logos-container">
+                        <img src="{{ url_for('static', filename='images/government_of_india__c9d64be3.jpg') }}" 
+                             alt="Ministry Logo 1" class="ministry-logo-small">
+                        <img src="{{ url_for('static', filename='images/government_of_india__1ce673f4.jpg') }}" 
+                             alt="Ministry Logo 2" class="ministry-logo-small">
+                        <img src="{{ url_for('static', filename='images/government_of_india__476f1d32.jpg') }}" 
+                             alt="Ministry Logo 3" class="ministry-logo-small">
+                    </div>
+                    <h4 class="portal-title mt-2 mb-0">
+                        <i class="fas fa-feather-alt me-2"></i>National Poultry Farm Management Portal
+                    </h4>
                 </div>
+                
                 <div class="col-md-2 text-end">
-                    <img src="{{ url_for('static', filename='images/indian_government_mi_4b93c250.jpg') }}" 
-                         alt="Government Emblem" class="ministry-logo img-fluid">
+                    <div class="celebration-logos">
+                        <div class="international-year-logo mb-2">
+                            <div class="celebration-badge">
+                                <span class="badge-text">International Year</span>
+                                <span class="badge-subtext">2024</span>
+                            </div>
+                        </div>
+                        <div class="independence-logo">
+                            <div class="celebration-badge tricolor-badge">
+                                <span class="badge-number">75</span>
+                                <span class="badge-text">आज़ादी का</span>
+                                <span class="badge-subtext">अमृत महोत्सव</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
