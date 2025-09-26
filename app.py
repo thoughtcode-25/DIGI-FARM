@@ -60,8 +60,10 @@ def login():
             # Set default language if not already set
             if 'language' not in session:
                 session['language'] = 'en'
+            session['language_selected'] = True  # Skip language selection
             flash(get_text('login_successful', session.get('language', 'en')), 'success')
-            return redirect(url_for('language_select'))
+            # Stay on login page with success state
+            return render_template('login.html', logged_in=True)
         else:
             flash(get_text('invalid_credentials', session.get('language', 'en')), 'danger')
             # Redirect back to landing page with error

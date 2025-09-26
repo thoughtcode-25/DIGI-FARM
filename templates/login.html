@@ -17,12 +17,40 @@
             <h2 class="portal-name-english mb-0 fw-normal">Digital Agri Management</h2>
         </div>
 
-        <!-- Right Side: Ministry Logos -->
+        <!-- Right Side: Ministry Logos or Profile Menu -->
         <div class="header-right d-flex align-items-center gap-3">
+            {% if session.logged_in %}
+            <!-- Profile Menu for Logged In Users -->
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle me-2" style="font-size: 1.5em;"></i>
+                    <span>{{ session.username }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="{{ url_for('register_farm') }}">
+                        <i class="fas fa-plus-circle me-2"></i>Register Farm
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('open_farm') }}">
+                        <i class="fas fa-tractor me-2"></i>Open Farm
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('business_chat') }}">
+                        <i class="fas fa-comments me-2"></i>Chat
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('leaderboard_page') }}">
+                        <i class="fas fa-trophy me-2"></i>Leaderboard
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a></li>
+                </ul>
+            </div>
+            {% else %}
+            <!-- Ministry Logos for Non-Logged In Users -->
             <span class="text-muted small">Related Ministries:</span>
             <img src="{{ url_for('static', filename='images/ministry_logo1.png') }}" alt="Ministry Logo 1" class="ministry-logo">
             <img src="{{ url_for('static', filename='images/ministry_logo2.png') }}" alt="Ministry Logo 2" class="ministry-logo">
-            <!-- Add more ministry logos as needed -->
+            {% endif %}
         </div>
     </div>
 </header>
