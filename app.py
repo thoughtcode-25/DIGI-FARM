@@ -115,6 +115,11 @@ def dashboard():
     if not session.get('language_selected'):
         return redirect(url_for('language_select'))
     
+    # Check if farm is registered
+    if not session.get('farm_registered'):
+        flash('Please register your farm first to access the dashboard.', 'info')
+        return redirect(url_for('register_farm'))
+    
     lang = session.get('language', 'en')
     
     # Get today's summary data
@@ -588,7 +593,7 @@ def register_farm():
             'biosecurity_score': 85  # Initial score
         }
         
-        flash('Farm registered successfully!', 'success')
+        flash('Farm registered successfully! Welcome to your dashboard.', 'success')
         return redirect(url_for('dashboard'))
     
     return render_template('register_farm.html')
@@ -599,10 +604,17 @@ def open_farm():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
+    # Check if language selection is needed
+    if not session.get('language_selected'):
+        return redirect(url_for('language_select'))
+    
+    # Check if farm is already registered
     if session.get('farm_registered'):
+        # Farm is registered, go directly to dashboard
         return redirect(url_for('dashboard'))
     else:
-        flash('Please register your farm first to access the dashboard.', 'warning')
+        # Farm not registered, redirect to registration with message
+        flash('Please register your farm first to access the dashboard.', 'info')
         return redirect(url_for('register_farm'))
 
 @app.route('/business_chat')
