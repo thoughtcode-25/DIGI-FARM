@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Register Farm - Digi Farm Management{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Register Your Farm
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="farm_name" class="form-label">
+                                <i class="fas fa-home me-1"></i>Farm Name
+                            </label>
+                            <input type="text" class="form-control" id="farm_name" name="farm_name" 
+                                   placeholder="Enter your farm name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="farm_location" class="form-label">
+                                <i class="fas fa-map-marker-alt me-1"></i>Farm Location
+                            </label>
+                            <input type="text" class="form-control" id="farm_location" name="farm_location" 
+                                   placeholder="City, State" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="farm_size" class="form-label">
+                                <i class="fas fa-expand-arrows-alt me-1"></i>Farm Size (acres)
+                            </label>
+                            <input type="number" class="form-control" id="farm_size" name="farm_size" 
+                                   placeholder="Enter farm size in acres" min="1" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="livestock_type" class="form-label">
+                                <i class="fas fa-paw me-1"></i>Primary Livestock
+                            </label>
+                            <select class="form-select" id="livestock_type" name="livestock_type" required>
+                                <option value="">Select livestock type</option>
+                                <option value="chickens">Chickens</option>
+                                <option value="pigs">Pigs</option>
+                                <option value="both">Both Chickens & Pigs</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contact_number" class="form-label">
+                                <i class="fas fa-phone me-1"></i>Contact Number
+                            </label>
+                            <input type="tel" class="form-control" id="contact_number" name="contact_number" 
+                                   placeholder="Enter your contact number" required>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Benefits of Registration:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Access to dashboard and analytics</li>
+                                <li>Connect with suppliers and buyers</li>
+                                <li>Participate in leaderboard</li>
+                                <li>Get personalized recommendations</li>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            <i class="fas fa-save me-2"></i>Register Farm
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

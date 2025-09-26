@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - Digi Farm Management{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-trophy text-warning me-2"></i>Farm Leaderboard
+        </h2>
+        <div class="btn-group">
+            <button class="btn btn-outline-primary active" onclick="filterLeaderboard('all')">All Farms</button>
+            <button class="btn btn-outline-primary" onclick="filterLeaderboard('chickens')">Poultry</button>
+            <button class="btn btn-outline-primary" onclick="filterLeaderboard('pigs')">Pigs</button>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for farm in leaderboard_farms %}
+        <div class="col-12 mb-3 farm-card" data-livestock="{{ farm.livestock.chickens > 0 and 'chickens' or '' }} {{ farm.livestock.pigs > 0 and 'pigs' or '' }}">
+            <div class="card {% if farm.get('is_current_user') %}border-success{% endif %}">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="rank-badge">
+                                {% if farm.rank == 1 %}
+                                <i class="fas fa-crown text-warning" style="font-size: 2rem;"></i>
+                                {% elif farm.rank == 2 %}
+                                <i class="fas fa-medal text-secondary" style="font-size: 2rem;"></i>
+                                {% elif farm.rank == 3 %}
+                                <i class="fas fa-award text-warning" style="font-size: 2rem;"></i>
+                                {% else %}
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                     style="width: 50px; height: 50px; font-size: 1.2rem; font-weight: bold;">
+                                    {{ farm.rank }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h5 class="mb-1">
+                                        {{ farm.farm_name }}
+                                        {% if farm.get('is_current_user') %}
+                                        <span class="badge bg-success ms-2">Your Farm</span>
+                                        {% endif %}
+                                    </h5>
+                                    <p class="text-muted mb-1">
+                                        <i class="fas fa-user me-1"></i>{{ farm.owner }}
+                                    </p>
+                                    <p class="text-muted mb-0">
+                                        <i class="fas fa-map-marker-alt me-1"></i>{{ farm.location }}
+                                    </p>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="mb-2">
+                                        <strong>Biosecurity Score</strong>
+                                        <div class="progress mt-1" style="height: 8px;">
+                                            <div class="progress-bar bg-success" role="progressbar" 
+                                                 style="width: {{ farm.biosecurity_score }}%" 
+                                                 aria-valuenow="{{ farm.biosecurity_score }}" 
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small class="text-muted">{{ farm.biosecurity_score }}/100</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="livestock-info">
+                                        <strong>Livestock</strong>
+                                        <div class="small mt-1">
+                                            {% if farm.livestock.chickens > 0 %}
+                                            <div><i class="fas fa-egg text-warning me-1"></i>{{ farm.livestock.chickens }} Chickens</div>
+                                            {% endif %}
+                                            {% if farm.livestock.pigs > 0 %}
+                                            <div><i class="fas fa-piggy-bank text-pink me-1"></i>{{ farm.livestock.pigs }} Pigs</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-2 text-end">
+                                    {% if farm.contact_available %}
+                                    <button class="btn btn-sm btn-outline-primary mb-1" 
+                                            onclick="viewFarmDetails('{{ farm.farm_name }}', '{{ farm.owner }}', {{ farm.biosecurity_score }}, {{ farm.livestock.chickens }}, {{ farm.livestock.pigs }})">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </button>
+                                    <button class="btn btn-sm btn-success" 
+                                            onclick="chatWithFarmer('{{ farm.owner }}', '{{ farm.farm_name }}')">
+                                        <i class="fas fa-comment me-1"></i>Chat
+                                    </button>
+                                    {% else %}
+                                    <small class="text-muted">Contact unavailable</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            {% if farm.achievements %}
+                            <div class="mt-2">
+                                {% for achievement in farm.achievements %}
+                                <span class="badge bg-info me-1">{{ achievement }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Farm Details Modal -->
+<div class="modal fade" id="farmDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-farm me-2"></i>Farm Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="farmDetailsContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="initiateChat()">
+                    <i class="fas fa-comment me-1"></i>Start Chat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-comment me-2"></i>Chat with <span id="chatFarmerName"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-messages" style="height: 300px; overflow-y: auto; border: 1px solid #dee2e6; padding: 15px; border-radius: 5px; background-color: #f8f9fa;">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-comment-dots fa-2x mb-2"></i>
+                        <p>Start a conversation!</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Type your message..." id="chatMessageInput" onkeypress="handleChatEnter(event)">
+                        <button class="btn btn-primary" onclick="sendChatMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentChatFarmer = null;
+
+function filterLeaderboard(type) {
+    const cards = document.querySelectorAll('.farm-card');
+    const buttons = document.querySelectorAll('.btn-group .btn');
+    
+    // Update active button
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    cards.forEach(card => {
+        if (type === 'all') {
+            card.style.display = 'block';
+        } else {
+            const livestock = card.dataset.livestock;
+            if (livestock.includes(type)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
+
+function viewFarmDetails(farmName, owner, biosecurityScore, chickens, pigs) {
+    const modalContent = `
+        <div class="row">
+            <div class="col-md-6">
+                <h6><i class="fas fa-home me-2"></i>Farm Information</h6>
+                <table class="table table-borderless">
+                    <tr><td><strong>Farm Name:</strong></td><td>${farmName}</td></tr>
+                    <tr><td><strong>Owner:</strong></td><td>${owner}</td></tr>
+                    <tr><td><strong>Biosecurity Score:</strong></td><td>${biosecurityScore}/100</td></tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h6><i class="fas fa-paw me-2"></i>Livestock Details</h6>
+                <table class="table table-borderless">
+                    <tr><td><strong>Chickens:</strong></td><td>${chickens}</td></tr>
+                    <tr><td><strong>Pigs:</strong></td><td>${pigs}</td></tr>
+                    <tr><td><strong>Total Animals:</strong></td><td>${chickens + pigs}</td></tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <h6><i class="fas fa-chart-bar me-2"></i>Farm Statistics</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-success text-white">
+                            <div class="card-body text-center">
+                                <h4>${biosecurityScore}%</h4>
+                                <small>Biosecurity</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-info text-white">
+                            <div class="card-body text-center">
+                                <h4>${chickens}</h4>
+                                <small>Chickens</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body text-center">
+                                <h4>${pigs}</h4>
+                                <small>Pigs</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('farmDetailsContent').innerHTML = modalContent;
+    currentChatFarmer = { name: owner, farm: farmName };
+    new bootstrap.Modal(document.getElementById('farmDetailsModal')).show();
+}
+
+function chatWithFarmer(farmerName, farmName) {
+    currentChatFarmer = { name: farmerName, farm: farmName };
+    document.getElementById('chatFarmerName').textContent = farmerName;
+    
+    // Add welcome message
+    const chatMessages = document.querySelector('.chat-messages');
+    chatMessages.innerHTML = `
+        <div class="mb-2">
+            <div class="text-muted small">System</div>
+            <div class="bg-light p-2 rounded">Welcome to the chat with ${farmerName} from ${farmName}!</div>
+        </div>
+    `;
+    
+    new bootstrap.Modal(document.getElementById('chatModal')).show();
+}
+
+function initiateChat() {
+    if (currentChatFarmer) {
+        // Close farm details modal
+        bootstrap.Modal.getInstance(document.getElementById('farmDetailsModal')).hide();
+        
+        // Open chat modal
+        setTimeout(() => {
+            chatWithFarmer(currentChatFarmer.name, currentChatFarmer.farm);
+        }, 300);
+    }
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatMessageInput');
+    const message = input.value.trim();
+    
+    if (message && currentChatFarmer) {
+        const chatMessages = document.querySelector('.chat-messages');
+        const messageHTML = `
+            <div class="mb-2 text-end">
+                <div class="text-muted small">You</div>
+                <div class="bg-primary text-white p-2 rounded d-inline-block">${message}</div>
+            </div>
+        `;
+        chatMessages.innerHTML += messageHTML;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        input.value = '';
+        
+        // Mock response
+        setTimeout(() => {
+            const responseHTML = `
+                <div class="mb-2">
+                    <div class="text-muted small">${currentChatFarmer.name}</div>
+                    <div class="bg-light p-2 rounded d-inline-block">Thanks for reaching out! I'd be happy to discuss business opportunities.</div>
+                </div>
+            `;
+            chatMessages.innerHTML += responseHTML;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+    }
+}
+
+function handleChatEnter(event) {
+    if (event.key === 'Enter') {
+        sendChatMessage();
+    }
+}
+</script>
+{% endblock %}

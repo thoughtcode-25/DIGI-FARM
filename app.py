@@ -562,5 +562,171 @@ def rollback():
     flash("Here you can view project checkpoints to restore previous versions.", 'info')
     return redirect(url_for('dashboard'))
 
+@app.route('/register_farm', methods=['GET', 'POST'])
+def register_farm():
+    """Register a new farm"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        # Handle farm registration form submission
+        farm_name = request.form.get('farm_name')
+        farm_location = request.form.get('farm_location')
+        farm_size = request.form.get('farm_size')
+        livestock_type = request.form.get('livestock_type')
+        contact_number = request.form.get('contact_number')
+        
+        # Store farm registration in session (in production, save to database)
+        session['farm_registered'] = True
+        session['farm_data'] = {
+            'name': farm_name,
+            'location': farm_location,
+            'size': farm_size,
+            'livestock_type': livestock_type,
+            'contact_number': contact_number,
+            'registration_date': datetime.now().isoformat(),
+            'biosecurity_score': 85  # Initial score
+        }
+        
+        flash('Farm registered successfully!', 'success')
+        return redirect(url_for('dashboard'))
+    
+    return render_template('register_farm.html')
+
+@app.route('/open_farm')
+def open_farm():
+    """Open farm dashboard if registered, otherwise redirect to registration"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    if session.get('farm_registered'):
+        return redirect(url_for('dashboard'))
+    else:
+        flash('Please register your farm first to access the dashboard.', 'warning')
+        return redirect(url_for('register_farm'))
+
+@app.route('/business_chat')
+def business_chat():
+    """Chat platform for companies and suppliers"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    lang = session.get('language', 'en')
+    
+    # Mock chat data for companies and suppliers
+    chat_rooms = [
+        {
+            'id': 1,
+            'name': 'Poultry Suppliers Hub',
+            'type': 'supplier',
+            'members': 45,
+            'active': True,
+            'last_message': 'Looking for 500 broiler chicks this week',
+            'last_time': '2 minutes ago'
+        },
+        {
+            'id': 2,
+            'name': 'Pig Breeding Network',
+            'type': 'supplier',
+            'members': 32,
+            'active': True,
+            'last_message': 'Premium Yorkshire pigs available',
+            'last_time': '15 minutes ago'
+        },
+        {
+            'id': 3,
+            'name': 'Feed & Nutrition Exchange',
+            'type': 'supplier',
+            'members': 78,
+            'active': False,
+            'last_message': 'Organic feed suppliers needed',
+            'last_time': '1 hour ago'
+        }
+    ]
+    
+    return render_template('business_chat.html', chat_rooms=chat_rooms, lang=lang, get_text=get_text)
+
+@app.route('/leaderboard_page')
+def leaderboard_page():
+    """Enhanced leaderboard with farm details and chat functionality"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    lang = session.get('language', 'en')
+    
+    # Mock leaderboard data with farm details
+    leaderboard_farms = [
+        {
+            'rank': 1,
+            'farm_name': 'Green Valley Poultry',
+            'owner': 'Rajesh Kumar',
+            'location': 'Punjab, India',
+            'biosecurity_score': 95,
+            'livestock': {'chickens': 2500, 'pigs': 150},
+            'achievements': ['Top Producer 2024', 'Eco-Friendly'],
+            'contact_available': True
+        },
+        {
+            'rank': 2,
+            'farm_name': 'Sunrise Livestock Farm',
+            'owner': 'Priya Sharma',
+            'location': 'Haryana, India',
+            'biosecurity_score': 92,
+            'livestock': {'chickens': 2200, 'pigs': 200},
+            'achievements': ['Innovation Award', 'Sustainable Farming'],
+            'contact_available': True
+        },
+        {
+            'rank': 3,
+            'farm_name': 'Golden Feather Farm',
+            'owner': 'Amit Singh',
+            'location': 'Uttar Pradesh, India',
+            'biosecurity_score': 89,
+            'livestock': {'chickens': 1800, 'pigs': 120},
+            'achievements': ['Quality Excellence'],
+            'contact_available': False
+        },
+        {
+            'rank': 4,
+            'farm_name': 'Rural Pride Poultry',
+            'owner': 'Sunita Devi',
+            'location': 'Bihar, India',
+            'biosecurity_score': 87,
+            'livestock': {'chickens': 1500, 'pigs': 80},
+            'achievements': ['Community Leader'],
+            'contact_available': True
+        },
+        {
+            'rank': 5,
+            'farm_name': 'Modern Agri Solutions',
+            'owner': 'Vikram Patel',
+            'location': 'Gujarat, India',
+            'biosecurity_score': 85,
+            'livestock': {'chickens': 1200, 'pigs': 100},
+            'achievements': ['Tech Innovator'],
+            'contact_available': True
+        }
+    ]
+    
+    # Add current user's farm if registered
+    if session.get('farm_registered'):
+        user_farm = {
+            'rank': 6,
+            'farm_name': session['farm_data']['name'],
+            'owner': session['username'],
+            'location': session['farm_data']['location'],
+            'biosecurity_score': session['farm_data']['biosecurity_score'],
+            'livestock': {'chickens': 800, 'pigs': 50},
+            'achievements': ['New Farmer'],
+            'contact_available': True,
+            'is_current_user': True
+        }
+        leaderboard_farms.append(user_farm)
+    
+    return render_template('leaderboard_page.html', 
+                         leaderboard_farms=leaderboard_farms, 
+                         lang=lang, 
+                         get_text=get_text)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
