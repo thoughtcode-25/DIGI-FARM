@@ -16,7 +16,8 @@
                     <div class="list-group list-group-flush">
                         {% for room in chat_rooms %}
                         <a href="#" class="list-group-item list-group-item-action" 
-                           onclick="openChatRoom({{ room.id }}, '{{ room.name }}')">
+                           data-room-id="{{ room.id }}" data-room-name="{{ room.name|tojson }}"
+                           onclick="openChatRoomFromElement(this)">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1">{{ room.name }}</h6>
@@ -101,9 +102,19 @@
 <script>
 let currentChatRoom = null;
 
+function openChatRoomFromElement(element) {
+    const roomId = parseInt(element.dataset.roomId);
+    const roomName = JSON.parse(element.dataset.roomName);
+    openChatRoom(roomId, roomName);
+}
+
 function openChatRoom(roomId, roomName) {
     currentChatRoom = roomId;
-    document.getElementById('chatRoomTitle').innerHTML = `<i class="fas fa-comment-dots me-2"></i>${roomName}`;
+    const safeRoomName = roomName.replace(/[<>&"']/g, function(char) {
+        const entityMap = {'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;'};
+        return entityMap[char];
+    });
+    document.getElementById('chatRoomTitle').innerHTML = `<i class="fas fa-comment-dots me-2"></i>${safeRoomName}`;
     document.getElementById('chatInput').style.display = 'block';
     
     // Mock chat messages
