@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Poultry Farm Management{% endblock %}</title>
-    
+
     <!-- Bootstrap CSS with Replit theme -->
     <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
-    
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -27,11 +27,11 @@
                 <i class="fas fa-feather-alt me-1" style="font-size: 0.8em; opacity: 0.7;"></i>
                 {{ get_text('navbar_brand', lang) if get_text else 'Poultry Farm Manager' }}
             </a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
@@ -103,7 +103,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
                 <ul class="navbar-nav">
                     <li class="nav-item me-2">
                         <button class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()" id="themeToggle">
@@ -135,7 +135,7 @@
         </div>
     </nav>
     {% endif %}
-    
+
     <!-- Flash Messages -->
     <div class="container mt-3">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -149,20 +149,20 @@
             {% endif %}
         {% endwith %}
     </div>
-    
+
     <!-- Main Content -->
     <main>
         {% block content %}{% endblock %}
     </main>
-    
+
     <!-- Farm-themed decorative elements -->
     <div class="farm-decoration">
         <div class="farm-pattern-overlay"></div>
     </div>
-    
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Undo/Redo Modal -->
     <div class="modal fade" id="undoRedoModal" tabindex="-1">
         <div class="modal-dialog">
@@ -190,14 +190,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Theme Toggle Script -->
     <script>
         function toggleTheme() {
             const html = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
             const currentTheme = html.getAttribute('data-bs-theme');
-            
+
             if (currentTheme === 'dark') {
                 html.setAttribute('data-bs-theme', 'light');
                 themeIcon.className = 'fas fa-sun';
@@ -208,37 +208,78 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-        
+
         function showUndoRedo() {
             new bootstrap.Modal(document.getElementById('undoRedoModal')).show();
         }
-        
+
         function showRollbackOptions() {
             // Close the modal first
             bootstrap.Modal.getInstance(document.getElementById('undoRedoModal')).hide();
             // Redirect to rollback route
             window.location.href = '/rollback';
         }
-        
+
         function refreshPage() {
             location.reload();
         }
-        
+
         function goBack() {
             history.back();
         }
-        
+
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             const html = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
-            
+
             html.setAttribute('data-bs-theme', savedTheme);
             themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
         });
+
+        // Enhanced dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+
+                if (toggle && menu) {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        // Close other dropdowns
+                        dropdowns.forEach(other => {
+                            if (other !== dropdown) {
+                                const otherMenu = other.querySelector('.dropdown-menu');
+                                if (otherMenu) {
+                                    otherMenu.classList.remove('show');
+                                }
+                            }
+                        });
+
+                        // Toggle current dropdown
+                        menu.classList.toggle('show');
+                    });
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    dropdowns.forEach(dropdown => {
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        if (menu) {
+                            menu.classList.remove('show');
+                        }
+                    });
+                }
+            });
+        });
     </script>
-    
+
     <!-- Custom JS -->
     {% block scripts %}{% endblock %}
 </body>
