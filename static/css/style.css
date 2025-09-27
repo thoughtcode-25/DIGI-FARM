@@ -203,18 +203,44 @@ body::after {
     background: rgba(22, 27, 34, 0.95);
 }
 
-/* Farm-themed icons and text enhancements */
+/* Enhanced farm-themed icons with premium styling */
 .fas.fa-egg, .fas.fa-feather-alt {
-    color: #f7d794;
-    text-shadow: 0 0 5px rgba(247, 215, 148, 0.3);
+    color: #fbbf24;
+    text-shadow: 0 2px 10px rgba(251, 191, 36, 0.4);
+    filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3));
+}
+
+.fas.fa-piggy-bank {
+    color: #f472b6;
+    text-shadow: 0 2px 10px rgba(244, 114, 182, 0.4);
+    filter: drop-shadow(0 2px 4px rgba(244, 114, 182, 0.3));
+}
+
+.fas.fa-bacon {
+    color: #ef4444;
+    text-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
 }
 
 .fas.fa-tachometer-alt, .fas.fa-chart-line {
-    color: #58a6ff;
+    color: #60a5fa;
+    text-shadow: 0 2px 10px rgba(96, 165, 250, 0.4);
+    filter: drop-shadow(0 2px 4px rgba(96, 165, 250, 0.3));
 }
 
 .fas.fa-database {
-    color: #22c55e;
+    color: #34d399;
+    text-shadow: 0 2px 10px rgba(52, 211, 153, 0.4);
+    filter: drop-shadow(0 2px 4px rgba(52, 211, 153, 0.3));
+}
+
+.fas.fa-home, .fas.fa-building {
+    color: #a78bfa;
+    text-shadow: 0 2px 10px rgba(167, 139, 250, 0.4);
+}
+
+.fas.fa-users {
+    color: #fb7185;
+    text-shadow: 0 2px 10px rgba(251, 113, 133, 0.4);
 }
 
 /* Farm-themed decorative elements */
@@ -248,25 +274,85 @@ body::after {
     100% { transform: translateX(20px); }
 }
 
-/* Enhanced farm badge styling */
+/* Enhanced premium badge styling */
 .badge {
-    background: linear-gradient(135deg, rgba(88, 166, 255, 0.9), rgba(34, 139, 34, 0.9)) !important;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(16, 185, 129, 0.9)) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Farm health status indicators */
+/* Enhanced Farm health status indicators */
 .badge.bg-success {
-    background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: #ffffff !important;
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .badge.bg-warning {
     background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #ffffff !important;
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
 
 .badge.bg-danger {
     background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: #ffffff !important;
+    border-color: rgba(239, 68, 68, 0.3);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.badge.bg-info {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    color: #ffffff !important;
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.badge.bg-primary {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    color: #ffffff !important;
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.badge.bg-pink {
+    background: linear-gradient(135deg, #f472b6, #ec4899) !important;
+    color: #ffffff !important;
+    border-color: rgba(244, 114, 182, 0.3);
+    box-shadow: 0 4px 15px rgba(244, 114, 182, 0.3);
+}
+
+/* Custom pink color for pig farming */
+.text-pink {
+    color: #f472b6 !important;
+}
+
+.bg-pink {
+    background: linear-gradient(135deg, #f472b6, #ec4899) !important;
+}
+
+.btn-pink {
+    background: linear-gradient(135deg, #f472b6, #ec4899) !important;
+    border-color: #f472b6 !important;
+    color: #ffffff !important;
+}
+
+.btn-outline-pink {
+    color: #f472b6 !important;
+    border-color: #f472b6 !important;
+}
+
+.btn-outline-pink:hover {
+    background: #f472b6 !important;
+    color: #ffffff !important;
 }
 
 /* Light Theme Styles for Poultry Farm Theme */
