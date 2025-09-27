@@ -1,0 +1,99 @@
+
+{% extends "base.html" %}
+
+{% block title %}Farm Tools - Poultry Farm Management{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Header -->
+    <div class="mb-4 text-center">
+        <h1 class="mb-1">
+            <i class="fas fa-tools me-2 text-primary"></i>Farm Tools
+        </h1>
+        <p class="text-muted">Essential tools for modern poultry farm management</p>
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="row g-4">
+        {% for tool in tools %}
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-{{ tool.color }} bg-opacity-10 rounded-circle p-3 me-3">
+                            <i class="{{ tool.icon }} fa-2x text-{{ tool.color }}"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1">{{ tool.name }}</h5>
+                            <p class="text-muted mb-0">{{ tool.description }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <a href="{{ tool.url }}" class="btn btn-{{ tool.color }} btn-lg">
+                            <i class="{{ tool.icon }} me-2"></i>Access {{ tool.name }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">
+                        <i class="fas fa-chart-bar me-2 text-info"></i>Tool Usage Overview
+                    </h5>
+                    <div class="row text-center">
+                        <div class="col-3">
+                            <h4 class="text-primary">45</h4>
+                            <small class="text-muted">Disease Checks</small>
+                        </div>
+                        <div class="col-3">
+                            <h4 class="text-success">12</h4>
+                            <small class="text-muted">Training Sessions</small>
+                        </div>
+                        <div class="col-3">
+                            <h4 class="text-info">28</h4>
+                            <small class="text-muted">Chat Messages</small>
+                        </div>
+                        <div class="col-3">
+                            <h4 class="text-warning">8</h4>
+                            <small class="text-muted">Visitor Scans</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-question-circle fa-2x text-warning mb-3"></i>
+                    <h5 class="card-title">Need Help?</h5>
+                    <p class="text-muted mb-3">Our team is here to help you get the most out of your farm tools.</p>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a href="{{ url_for('training') }}" class="btn btn-primary me-2">
+                                <i class="fas fa-graduation-cap me-1"></i>View Training
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{ url_for('chat') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-comments me-1"></i>Get Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

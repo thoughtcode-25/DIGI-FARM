@@ -346,7 +346,8 @@ def chat():
             data_manager.add_chat_message('Supplier', random.choice(responses), 'supplier')
     
     messages = data_manager.get_chat_messages()
-    return render_template('chat.html', messages=messages)
+    lang = session.get('language', 'en')
+    return render_template('chat.html', messages=messages, lang=lang, get_text=get_text)
 
 @app.route('/alerts')
 def alerts():
@@ -355,7 +356,8 @@ def alerts():
         return redirect(url_for('login'))
     
     alerts = data_manager.temperature_alerts
-    return render_template('alerts.html', alerts=alerts)
+    lang = session.get('language', 'en')
+    return render_template('alerts.html', alerts=alerts, lang=lang, get_text=get_text)
 
 @app.route('/visits')
 def visits():
@@ -567,6 +569,20 @@ def rollback():
     flash("Here you can view project checkpoints to restore previous versions.", 'info')
     return redirect(url_for('dashboard'))
 
+@app.route('/add_data_form')
+def add_data_form():
+    """Alternative route for add data form"""
+    return redirect(url_for('add_data'))
+
+@app.route('/tech_stack')
+def tech_stack():
+    """Technology stack information page"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    lang = session.get('language', 'en')
+    return render_template('tech_stack.html', lang=lang, get_text=get_text)
+
 @app.route('/register_farm', methods=['GET', 'POST'])
 def register_farm():
     """Register a new farm"""
@@ -739,6 +755,83 @@ def leaderboard_page():
                          leaderboard_farms=leaderboard_farms, 
                          lang=lang, 
                          get_text=get_text)
+
+@app.route('/production_reports')
+def production_reports():
+    """Enhanced production reports page"""
+    return redirect(url_for('reports'))
+
+@app.route('/farm_analytics')
+def farm_analytics():
+    """Farm analytics page"""
+    return redirect(url_for('reports'))
+
+@app.route('/visit_tracking')
+def visit_tracking():
+    """Visit tracking page"""
+    return redirect(url_for('visits'))
+
+@app.route('/financial_records')
+def financial_records():
+    """Financial records page - redirect to financial"""
+    return redirect(url_for('financial'))
+
+@app.route('/add_daily_data')
+def add_daily_data():
+    """Add daily data page - redirect to add_data"""
+    return redirect(url_for('add_data'))
+
+@app.route('/farm_tools')
+def farm_tools():
+    """Farm tools overview page"""
+    if 'logged_in' not in session:
+        return redirect(url_for('login'))
+    
+    lang = session.get('language', 'en')
+    
+    # Show overview of all farm tools
+    tools = [
+        {
+            'name': 'Disease Solutions',
+            'description': 'Identify and treat common poultry diseases',
+            'icon': 'fas fa-stethoscope',
+            'url': url_for('diseases'),
+            'color': 'primary'
+        },
+        {
+            'name': 'Training Modules',
+            'description': 'Learn modern farming techniques',
+            'icon': 'fas fa-graduation-cap',
+            'url': url_for('training'),
+            'color': 'success'
+        },
+        {
+            'name': 'Business Chat',
+            'description': 'Connect with suppliers and buyers',
+            'icon': 'fas fa-comments',
+            'url': url_for('chat'),
+            'color': 'info'
+        },
+        {
+            'name': 'Visit Tracking',
+            'description': 'Track farm visitors with QR codes',
+            'icon': 'fas fa-qrcode',
+            'url': url_for('visits'),
+            'color': 'warning'
+        }
+    ]
+    
+    return render_template('farm_tools.html', tools=tools, lang=lang, get_text=get_text)
+
+@app.route('/analytics')
+def analytics():
+    """Analytics overview page"""
+    return redirect(url_for('reports'))
+
+@app.route('/production_reports')
+def production_reports():
+    """Production reports page"""
+    return redirect(url_for('reports'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
