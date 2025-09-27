@@ -238,44 +238,44 @@
             themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
         });
 
-        // Enhanced dropdown functionality
+        // Initialize Bootstrap dropdowns properly for touch devices
         document.addEventListener('DOMContentLoaded', function() {
-            const dropdowns = document.querySelectorAll('.dropdown');
-            dropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
-                const menu = dropdown.querySelector('.dropdown-menu');
-
-                if (toggle && menu) {
-                    toggle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        // Close other dropdowns
-                        dropdowns.forEach(other => {
-                            if (other !== dropdown) {
-                                const otherMenu = other.querySelector('.dropdown-menu');
-                                if (otherMenu) {
-                                    otherMenu.classList.remove('show');
-                                }
-                            }
-                        });
-
-                        // Toggle current dropdown
-                        menu.classList.toggle('show');
-                    });
-                }
+            // Enable touch support for Bootstrap dropdowns
+            const dropdownToggleList = document.querySelectorAll('.dropdown-toggle');
+            const dropdownList = [...dropdownToggleList].map(dropdownToggleEl => {
+                return new bootstrap.Dropdown(dropdownToggleEl, {
+                    autoClose: true,
+                    boundary: 'viewport'
+                });
             });
 
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown')) {
-                    dropdowns.forEach(dropdown => {
-                        const menu = dropdown.querySelector('.dropdown-menu');
-                        if (menu) {
-                            menu.classList.remove('show');
-                        }
-                    });
-                }
+            // Add touch-friendly attributes for mobile devices
+            dropdownToggleList.forEach(toggle => {
+                toggle.setAttribute('data-bs-auto-close', 'true');
+                toggle.setAttribute('role', 'button');
+                toggle.setAttribute('aria-haspopup', 'true');
+                toggle.setAttribute('aria-expanded', 'false');
+                
+                // Ensure proper touch handling
+                toggle.style.cursor = 'pointer';
+                toggle.style.userSelect = 'none';
+                toggle.style.webkitUserSelect = 'none';
+                toggle.style.webkitTouchCallout = 'none';
+                
+                // Add touch event listeners for better mobile experience
+                toggle.addEventListener('touchstart', function(e) {
+                    e.stopPropagation();
+                }, { passive: true });
+                
+                toggle.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Let Bootstrap handle the actual dropdown toggle
+                    const dropdown = bootstrap.Dropdown.getInstance(toggle);
+                    if (dropdown) {
+                        dropdown.toggle();
+                    }
+                }, { passive: false });
             });
         });
     </script>
