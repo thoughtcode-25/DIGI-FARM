@@ -355,78 +355,448 @@ body::after {
     color: #ffffff !important;
 }
 
-/* Light Theme Styles for Poultry Farm Theme */
+/* Enhanced Light Theme with Government Colors and Improved Visibility */
 [data-bs-theme="light"] body {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f8fafc 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%, #ffffff 100%) !important;
     background-attachment: fixed;
+    color: #1a202c !important;
 }
 
 [data-bs-theme="light"] body::before {
     background-image: url('/static/images/poultry_farming_back_c6f193c5.jpg');
-    opacity: 0.2;
+    opacity: 0.05;
 }
 
 [data-bs-theme="light"] body::after {
-    background: radial-gradient(ellipse at center, transparent 0%, rgba(248, 250, 252, 0.7) 100%);
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(255, 255, 255, 0.8) 100%);
 }
 
-[data-bs-theme="light"] .navbar {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%) !important;
-    border-bottom: 1px solid rgba(34, 139, 34, 0.2);
+/* Global text improvements for light theme */
+[data-bs-theme="light"] {
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #1a202c;
+    --bs-text-emphasis: #0f172a;
+    --bs-secondary-color: #4a5568;
+    --bs-tertiary-color: #718096;
+    --bs-border-color: #e2e8f0;
+    --bs-primary: #1e40af;
+    --bs-success: #059669;
+    --bs-warning: #d97706;
+    --bs-danger: #dc2626;
+    --bs-info: #0284c7;
 }
 
-[data-bs-theme="light"] .navbar-brand {
-    color: #0369a1 !important;
-    text-shadow: 0 0 10px rgba(3, 105, 161, 0.2);
+[data-bs-theme="light"] h1,
+[data-bs-theme="light"] h2,
+[data-bs-theme="light"] h3,
+[data-bs-theme="light"] h4,
+[data-bs-theme="light"] h5,
+[data-bs-theme="light"] h6 {
+    color: #1a202c !important;
+    font-weight: 700;
 }
 
-[data-bs-theme="light"] .navbar-brand:hover {
-    color: #0284c7 !important;
-    text-shadow: 0 0 15px rgba(3, 105, 161, 0.3);
-}
-
-[data-bs-theme="light"] .card {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(34, 139, 34, 0.15);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-[data-bs-theme="light"] .card:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(34, 139, 34, 0.2) !important;
-    border-color: rgba(34, 139, 34, 0.3);
-}
-
-[data-bs-theme="light"] .alert {
-    background: rgba(255, 255, 255, 0.9) !important;
+[data-bs-theme="light"] p {
     color: #374151 !important;
 }
 
+[data-bs-theme="light"] .text-muted {
+    color: #6b7280 !important;
+}
+
+[data-bs-theme="light"] .text-secondary {
+    color: #4a5568 !important;
+}
+
+/* Enhanced Navigation with Government Colors */
+[data-bs-theme="light"] .navbar {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%) !important;
+    border-bottom: 3px solid #1e40af;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="light"] .navbar-brand {
+    color: #1e40af !important;
+    text-shadow: none;
+    font-weight: 700;
+}
+
+[data-bs-theme="light"] .navbar-brand:hover {
+    color: #1d4ed8 !important;
+}
+
+[data-bs-theme="light"] .nav-link {
+    color: #374151 !important;
+    font-weight: 500;
+}
+
+[data-bs-theme="light"] .nav-link:hover {
+    color: #1e40af !important;
+}
+
+/* Enhanced Cards with Government Styling */
+[data-bs-theme="light"] .card {
+    background: #ffffff !important;
+    border: 2px solid #e5e7eb !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    color: #1a202c !important;
+}
+
+[data-bs-theme="light"] .card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+    border-color: #1e40af !important;
+    transform: translateY(-2px);
+}
+
+[data-bs-theme="light"] .card-header {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    color: #1a202c !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .card-body {
+    color: #374151 !important;
+}
+
+[data-bs-theme="light"] .card-title {
+    color: #1a202c !important;
+    font-weight: 600;
+}
+
+/* Enhanced Forms with Government Colors */
 [data-bs-theme="light"] .form-control {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(34, 139, 34, 0.2);
-    color: #374151;
+    background: #ffffff !important;
+    border: 2px solid #d1d5db !important;
+    color: #1a202c !important;
+    font-weight: 500;
 }
 
 [data-bs-theme="light"] .form-control:focus {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: #0369a1;
-    box-shadow: 0 0 0 0.2rem rgba(3, 105, 161, 0.15);
+    background: #ffffff !important;
+    border-color: #1e40af !important;
+    box-shadow: 0 0 0 0.2rem rgba(30, 64, 175, 0.25) !important;
+    color: #1a202c !important;
 }
 
-/* Light theme farm icons */
+[data-bs-theme="light"] .form-select {
+    background: #ffffff !important;
+    border: 2px solid #d1d5db !important;
+    color: #1a202c !important;
+}
+
+[data-bs-theme="light"] .form-label {
+    color: #374151 !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .form-text {
+    color: #6b7280 !important;
+}
+
+/* Enhanced Buttons with Government Colors */
+[data-bs-theme="light"] .btn-primary {
+    background: linear-gradient(135deg, #1e40af, #1d4ed8) !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e3a8a) !important;
+    border-color: #1d4ed8 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3) !important;
+}
+
+[data-bs-theme="light"] .btn-success {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .btn-success:hover {
+    background: linear-gradient(135deg, #047857, #065f46) !important;
+    border-color: #047857 !important;
+}
+
+[data-bs-theme="light"] .btn-warning {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
+    border-color: #d97706 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .btn-outline-primary {
+    color: #1e40af !important;
+    border-color: #1e40af !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .btn-outline-primary:hover {
+    background: #1e40af !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+[data-bs-theme="light"] .btn-outline-success {
+    color: #059669 !important;
+    border-color: #059669 !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .btn-outline-success:hover {
+    background: #059669 !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
+}
+
+/* Enhanced Alerts with Government Colors */
+[data-bs-theme="light"] .alert {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #374151 !important;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+[data-bs-theme="light"] .alert-success {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7) !important;
+    border-left-color: #059669 !important;
+    color: #166534 !important;
+}
+
+[data-bs-theme="light"] .alert-warning {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+    border-left-color: #d97706 !important;
+    color: #92400e !important;
+}
+
+[data-bs-theme="light"] .alert-danger {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+    border-left-color: #dc2626 !important;
+    color: #991b1b !important;
+}
+
+[data-bs-theme="light"] .alert-info {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+    border-left-color: #0284c7 !important;
+    color: #1e40af !important;
+}
+
+/* Enhanced Badges with Government Colors */
+[data-bs-theme="light"] .badge.bg-success {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .badge.bg-warning {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .badge.bg-danger {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .badge.bg-info {
+    background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .badge.bg-primary {
+    background: linear-gradient(135deg, #1e40af, #1d4ed8) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* Enhanced Farm Icons with Government Colors */
 [data-bs-theme="light"] .fas.fa-egg, 
 [data-bs-theme="light"] .fas.fa-feather-alt {
-    color: #d97706;
-    text-shadow: 0 0 5px rgba(217, 119, 6, 0.2);
+    color: #d97706 !important;
+    text-shadow: 0 2px 4px rgba(217, 119, 6, 0.3);
+}
+
+[data-bs-theme="light"] .fas.fa-piggy-bank {
+    color: #ec4899 !important;
+    text-shadow: 0 2px 4px rgba(236, 72, 153, 0.3);
 }
 
 [data-bs-theme="light"] .fas.fa-tachometer-alt, 
 [data-bs-theme="light"] .fas.fa-chart-line {
-    color: #0369a1;
+    color: #1e40af !important;
+    text-shadow: 0 2px 4px rgba(30, 64, 175, 0.3);
 }
 
 [data-bs-theme="light"] .fas.fa-database {
-    color: #059669;
+    color: #059669 !important;
+    text-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
+}
+
+[data-bs-theme="light"] .fas.fa-users {
+    color: #7c3aed !important;
+    text-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+}
+
+/* Dropdown Menus */
+[data-bs-theme="light"] .dropdown-menu {
+    background: #ffffff !important;
+    border: 2px solid #e5e7eb !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-bs-theme="light"] .dropdown-item {
+    color: #374151 !important;
+    font-weight: 500;
+}
+
+[data-bs-theme="light"] .dropdown-item:hover {
+    background: #f8fafc !important;
+    color: #1e40af !important;
+}
+
+/* List Groups */
+[data-bs-theme="light"] .list-group-item {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #374151 !important;
+}
+
+[data-bs-theme="light"] .list-group-item:hover {
+    background: #f8fafc !important;
+    color: #1e40af !important;
+}
+
+/* Tables */
+[data-bs-theme="light"] .table {
+    color: #374151 !important;
+}
+
+[data-bs-theme="light"] .table > :not(caption) > * > * {
+    border-bottom-color: #e5e7eb !important;
+}
+
+[data-bs-theme="light"] .table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: #f8fafc !important;
+}
+
+/* Input Groups */
+[data-bs-theme="light"] .input-group-text {
+    background: #f8fafc !important;
+    border: 2px solid #d1d5db !important;
+    color: #374151 !important;
+    font-weight: 500;
+}
+
+/* Progress Bars */
+[data-bs-theme="light"] .progress {
+    background: #e5e7eb !important;
+}
+
+[data-bs-theme="light"] .progress-bar {
+    background: linear-gradient(135deg, #1e40af, #1d4ed8) !important;
+}
+
+/* Tabs */
+[data-bs-theme="light"] .nav-tabs .nav-link {
+    color: #6b7280 !important;
+    border: 1px solid transparent !important;
+    font-weight: 500;
+}
+
+[data-bs-theme="light"] .nav-tabs .nav-link.active {
+    background: #ffffff !important;
+    border-color: #e5e7eb #e5e7eb #ffffff !important;
+    color: #1e40af !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .nav-tabs .nav-link:hover {
+    border-color: #e5e7eb !important;
+    color: #1e40af !important;
+}
+
+/* Modal Improvements */
+[data-bs-theme="light"] .modal-content {
+    background: #ffffff !important;
+    border: 2px solid #e5e7eb !important;
+    color: #374151 !important;
+}
+
+[data-bs-theme="light"] .modal-header {
+    border-bottom: 1px solid #e5e7eb !important;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9) !important;
+}
+
+[data-bs-theme="light"] .modal-title {
+    color: #1a202c !important;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .modal-footer {
+    border-top: 1px solid #e5e7eb !important;
+    background: #f8fafc !important;
+}
+
+/* Links */
+[data-bs-theme="light"] a {
+    color: #1e40af !important;
+    font-weight: 500;
+}
+
+[data-bs-theme="light"] a:hover {
+    color: #1d4ed8 !important;
+}
+
+/* Borders */
+[data-bs-theme="light"] .border {
+    border-color: #e5e7eb !important;
+}
+
+[data-bs-theme="light"] .border-primary {
+    border-color: #1e40af !important;
+}
+
+[data-bs-theme="light"] .border-success {
+    border-color: #059669 !important;
+}
+
+/* Special Government Header Enhancement */
+[data-bs-theme="light"] .govt-header-flag {
+    background: linear-gradient(to right, 
+        #FF9933 0%, #FF9933 33.33%, 
+        #FFFFFF 33.33%, #FFFFFF 66.66%, 
+        #138808 66.66%, #138808 100%) !important;
+    border-bottom: 4px solid #FFD700;
+}
+
+[data-bs-theme="light"] .flag-overlay {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(255, 255, 255, 0.9) 50%, 
+        rgba(255, 255, 255, 0.95) 100%) !important;
+}
+
+[data-bs-theme="light"] .portal-hindi,
+[data-bs-theme="light"] .portal-english,
+[data-bs-theme="light"] .portal-govt {
+    color: #1a202c !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="light"] .portal-subtitle {
+    color: #4a5568 !important;
+}
+
+[data-bs-theme="light"] .hindi-small,
+[data-bs-theme="light"] .english-small {
+    color: #1a202c !important;
 }
 
 /* Chart container styling */
