@@ -60,12 +60,18 @@ body::after {
 }
 
 /* Navigation Dropdown Z-index Fix */
+.navbar {
+    z-index: 1050 !important;
+    position: relative !important;
+}
+
 .navbar .dropdown-menu {
-    z-index: 9999 !important;
+    z-index: 10000 !important;
     position: absolute !important;
-    min-width: 200px;
+    min-width: 220px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0 !important;
 }
 
 .navbar .dropdown-menu-end {
@@ -75,7 +81,20 @@ body::after {
 
 .navbar .nav-item.dropdown {
     position: relative;
-    z-index: 9998;
+    z-index: 10001;
+}
+
+.navbar .dropdown-toggle {
+    z-index: 10002;
+}
+
+/* Ensure navbar is above all other content */
+.navbar-nav {
+    z-index: 10003;
+}
+
+.navbar-collapse {
+    z-index: 10004;
 }
 
 /* Logout button styling */
@@ -186,6 +205,18 @@ body::after {
 .container {
     position: relative;
     z-index: 1;
+}
+
+/* Ensure main content is below navigation */
+main {
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+}
+
+/* Fix content overlap with fixed navbar */
+body {
+    padding-top: 0;
 }
 
 /* Form Enhancements with Farm Theme */
@@ -649,11 +680,13 @@ body::after {
     background: #ffffff !important;
     border: 2px solid #e5e7eb !important;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    z-index: 10000 !important;
 }
 
 [data-bs-theme="light"] .dropdown-item {
     color: #374151 !important;
     font-weight: 500;
+    padding: 0.5rem 1rem;
 }
 
 [data-bs-theme="light"] .dropdown-item:hover {
@@ -1139,10 +1172,12 @@ h1, h2, h3, h4, h5, h6 {
 [data-bs-theme="dark"] .dropdown-menu {
     background-color: #161b22 !important;
     border: 1px solid #30363d !important;
+    z-index: 10000 !important;
 }
 
 [data-bs-theme="dark"] .dropdown-item {
     color: #e6edf3 !important;
+    padding: 0.5rem 1rem;
 }
 
 [data-bs-theme="dark"] .dropdown-item:hover {
