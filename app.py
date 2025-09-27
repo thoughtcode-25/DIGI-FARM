@@ -756,11 +756,6 @@ def leaderboard_page():
                          lang=lang, 
                          get_text=get_text)
 
-@app.route('/production_reports')
-def production_reports():
-    """Enhanced production reports page"""
-    return redirect(url_for('reports'))
-
 @app.route('/farm_analytics')
 def farm_analytics():
     """Farm analytics page"""
