@@ -35,6 +35,64 @@ def inject_translations():
         'lang': session.get('language', 'en')
     }
 
+def get_manual_farming_advice(question, farm_type='chickens'):
+    """Provide manual farming advice when AI services are unavailable"""
+    question_lower = question.lower() if question else ""
+    
+    if any(word in question_lower for word in ['disease', 'prevention', 'health', 'sick']):
+        if farm_type == 'pigs':
+            return """**Pig Farm Health Management:**
+            - Check pigs daily for fever, loss of appetite, or respiratory issues
+            - Maintain strict biosecurity to prevent African Swine Fever
+            - Ensure proper ventilation in pig housing
+            - Consult veterinarian for vaccination schedule
+            - Keep detailed health records for all pigs"""
+        elif farm_type == 'both':
+            return """**Mixed Farm Health Management:**
+            - Maintain separate areas for chickens and pigs
+            - Check all animals daily for signs of illness
+            - Implement cross-species biosecurity protocols  
+            - Follow vaccination schedules for both species
+            - Consult veterinarian for comprehensive health program"""
+        else:  # chickens or other
+            return """**Poultry Health Management:**
+            - Check birds daily for lethargy or unusual behavior
+            - Maintain clean water and feed systems
+            - Implement biosecurity measures
+            - Follow vaccination schedule for Newcastle Disease, Avian Influenza
+            - Quarantine new birds for 2-3 weeks"""
+    elif any(word in question_lower for word in ['feed', 'nutrition', 'diet']):
+        if farm_type == 'pigs':
+            return """**Pig Nutrition Guidelines:**
+            - Provide age-appropriate pig feed with proper protein content
+            - Ensure fresh water access 24/7
+            - Monitor feed quality and storage conditions
+            - Adjust feeding based on growth stage and weight
+            - Supplement with minerals and vitamins as needed"""
+        elif farm_type == 'both':
+            return """**Mixed Farm Nutrition:**
+            - Use species-specific feeds for chickens and pigs
+            - Prevent cross-contamination between feeds
+            - Ensure fresh water for all animals
+            - Monitor feed consumption patterns
+            - Store different feeds separately"""
+        else:  # chickens or other
+            return """**Poultry Nutrition Guidelines:**
+            - Provide balanced poultry feed: starter, grower, layer
+            - Ensure fresh water available 24/7
+            - Store feed in dry, rodent-proof containers  
+            - Monitor egg production as nutrition indicator
+            - Supplement calcium for laying hens"""
+    else:
+        return """**General Farm Management Tips:**
+        - Maintain detailed records of all farm activities
+        - Follow local regulations and obtain necessary permits
+        - Implement proper waste management systems
+        - Plan for seasonal changes and weather conditions
+        - Build relationships with local veterinarians and suppliers
+        
+        For specific advice, please consult with agricultural extension services or veterinary professionals in your area."""
+
 @app.route('/')
 def index():
     """Show landing page with government theme"""
@@ -307,14 +365,15 @@ def delete_financial_entry(entry_id):
 
 @app.route('/diseases')
 def diseases():
-    """Disease solutions database"""
+    """Disease solutions database filtered by farm type"""
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
     query = request.args.get('search', '')
-    diseases = data_manager.search_diseases(query)
+    farm_type = data_manager.get_user_farm_type(session)
+    diseases = data_manager.search_diseases(query, farm_type)
     
-    return render_template('diseases.html', diseases=diseases, query=query)
+    return render_template('diseases.html', diseases=diseases, query=query, farm_type=farm_type)
 
 @app.route('/training')
 def training():
@@ -384,11 +443,14 @@ def add_visit():
 
 @app.route('/government_schemes')
 def government_schemes():
-    """Government schemes information"""
+    """Government schemes information filtered by farm type"""
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
-    return render_template('government_schemes.html')
+    farm_type = data_manager.get_user_farm_type(session)
+    schemes = data_manager.get_government_schemes(farm_type)
+    
+    return render_template('government_schemes.html', schemes=schemes, farm_type=farm_type)
 
 @app.route('/leaderboard')
 def leaderboard():
@@ -441,9 +503,13 @@ def api_ai_chat():
         return jsonify({'error': 'Unauthorized'}), 401
     
     if not ai_services:
+        # Provide farm-type-specific fallback advice even when AI services are unavailable
+        farm_type = data_manager.get_user_farm_type(session)
+        fallback_advice = get_manual_farming_advice(message, farm_type)
         return jsonify({
-            'success': False,
-            'advice': 'AI services are currently unavailable. Please check your API key configuration.'
+            'success': True,
+            'advice': fallback_advice,
+            'note': 'AI services are currently unavailable. This is general farming advice based on your farm type.'
         })
     
     try:
@@ -453,12 +519,22 @@ def api_ai_chat():
         if not message:
             return jsonify({'success': False, 'error': 'Message is required'})
         
-        # Get farm context
+        # Get farm context and farm type
         summary = data_manager.get_dashboard_summary()
-        context = f"Farm details: {summary['total_chickens']} birds, located in Gujarat, India"
+        farm_type = data_manager.get_user_farm_type(session)
         
-        # Get AI advice
-        result = ai_services.get_farming_advice(message, context)
+        # Create farm-type specific context
+        if farm_type == 'pigs':
+            context = f"Farm details: {summary['total_chickens']} pigs, located in Gujarat, India"
+        elif farm_type == 'both':
+            context = f"Farm details: Mixed farm with livestock, located in Gujarat, India"
+        elif farm_type == 'other':
+            context = f"Farm details: Livestock farm, located in Gujarat, India"
+        else:  # chickens
+            context = f"Farm details: {summary['total_chickens']} birds, located in Gujarat, India"
+        
+        # Get AI advice with farm type context
+        result = ai_services.get_farming_advice(message, context, farm_type)
         return jsonify(result)
         
     except Exception as e:

@@ -22,10 +22,18 @@ class DataManager:
         self.farm_visits = 0
         self.temperature_alerts = []
         self.farm_health_status = "good"  # good, warning, critical
+        self.government_schemes = []
         self.initialize_sample_data()
         self.initialize_diseases_db()
         self.initialize_daily_tasks()
         self.initialize_farms_data()
+        self.initialize_government_schemes()
+    
+    def get_user_farm_type(self, session=None):
+        """Get the user's registered farm type from session data"""
+        if session and 'farm_data' in session:
+            return session['farm_data'].get('livestock_type', 'chickens')
+        return 'chickens'  # Default fallback
     
     def initialize_sample_data(self):
         """Initialize with some sample data for demonstration"""
@@ -121,43 +129,197 @@ class DataManager:
         return dict(self.daily_data)
     
     def initialize_diseases_db(self):
-        """Initialize diseases database with common poultry diseases"""
+        """Initialize diseases database with diseases for different farm types"""
         self.diseases_db = [
+            # Chicken/Poultry diseases
             {
                 'id': 1,
                 'name': 'Newcastle Disease',
                 'symptoms': 'Respiratory distress, nervous system disorders, egg production drop',
                 'treatment': 'Vaccination, supportive care, isolation of affected birds',
-                'prevention': 'Regular vaccination, biosecurity measures'
+                'prevention': 'Regular vaccination, biosecurity measures',
+                'farm_types': ['chickens', 'both']
             },
             {
                 'id': 2,
                 'name': 'Infectious Bronchitis',
                 'symptoms': 'Coughing, sneezing, nasal discharge, reduced egg production',
                 'treatment': 'Supportive care, antibiotics for secondary infections',
-                'prevention': 'Vaccination, good ventilation, reduce stress'
+                'prevention': 'Vaccination, good ventilation, reduce stress',
+                'farm_types': ['chickens', 'both']
             },
             {
                 'id': 3,
                 'name': 'Avian Influenza',
                 'symptoms': 'Sudden death, respiratory symptoms, drop in egg production',
                 'treatment': 'No specific treatment, cull affected birds',
-                'prevention': 'Biosecurity, avoid contact with wild birds'
+                'prevention': 'Biosecurity, avoid contact with wild birds',
+                'farm_types': ['chickens', 'both']
             },
             {
                 'id': 4,
                 'name': 'Coccidiosis',
                 'symptoms': 'Bloody diarrhea, loss of appetite, weight loss',
                 'treatment': 'Anticoccidial drugs, maintain dry environment',
-                'prevention': 'Clean environment, proper feeding management'
+                'prevention': 'Clean environment, proper feeding management',
+                'farm_types': ['chickens', 'both']
             },
             {
                 'id': 5,
                 'name': 'Marek\'s Disease',
                 'symptoms': 'Paralysis, tumors, eye lesions',
                 'treatment': 'No cure, supportive care',
-                'prevention': 'Vaccination at day-old, good hygiene'
+                'prevention': 'Vaccination at day-old, good hygiene',
+                'farm_types': ['chickens', 'both']
+            },
+            # Pig diseases
+            {
+                'id': 6,
+                'name': 'African Swine Fever (ASF)',
+                'symptoms': 'High fever, loss of appetite, skin discoloration, sudden death',
+                'treatment': 'No cure available, immediate culling required',
+                'prevention': 'Strict biosecurity, avoid contact with wild boars, proper disposal of feed waste',
+                'farm_types': ['pigs', 'both']
+            },
+            {
+                'id': 7,
+                'name': 'Porcine Reproductive and Respiratory Syndrome (PRRS)',
+                'symptoms': 'Reproductive failure, respiratory distress, reduced growth',
+                'treatment': 'Vaccination, supportive care, biosecurity measures',
+                'prevention': 'Vaccination, improve ventilation, reduce stress',
+                'farm_types': ['pigs', 'both']
+            },
+            {
+                'id': 8,
+                'name': 'Swine Flu (H1N1)',
+                'symptoms': 'Coughing, fever, nasal discharge, reduced appetite',
+                'treatment': 'Supportive care, antiviral drugs in severe cases',
+                'prevention': 'Vaccination, good ventilation, biosecurity',
+                'farm_types': ['pigs', 'both']
+            },
+            {
+                'id': 9,
+                'name': 'Foot and Mouth Disease',
+                'symptoms': 'Blisters on feet, mouth, and udder, high fever, lameness',
+                'treatment': 'No specific treatment, supportive care',
+                'prevention': 'Vaccination, strict biosecurity, quarantine measures',
+                'farm_types': ['pigs', 'both', 'other']
+            },
+            {
+                'id': 10,
+                'name': 'Porcine Circovirus (PCV2)',
+                'symptoms': 'Wasting, respiratory disease, reproductive failure',
+                'treatment': 'Vaccination, supportive care, improve management',
+                'prevention': 'Vaccination, proper nutrition, stress reduction',
+                'farm_types': ['pigs', 'both']
+            },
+            # General livestock diseases
+            {
+                'id': 11,
+                'name': 'Parasitic Infections',
+                'symptoms': 'Weight loss, poor coat condition, reduced productivity',
+                'treatment': 'Deworming drugs, improved hygiene',
+                'prevention': 'Regular deworming, pasture rotation, clean water',
+                'farm_types': ['chickens', 'pigs', 'both', 'other']
+            },
+            {
+                'id': 12,
+                'name': 'Nutritional Deficiencies',
+                'symptoms': 'Poor growth, weakness, reduced reproduction',
+                'treatment': 'Balanced nutrition, vitamin/mineral supplements',
+                'prevention': 'Quality feed, proper storage, regular feeding',
+                'farm_types': ['chickens', 'pigs', 'both', 'other']
             }
+        ]
+    
+    def initialize_government_schemes(self):
+        """Initialize government schemes data for different farm types"""
+        self.government_schemes = [
+            # Chicken/Poultry schemes
+            {
+                'id': 1,
+                'name': 'Poultry Venture Capital Fund (PVCF)',
+                'description': 'Financial assistance for setting up commercial poultry farms and hatcheries',
+                'benefits': 'Up to ₹25 lakhs subsidy for poultry farming infrastructure',
+                'eligibility': 'Farmers, cooperatives, and private companies',
+                'farm_types': ['chickens', 'both'],
+                'category': 'Financial Assistance'
+            },
+            {
+                'id': 2,
+                'name': 'National Livestock Mission - Poultry Development',
+                'description': 'Support for indigenous poultry breeds and backyard poultry development',
+                'benefits': 'Subsidy on poultry equipment, training, and technical support',
+                'eligibility': 'Small and marginal farmers, SHGs, rural entrepreneurs',
+                'farm_types': ['chickens', 'both'],
+                'category': 'Development Program'
+            },
+            # Pig farming schemes
+            {
+                'id': 3,
+                'name': 'Pig Development Scheme',
+                'description': 'Support for pig breeding, housing, and disease control',
+                'benefits': 'Subsidy on pig housing, vaccination, and breeding stock',
+                'eligibility': 'Pig farmers, cooperatives, and tribal communities',
+                'farm_types': ['pigs', 'both'],
+                'category': 'Livestock Development'
+            },
+            {
+                'id': 4,
+                'name': 'Swine Health and Disease Control Program',
+                'description': 'Free vaccination and disease control measures for pig farms',
+                'benefits': 'Free vaccines, veterinary services, and emergency support',
+                'eligibility': 'All registered pig farmers',
+                'farm_types': ['pigs', 'both'],
+                'category': 'Health & Veterinary'
+            },
+            # General livestock schemes
+            {
+                'id': 5,
+                'name': 'National Animal Disease Control Programme (NADCP)',
+                'description': 'Nationwide vaccination against Foot and Mouth Disease and Brucellosis',
+                'benefits': 'Free vaccination and disease surveillance',
+                'eligibility': 'All livestock farmers',
+                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'category': 'Disease Control'
+            },
+            {
+                'id': 6,
+                'name': 'Livestock Insurance Scheme',
+                'description': 'Insurance coverage for livestock against death due to diseases',
+                'benefits': 'Premium subsidy up to 50% for insurance coverage',
+                'eligibility': 'All livestock farmers',
+                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'category': 'Insurance'
+            },
+            {
+                'id': 7,
+                'name': 'Kisan Credit Card (Livestock)',
+                'description': 'Credit facility for livestock farming activities',
+                'benefits': 'Low-interest credit up to ₹3 lakhs without collateral',
+                'eligibility': 'Farmers involved in livestock farming',
+                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'category': 'Credit & Finance'
+            },
+            {
+                'id': 8,
+                'name': 'MUDRA Loan for Livestock',
+                'description': 'Micro-finance support for small livestock enterprises',
+                'benefits': 'Loans up to ₹10 lakhs for livestock business',
+                'eligibility': 'Micro-entrepreneurs in livestock sector',
+                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'category': 'Micro-Finance'
+            }
+        ]
+    
+    def get_government_schemes(self, farm_type=None):
+        """Get government schemes filtered by farm type"""
+        if not farm_type:
+            return self.government_schemes
+        
+        return [
+            scheme for scheme in self.government_schemes
+            if farm_type in scheme.get('farm_types', [])
         ]
     
     def initialize_daily_tasks(self):
@@ -289,14 +451,22 @@ class DataManager:
                 return entry
         return None
     
-    def search_diseases(self, query):
-        """Search diseases database"""
+    def search_diseases(self, query, farm_type=None):
+        """Search diseases database filtered by farm type"""
+        # Filter diseases by farm type first
+        diseases_to_search = self.diseases_db
+        if farm_type:
+            diseases_to_search = [
+                disease for disease in self.diseases_db
+                if farm_type in disease.get('farm_types', [])
+            ]
+        
         if not query:
-            return self.diseases_db
+            return diseases_to_search
         
         query = query.lower()
         results = []
-        for disease in self.diseases_db:
+        for disease in diseases_to_search:
             if (query in disease['name'].lower() or 
                 query in disease['symptoms'].lower() or 
                 query in disease['treatment'].lower()):

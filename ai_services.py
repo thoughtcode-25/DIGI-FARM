@@ -16,28 +16,78 @@ class AIServices:
             raise ValueError("OPENAI_API_KEY environment variable is required")
         self.client = OpenAI(api_key=self.api_key)
         
-        # Poultry-specific knowledge base
-        self.poultry_context = """
-        You are an expert poultry farming AI assistant specialized in chicken farming, disease prevention, 
-        biosecurity, nutrition, and farm management. You provide practical, actionable advice for poultry farmers
-        in India focusing on:
-        
-        - Disease identification and prevention (Avian Influenza, Newcastle Disease, etc.)
-        - Biosecurity protocols and sanitation
-        - Nutrition and feed management
-        - Farm infrastructure and housing
-        - Production optimization
-        - Government schemes and regulations
-        - Market trends and selling strategies
-        
-        Always provide specific, practical advice suitable for Indian farming conditions.
-        """
+        # Farm-type specific knowledge bases
+        self.farming_contexts = {
+            'chickens': """
+            You are an expert poultry farming AI assistant specialized in chicken farming, disease prevention, 
+            biosecurity, nutrition, and farm management. You provide practical, actionable advice for poultry farmers
+            in India focusing on:
+            
+            - Disease identification and prevention (Avian Influenza, Newcastle Disease, etc.)
+            - Biosecurity protocols and sanitation
+            - Nutrition and feed management
+            - Farm infrastructure and housing
+            - Production optimization
+            - Government schemes and regulations
+            - Market trends and selling strategies
+            
+            Always provide specific, practical advice suitable for Indian farming conditions.
+            """,
+            'pigs': """
+            You are an expert pig farming AI assistant specialized in swine management, disease prevention, 
+            biosecurity, nutrition, and farm management. You provide practical, actionable advice for pig farmers
+            in India focusing on:
+            
+            - Disease identification and prevention (African Swine Fever, PRRS, Swine Flu, etc.)
+            - Biosecurity protocols and sanitation
+            - Nutrition and feed management
+            - Housing and environmental management
+            - Breeding and reproductive management
+            - Government schemes and regulations
+            - Market trends and selling strategies
+            
+            Always provide specific, practical advice suitable for Indian farming conditions.
+            """,
+            'both': """
+            You are an expert livestock farming AI assistant specialized in mixed farming operations (chickens and pigs), 
+            disease prevention, biosecurity, nutrition, and farm management. You provide practical, actionable advice 
+            for mixed livestock farmers in India focusing on:
+            
+            - Disease identification and prevention for both poultry (Avian Influenza, Newcastle Disease) and swine (ASF, PRRS)
+            - Cross-species biosecurity protocols and sanitation
+            - Specialized nutrition for both chickens and pigs
+            - Farm infrastructure for mixed operations
+            - Production optimization for both species
+            - Government schemes and regulations
+            - Market trends and selling strategies for both products
+            
+            Always provide specific, practical advice suitable for Indian farming conditions.
+            """,
+            'other': """
+            You are an expert livestock farming AI assistant with general knowledge of various farm animals, 
+            disease prevention, biosecurity, nutrition, and farm management. You provide practical, actionable advice 
+            for livestock farmers in India focusing on:
+            
+            - General livestock disease identification and prevention
+            - Biosecurity protocols and sanitation
+            - Nutrition and feed management
+            - Farm infrastructure and housing
+            - Production optimization
+            - Government schemes and regulations
+            - Market trends and selling strategies
+            
+            Always provide specific, practical advice suitable for Indian farming conditions.
+            """
+        }
     
-    def get_farming_advice(self, farmer_question, context=None):
-        """Get AI-powered farming advice for any question"""
+    def get_farming_advice(self, farmer_question, context=None, farm_type='chickens'):
+        """Get AI-powered farming advice for any question based on farm type"""
         try:
+            # Get the appropriate context based on farm type
+            farming_context = self.farming_contexts.get(farm_type, self.farming_contexts['chickens'])
+            
             messages = [
-                {"role": "system", "content": self.poultry_context},
+                {"role": "system", "content": farming_context},
             ]
             
             if context:
@@ -59,9 +109,10 @@ class AIServices:
             }
             
         except Exception as e:
+            import logging
             logging.error(f"OpenAI API error: {str(e)}")
             # Provide helpful farming advice as fallback
-            fallback_advice = self._get_fallback_advice(farmer_question)
+            fallback_advice = self._get_fallback_advice(farmer_question, farm_type)
             return {
                 "success": True,  # Don't show error to user, provide fallback
                 "advice": fallback_advice,
@@ -268,31 +319,74 @@ class AIServices:
                 "daily_tasks": ["Unable to generate plan. Please consult with a veterinarian."]
             }
     
-    def _get_fallback_advice(self, question):
-        """Provide fallback advice when API is not available"""
+    def _get_fallback_advice(self, question, farm_type='chickens'):
+        """Provide farm-type specific fallback advice when API is not available"""
         question_lower = question.lower()
         
         if any(word in question_lower for word in ['disease', 'prevention', 'health', 'sick']):
-            return """**Disease Prevention Guidelines:**
+            if farm_type == 'pigs':
+                return """**Pig Disease Prevention Guidelines:**
 
-            🔸 **Daily Tasks:**
-            - Check birds for signs of illness (lethargy, loss of appetite, unusual behavior)
-            - Ensure clean water is available at all times
-            - Monitor feed consumption and quality
-            - Remove any sick or dead birds immediately
+                🔸 **Daily Tasks:**
+                - Check pigs for signs of illness (fever, loss of appetite, respiratory issues)
+                - Ensure clean water is available at all times
+                - Monitor feed consumption and quality
+                - Remove any sick pigs and isolate immediately
 
-            🔸 **Biosecurity Measures:**
-            - Disinfect equipment and footwear before entering poultry area
-            - Limit visitor access to your farm
-            - Quarantine new birds for 2-3 weeks before mixing
-            - Keep wild birds away from your poultry
+                🔸 **Biosecurity Measures:**
+                - Disinfect equipment and footwear before entering pig area
+                - Limit visitor access to your farm
+                - Quarantine new pigs for 2-3 weeks before mixing
+                - Control rodents and wild boars near your farm
 
-            🔸 **Vaccination Schedule:**
-            - Consult with your local veterinarian for region-specific vaccination program
-            - Common vaccines: Newcastle Disease, Avian Influenza, Infectious Bronchitis
-            - Follow proper vaccine storage and administration guidelines
+                🔸 **Vaccination Schedule:**
+                - Consult with your local veterinarian for region-specific vaccination program
+                - Important vaccines: African Swine Fever (if available), PRRS, Swine Flu
+                - Follow proper vaccine storage and administration guidelines
 
-            **Note:** This is general advice. For specific health concerns, always consult a veterinarian."""
+                **Note:** This is general advice. For specific health concerns, always consult a veterinarian."""
+            elif farm_type == 'both':
+                return """**Mixed Farm Disease Prevention Guidelines:**
+
+                🔸 **Daily Tasks:**
+                - Check all animals for signs of illness (lethargy, loss of appetite, unusual behavior)
+                - Ensure clean water is available at all times for both species
+                - Monitor feed consumption and quality
+                - Remove any sick animals and isolate immediately
+
+                🔸 **Biosecurity Measures:**
+                - Maintain separate areas for chickens and pigs
+                - Disinfect equipment between different animal areas
+                - Limit visitor access to your farm
+                - Quarantine new animals for 2-3 weeks before mixing
+
+                🔸 **Vaccination Schedule:**
+                - Consult with your local veterinarian for species-specific vaccination programs
+                - Chickens: Newcastle Disease, Avian Influenza, Infectious Bronchitis
+                - Pigs: African Swine Fever (if available), PRRS, Swine Flu
+
+                **Note:** This is general advice. For specific health concerns, always consult a veterinarian."""
+            else:  # chickens or other
+                return """**Poultry Disease Prevention Guidelines:**
+
+                🔸 **Daily Tasks:**
+                - Check birds for signs of illness (lethargy, loss of appetite, unusual behavior)
+                - Ensure clean water is available at all times
+                - Monitor feed consumption and quality
+                - Remove any sick or dead birds immediately
+
+                🔸 **Biosecurity Measures:**
+                - Disinfect equipment and footwear before entering poultry area
+                - Limit visitor access to your farm
+                - Quarantine new birds for 2-3 weeks before mixing
+                - Keep wild birds away from your poultry
+
+                🔸 **Vaccination Schedule:**
+                - Consult with your local veterinarian for region-specific vaccination program
+                - Common vaccines: Newcastle Disease, Avian Influenza, Infectious Bronchitis
+                - Follow proper vaccine storage and administration guidelines
+
+                **Note:** This is general advice. For specific health concerns, always consult a veterinarian."""
             
         elif any(word in question_lower for word in ['nutrition', 'feed', 'food', 'diet']):
             return """**Poultry Nutrition Guidelines:**
