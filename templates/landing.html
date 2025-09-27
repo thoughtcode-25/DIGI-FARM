@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="{{ lang or 'en' }}" data-bs-theme="dark" {% if lang == 'ar' %}dir="rtl"{% endif %}>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government of India - Poultry Farm Management Portal</title>
+    <title>Government of India - Livestock Farm Management Portal</title>
 
     <!-- Bootstrap CSS with Replit theme -->
     <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
@@ -516,25 +515,25 @@
             .cm-section {
                 padding: 2rem 0;
             }
-            
+
             .stat-card {
                 padding: 1.5rem 1rem;
                 margin-bottom: 1rem;
             }
-            
+
             .signin-card {
                 padding: 2rem 1.5rem;
                 margin-top: 1rem;
             }
-            
+
             .portal-hindi {
                 font-size: 1.5rem;
             }
-            
+
             .portal-english {
                 font-size: 1.2rem;
             }
-            
+
             .emblem-image {
                 width: 70px;
                 height: 70px;
@@ -570,6 +569,70 @@
                 transform: translateY(0);
                 opacity: 1;
             }
+        }
+
+        /* Enhanced farm badge styling */
+        .badge {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.9), rgba(34, 139, 34, 0.9)) !important;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pig farming specific icon styling */
+        .text-pink {
+            color: #e91e63 !important;
+        }
+
+        .fas.fa-piggy-bank {
+            color: #e91e63;
+            text-shadow: 0 0 5px rgba(233, 30, 99, 0.3);
+        }
+
+        .fas.fa-bacon {
+            color: #d32f2f;
+        }
+
+        /* Enhanced tab styling for livestock categories */
+        .nav-pills .nav-link {
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.25rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-pills .nav-link:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: inherit;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-pills .nav-link:not(.active):hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Dark theme adjustments for tabs */
+        [data-bs-theme="dark"] .nav-pills .nav-link:not(.active) {
+            background: rgba(30, 41, 59, 0.8);
+            color: #e6edf3;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-bs-theme="dark"] .nav-pills .nav-link:not(.active):hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #f0f6fc;
         }
     </style>
 </head>
@@ -608,7 +671,7 @@
             </ul>
         </div>
         {% endif %}
-        
+
         <!-- Theme Toggle -->
         <button class="theme-toggle btn btn-outline-primary btn-sm" onclick="toggleTheme()" id="themeToggle">
             <i class="fas fa-moon" id="themeIcon"></i>
@@ -636,8 +699,8 @@
                 <!-- Center: Portal Name in Hindi and English -->
                 <div class="col-md-8 text-center">
                     <div class="portal-name-container">
-                        <h2 class="portal-hindi">राष्ट्रीय कुक्कुट पालन प्रबंधन पोर्टल</h2>
-                        <h3 class="portal-english">NATIONAL POULTRY FARM MANAGEMENT PORTAL</h3>
+                        <h2 class="portal-hindi">राष्ट्रीय पशुधन प्रबंधन पोर्टल</h2>
+                        <h3 class="portal-english">NATIONAL LIVESTOCK FARM MANAGEMENT PORTAL</h3>
                         <div class="portal-subtitle">
                             <span class="hindi-subtitle">पशुपालन और डेयरी विभाग</span>
                             <span class="separator">|</span>
@@ -686,179 +749,369 @@
                 </div>
             {% endif %}
         {% endwith %}
-        
+
         <div class="row">
             <!-- Main Content -->
             <div class="col-lg-9">
-                <!-- CM Section -->
-                <section class="cm-section">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-md-4">
-                                <img src="{{ url_for('static', filename='images/poultry_farming_back_c6f193c5.jpg') }}" 
-                                     alt="Poultry Farm" class="cm-poster img-fluid slide-in">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="slide-in">
-                                    <h3 class="h2 mb-4 fw-bold">
-                                        <i class="fas fa-quote-left me-3 text-primary"></i>
-                                        Transforming Indian Poultry Sector Through Digital Innovation
-                                    </h3>
-                                    <p class="lead mb-4" style="text-align: justify; line-height: 1.8; font-size: 1.1rem;">
-                                        Under the visionary leadership of our government, India's poultry sector has emerged as a vital 
-                                        component of agricultural economy. With over <strong>851 million birds</strong> and production of 
-                                        <strong>138.38 billion eggs</strong> annually, we rank <strong>3rd globally</strong> in egg production. 
-                                        Our comprehensive schemes like National Livestock Mission provide <strong>50% subsidies up to ₹25 lakh</strong>, 
-                                        supporting farmers with modern infrastructure. The Animal Husbandry Infrastructure Development Fund ensures 
-                                        <strong>90% loan coverage with 3% interest subvention</strong>, empowering over 1 million broiler farmers 
-                                        and creating employment for 5 million people across the value chain.
-                                    </p>
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
-                                            <i class="fas fa-signature text-primary"></i>
+                <!-- Livestock Category Tabs -->
+                <ul class="nav nav-pills justify-content-center mb-5" id="livestockTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="poultry-tab" data-bs-toggle="pill" data-bs-target="#poultry" type="button" role="tab" aria-controls="poultry" aria-selected="true">
+                            <i class="fas fa-egg me-2"></i>Poultry (Hens)
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pig-tab" data-bs-toggle="pill" data-bs-target="#pig" type="button" role="tab" aria-controls="pig" aria-selected="false">
+                            <i class="fas fa-piggy-bank me-2"></i>Pigs
+                        </button>
+                    </li>
+                    <!-- Add more livestock types here if needed -->
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Poultry Section -->
+                    <div class="tab-pane fade show active" id="poultry" role="tabpanel" aria-labelledby="poultry-tab">
+                        <section class="cm-section">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <img src="{{ url_for('static', filename='images/poultry_farming_back_c6f193c5.jpg') }}" 
+                                             alt="Poultry Farm" class="cm-poster img-fluid slide-in">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="slide-in">
+                                            <h3 class="h2 mb-4 fw-bold">
+                                                <i class="fas fa-quote-left me-3 text-primary"></i>
+                                                Transforming Indian Poultry Sector Through Digital Innovation
+                                            </h3>
+                                            <p class="lead mb-4" style="text-align: justify; line-height: 1.8; font-size: 1.1rem;">
+                                                Under the visionary leadership of our government, India's poultry sector has emerged as a vital 
+                                                component of agricultural economy. With over <strong>851 million birds</strong> and production of 
+                                                <strong>138.38 billion eggs</strong> annually, we rank <strong>3rd globally</strong> in egg production. 
+                                                Our comprehensive schemes like National Livestock Mission provide <strong>50% subsidies up to ₹25 lakh</strong>, 
+                                                supporting farmers with modern infrastructure. The Animal Husbandry Infrastructure Development Fund ensures 
+                                                <strong>90% loan coverage with 3% interest subvention</strong>, empowering over 1 million broiler farmers 
+                                                and creating employment for 5 million people across the value chain.
+                                            </p>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                                    <i class="fas fa-signature text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Hon'ble Minister</small>
+                                                    <small class="fw-semibold">Animal Husbandry & Dairying, Govt. of India</small>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <small class="text-muted d-block">Hon'ble Minister</small>
-                                            <small class="fw-semibold">Animal Husbandry & Dairying, Govt. of India</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Dashboard Section -->
+                        <section class="py-5">
+                            <div class="container">
+                                <div class="row mb-5">
+                                    <div class="col-12 text-center">
+                                        <h2 class="display-5 fw-bold mb-3 fade-in">
+                                            <i class="fas fa-chart-line me-3 text-primary"></i>
+                                            Real-time Poultry Statistics - India 2024
+                                        </h2>
+                                        <p class="lead text-muted fade-in">Live data from Department of Animal Husbandry & Dairying</p>
+                                        <div class="mt-3">
+                                            <span class="badge bg-success me-2">
+                                                <i class="fas fa-wifi me-1"></i>Live
+                                            </span>
+                                            <span class="badge bg-info">
+                                                <i class="fas fa-clock me-1"></i>Updated: 24 Sep 2024, 14:41
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                <!-- Dashboard Section -->
-                <section class="py-5">
-                    <div class="container">
-                        <div class="row mb-5">
-                            <div class="col-12 text-center">
-                                <h2 class="display-5 fw-bold mb-3 fade-in">
-                                    <i class="fas fa-chart-line me-3 text-primary"></i>
-                                    Real-time Poultry Statistics - India 2024
-                                </h2>
-                                <p class="lead text-muted fade-in">Live data from Department of Animal Husbandry & Dairying</p>
-                                <div class="mt-3">
-                                    <span class="badge bg-success me-2">
-                                        <i class="fas fa-wifi me-1"></i>Live
-                                    </span>
-                                    <span class="badge bg-info">
-                                        <i class="fas fa-clock me-1"></i>Updated: 24 Sep 2024, 14:41
-                                    </span>
+                                <div class="row g-4 mb-5">
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in">
+                                            <div class="stat-icon text-warning">
+                                                <i class="fas fa-egg"></i>
+                                            </div>
+                                            <div class="stat-number">851.8M</div>
+                                            <h5 class="fw-bold text-primary mb-2">Total Poultry Birds</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-arrow-up text-success me-1"></i>
+                                                16.8% growth YoY
+                                            </p>
+                                            <small class="text-muted">Across all states</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                                            <div class="stat-icon text-info">
+                                                <i class="fas fa-chart-pie"></i>
+                                            </div>
+                                            <div class="stat-number">138.4B</div>
+                                            <h5 class="fw-bold text-primary mb-2">Annual Egg Production</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-globe text-info me-1"></i>
+                                                3rd Globally
+                                            </p>
+                                            <small class="text-muted">2023-24 production</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                                            <div class="stat-icon text-danger">
+                                                <i class="fas fa-drumstick-bite"></i>
+                                            </div>
+                                            <div class="stat-number">5.0M</div>
+                                            <h5 class="fw-bold text-primary mb-2">Meat Production (MT)</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-trophy text-warning me-1"></i>
+                                                5th Globally
+                                            </p>
+                                            <small class="text-muted">Million tonnes annually</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                                            <div class="stat-icon text-success">
+                                                <i class="fas fa-building"></i>
+                                            </div>
+                                            <div class="stat-number">8,269</div>
+                                            <h5 class="fw-bold text-primary mb-2">Registered Farms</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-check-circle text-success me-1"></i>
+                                                Active & Compliant
+                                            </p>
+                                            <small class="text-muted">Under govt. schemes</small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row g-4 mb-5">
-                            <div class="col-lg-3 col-md-6">
-                                <div class="stat-card fade-in">
-                                    <div class="stat-icon text-warning">
-                                        <i class="fas fa-egg"></i>
-                                    </div>
-                                    <div class="stat-number">851.8M</div>
-                                    <h5 class="fw-bold text-primary mb-2">Total Poultry Birds</h5>
-                                    <p class="text-muted mb-0">
-                                        <i class="fas fa-arrow-up text-success me-1"></i>
-                                        16.8% growth YoY
-                                    </p>
-                                    <small class="text-muted">Across all states</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="stat-card fade-in" style="animation-delay: 0.1s;">
-                                    <div class="stat-icon text-info">
-                                        <i class="fas fa-chart-pie"></i>
-                                    </div>
-                                    <div class="stat-number">138.4B</div>
-                                    <h5 class="fw-bold text-primary mb-2">Annual Egg Production</h5>
-                                    <p class="text-muted mb-0">
-                                        <i class="fas fa-globe text-info me-1"></i>
-                                        3rd Globally
-                                    </p>
-                                    <small class="text-muted">2023-24 production</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="stat-card fade-in" style="animation-delay: 0.2s;">
-                                    <div class="stat-icon text-danger">
-                                        <i class="fas fa-drumstick-bite"></i>
-                                    </div>
-                                    <div class="stat-number">5.0M</div>
-                                    <h5 class="fw-bold text-primary mb-2">Meat Production (MT)</h5>
-                                    <p class="text-muted mb-0">
-                                        <i class="fas fa-trophy text-warning me-1"></i>
-                                        5th Globally
-                                    </p>
-                                    <small class="text-muted">Million tonnes annually</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="stat-card fade-in" style="animation-delay: 0.3s;">
-                                    <div class="stat-icon text-success">
-                                        <i class="fas fa-building"></i>
-                                    </div>
-                                    <div class="stat-number">8,269</div>
-                                    <h5 class="fw-bold text-primary mb-2">Registered Farms</h5>
-                                    <p class="text-muted mb-0">
-                                        <i class="fas fa-check-circle text-success me-1"></i>
-                                        Active & Compliant
-                                    </p>
-                                    <small class="text-muted">Under govt. schemes</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Government Schemes -->
-                        <div class="row">
-                            <div class="col-12">
-                                <h3 class="h2 mb-4 fade-in text-center">
-                                    <i class="fas fa-hands-helping me-3 text-success"></i>
-                                    Government Schemes for Poultry Farmers
-                                </h3>
+                                <!-- Government Schemes -->
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="scheme-item slide-in">
-                                            <h5 class="fw-bold text-primary mb-2">
-                                                <i class="fas fa-seedling me-2"></i>National Livestock Mission
-                                            </h5>
-                                            <p class="mb-1"><strong>Subsidy:</strong> 50% up to ₹25 lakh</p>
-                                            <p class="text-muted mb-2">For poultry farms, hatcheries & infrastructure</p>
-                                            <small class="badge bg-success">Active</small>
-                                        </div>
+                                    <div class="col-12">
+                                        <h3 class="h2 mb-4 fade-in text-center">
+                                            <i class="fas fa-hands-helping me-3 text-success"></i>
+                                            Government Schemes for Poultry Farmers
+                                        </h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="scheme-item slide-in">
+                                                    <h5 class="fw-bold text-primary mb-2">
+                                                        <i class="fas fa-seedling me-2"></i>National Livestock Mission
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Subsidy:</strong> 50% up to ₹25 lakh</p>
+                                                    <p class="text-muted mb-2">For poultry farms, hatcheries & infrastructure</p>
+                                                    <small class="badge bg-success">Active</small>
+                                                </div>
 
-                                        <div class="scheme-item slide-in" style="animation-delay: 0.1s;">
-                                            <h5 class="fw-bold text-primary mb-2">
-                                                <i class="fas fa-university me-2"></i>AHIDF Scheme
-                                            </h5>
-                                            <p class="mb-1"><strong>Coverage:</strong> 90% loan + 3% interest subvention</p>
-                                            <p class="text-muted mb-2">Infrastructure development fund</p>
-                                            <small class="badge bg-info">Enhanced</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="scheme-item slide-in" style="animation-delay: 0.2s;">
-                                            <h5 class="fw-bold text-primary mb-2">
-                                                <i class="fas fa-cow me-2"></i>Rashtriya Gokul Mission
-                                            </h5>
-                                            <p class="mb-1"><strong>Support:</strong> 50% for breed multiplication</p>
-                                            <p class="text-muted mb-2">Integrated poultry development</p>
-                                            <small class="badge bg-warning">Regional</small>
-                                        </div>
+                                                <div class="scheme-item slide-in" style="animation-delay: 0.1s;">
+                                                    <h5 class="fw-bold text-primary mb-2">
+                                                        <i class="fas fa-university me-2"></i>AHIDF Scheme
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Coverage:</strong> 90% loan + 3% interest subvention</p>
+                                                    <p class="text-muted mb-2">Infrastructure development fund</p>
+                                                    <small class="badge bg-info">Enhanced</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="scheme-item slide-in" style="animation-delay: 0.2s;">
+                                                    <h5 class="fw-bold text-primary mb-2">
+                                                        <i class="fas fa-cow me-2"></i>Rashtriya Gokul Mission
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Support:</strong> 50% for breed multiplication</p>
+                                                    <p class="text-muted mb-2">Integrated poultry development</p>
+                                                    <small class="badge bg-warning">Regional</small>
+                                                </div>
 
-                                        <div class="scheme-item slide-in" style="animation-delay: 0.3s;">
-                                            <h5 class="fw-bold text-primary mb-2">
-                                                <i class="fas fa-shield-alt me-2"></i>Credit Guarantee Scheme
-                                            </h5>
-                                            <p class="mb-1"><strong>Coverage:</strong> 25% guarantee for MSMEs</p>
-                                            <p class="text-muted mb-2">₹750 crore fund by NABARD</p>
-                                            <small class="badge bg-primary">New</small>
+                                                <div class="scheme-item slide-in" style="animation-delay: 0.3s;">
+                                                    <h5 class="fw-bold text-primary mb-2">
+                                                        <i class="fas fa-shield-alt me-2"></i>Credit Guarantee Scheme
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Coverage:</strong> 25% guarantee for MSMEs</p>
+                                                    <p class="text-muted mb-2">₹750 crore fund by NABARD</p>
+                                                    <small class="badge bg-primary">New</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
-                </section>
+
+                    <!-- Pig Section -->
+                    <div class="tab-pane fade" id="pig" role="tabpanel" aria-labelledby="pig-tab">
+                        <section class="cm-section">
+                            <div class="container">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <img src="{{ url_for('static', filename='images/pig_farming_farm_63751107.jpg') }}" 
+                                             alt="Pig Farm" class="cm-poster img-fluid slide-in">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="slide-in">
+                                            <h3 class="h2 mb-4 fw-bold">
+                                                <i class="fas fa-quote-left me-3 text-pink"></i>
+                                                Advancing Pig Farming in India with Modern Technologies
+                                            </h3>
+                                            <p class="lead mb-4" style="text-align: justify; line-height: 1.8; font-size: 1.1rem;">
+                                                The pig farming sector is crucial for rural livelihoods, providing a significant source of protein and income. 
+                                                India has a substantial pig population, and with strategic initiatives, we aim to boost productivity and sustainability. 
+                                                Government schemes offer financial aid and technical support for establishing modern pig farms, improving breed quality, 
+                                                and ensuring disease management. The focus is on creating a robust ecosystem that benefits smallholder farmers and 
+                                                contributes to the national economy.
+                                            </p>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-pink bg-opacity-10 rounded-circle p-2 me-3">
+                                                    <i class="fas fa-signature text-pink"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Hon'ble Minister</small>
+                                                    <small class="fw-semibold">Animal Husbandry & Dairying, Govt. of India</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Dashboard Section for Pig Farming -->
+                        <section class="py-5">
+                            <div class="container">
+                                <div class="row mb-5">
+                                    <div class="col-12 text-center">
+                                        <h2 class="display-5 fw-bold mb-3 fade-in">
+                                            <i class="fas fa-chart-line me-3 text-pink"></i>
+                                            Real-time Pig Farming Statistics - India 2024
+                                        </h2>
+                                        <p class="lead text-muted fade-in">Live data from Department of Animal Husbandry & Dairying</p>
+                                        <div class="mt-3">
+                                            <span class="badge bg-success me-2">
+                                                <i class="fas fa-wifi me-1"></i>Live
+                                            </span>
+                                            <span class="badge bg-info">
+                                                <i class="fas fa-clock me-1"></i>Updated: 24 Sep 2024, 14:41
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4 mb-5">
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in">
+                                            <div class="stat-icon text-pink">
+                                                <i class="fas fa-piggy-bank"></i>
+                                            </div>
+                                            <div class="stat-number">45.0M</div>
+                                            <h5 class="fw-bold text-pink mb-2">Total Pig Population</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-arrow-up text-success me-1"></i>
+                                                8.5% growth YoY
+                                            </p>
+                                            <small class="text-muted">Across key states</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                                            <div class="stat-icon text-danger">
+                                                <i class="fas fa-bacon"></i>
+                                            </div>
+                                            <div class="stat-number">2.5M</div>
+                                            <h5 class="fw-bold text-pink mb-2">Annual Pork Production (MT)</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-globe text-info me-1"></i>
+                                                Significant contributor
+                                            </p>
+                                            <small class="text-muted">Million tonnes annually</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                                            <div class="stat-icon text-primary">
+                                                <i class="fas fa-home"></i>
+                                            </div>
+                                            <div class="stat-number">5,800</div>
+                                            <h5 class="fw-bold text-pink mb-2">Registered Pig Farms</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-check-circle text-success me-1"></i>
+                                                Compliant & Certified
+                                            </p>
+                                            <small class="text-muted">Under govt. schemes</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                                            <div class="stat-icon text-success">
+                                                <i class="fas fa-users"></i>
+                                            </div>
+                                            <div class="stat-number">1.2M</div>
+                                            <h5 class="fw-bold text-pink mb-2">Farmers Benefitted</h5>
+                                            <p class="text-muted mb-0">
+                                                <i class="fas fa-handshake text-success me-1"></i>
+                                                Direct & Indirect
+                                            </p>
+                                            <small class="text-muted">Through various programs</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Government Schemes for Pig Farmers -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h3 class="h2 mb-4 fade-in text-center">
+                                            <i class="fas fa-hands-helping me-3 text-pink"></i>
+                                            Government Schemes for Pig Farmers
+                                        </h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="scheme-item slide-in" style="border-left-color: #e91e63;">
+                                                    <h5 class="fw-bold text-pink mb-2">
+                                                        <i class="fas fa-piggy-bank me-2"></i>National Pig Development Mission
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Subsidy:</strong> Up to 60% for infrastructure</p>
+                                                    <p class="text-muted mb-2">Focus on breed improvement and disease control</p>
+                                                    <small class="badge bg-pink">Active</small>
+                                                </div>
+
+                                                <div class="scheme-item slide-in" style="animation-delay: 0.1s; border-left-color: #d32f2f;">
+                                                    <h5 class="fw-bold text-danger mb-2">
+                                                        <i class="fas fa-dollar-sign me-2"></i>AHIDF Scheme (Pigs)
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Coverage:</strong> 90% loan + 3% interest subvention</p>
+                                                    <p class="text-muted mb-2">For piggery units and processing facilities</p>
+                                                    <small class="badge bg-danger">Enhanced</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="scheme-item slide-in" style="animation-delay: 0.2s; border-left-color: #f57c00;">
+                                                    <h5 class="fw-bold text-warning mb-2">
+                                                        <i class="fas fa-hand-holding-seedling me-2"></i>Livestock Insurance
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Coverage:</strong> Up to 75% premium subsidy</p>
+                                                    <p class="text-muted mb-2">Protection against death and disease</p>
+                                                    <small class="badge bg-warning">New Pilot</small>
+                                                </div>
+
+                                                <div class="scheme-item slide-in" style="animation-delay: 0.3s; border-left-color: #673ab7;">
+                                                    <h5 class="fw-bold text-purple mb-2">
+                                                        <i class="fas fa-seedling me-2"></i>Feed & Fodder Development
+                                                    </h5>
+                                                    <p class="mb-1"><strong>Support:</strong> Grants for feed production units</p>
+                                                    <p class="text-muted mb-2">Ensuring quality feed availability</p>
+                                                    <small class="badge bg-purple">Ongoing</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- End Pig Section -->
+                </div>
             </div>
 
             <!-- Signin/Signup Card -->
