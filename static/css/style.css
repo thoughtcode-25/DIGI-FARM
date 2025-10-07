@@ -937,7 +937,7 @@ body {
     border-color: #059669 !important;
 }
 
-/* Special Government Header Enhancement */
+/* Special Government Header Enhancement - Indian Flag Theme */
 [data-bs-theme="light"] .govt-header-flag {
     background: linear-gradient(to right, 
         #FF9933 0%, #FF9933 33.33%, 
@@ -948,25 +948,70 @@ body {
 
 [data-bs-theme="light"] .flag-overlay {
     background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.95) 0%, 
-        rgba(255, 255, 255, 0.9) 50%, 
-        rgba(255, 255, 255, 0.95) 100%) !important;
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        rgba(255, 255, 255, 0.3) 100%) !important;
 }
 
 [data-bs-theme="light"] .portal-hindi,
 [data-bs-theme="light"] .portal-english,
 [data-bs-theme="light"] .portal-govt {
     color: #1a202c !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
 }
 
 [data-bs-theme="light"] .portal-subtitle {
-    color: #4a5568 !important;
+    color: #1a202c !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    font-weight: 600;
 }
 
 [data-bs-theme="light"] .hindi-small,
 [data-bs-theme="light"] .english-small {
     color: #1a202c !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Bottom sections with semi-dark colors for light theme */
+[data-bs-theme="light"] section.py-5 {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 50%, #2d3748 100%) !important;
+    color: #f7fafc !important;
+}
+
+[data-bs-theme="light"] section.py-5 h3,
+[data-bs-theme="light"] section.py-5 h4,
+[data-bs-theme="light"] section.py-5 h5,
+[data-bs-theme="light"] section.py-5 p {
+    color: #f7fafc !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="light"] section.py-5 .text-muted {
+    color: #cbd5e0 !important;
+}
+
+[data-bs-theme="light"] .cm-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+    border-bottom: 3px solid #FF9933 !important;
+}
+
+[data-bs-theme="light"] .cm-section h3,
+[data-bs-theme="light"] .cm-section p,
+[data-bs-theme="light"] .cm-section .lead {
+    color: #1a202c !important;
+    text-shadow: none;
+}
+
+/* Scheme items in light theme for bottom sections */
+[data-bs-theme="light"] section.py-5 .scheme-item {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-left-color: #3b82f6 !important;
+    color: #f7fafc !important;
+}
+
+[data-bs-theme="light"] section.py-5 .scheme-item h5 {
+    color: #f7fafc !important;
 }
 
 /* Chart container styling */

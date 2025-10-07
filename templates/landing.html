@@ -219,7 +219,7 @@
 
         /* Enhanced Dashboard Cards */
         .stat-card {
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.98);
             border: 2px solid #e2e8f0;
             border-radius: 20px;
             padding: 2rem 1.5rem;
@@ -235,6 +235,17 @@
             background: rgba(30, 41, 59, 0.95);
             border-color: #475569;
             color: #f7fafc;
+        }
+
+        [data-bs-theme="light"] .stat-card {
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid #d1d5db;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-bs-theme="light"] .stat-card:hover {
+            border-color: #FF9933;
+            box-shadow: 0 25px 60px rgba(255, 153, 51, 0.2);
         }
 
         .stat-card::before {
@@ -303,6 +314,16 @@
             background: rgba(30, 41, 59, 0.98);
             border-color: #475569;
             color: #f7fafc;
+        }
+
+        [data-bs-theme="light"] .signin-card {
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid #d1d5db;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        [data-bs-theme="light"] .signin-card::before {
+            background: linear-gradient(90deg, #FF9933, #FFFFFF, #138808);
         }
 
         .signin-card:hover {
