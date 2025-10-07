@@ -54,6 +54,18 @@ body::after {
     text-shadow: 0 0 15px rgba(88, 166, 255, 0.5);
 }
 
+.navbar-emblem {
+    height: 35px;
+    width: auto;
+    vertical-align: middle;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.farm-name-text {
+    vertical-align: middle;
+    font-weight: 700;
+}
+
 /* Ensure minimum height for login page */
 .min-vh-100 {
     min-height: 100vh;

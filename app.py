@@ -30,9 +30,14 @@ DEMO_PASSWORD = "password123"
 @app.context_processor
 def inject_translations():
     """Make translation functions available in all templates"""
+    farm_name = None
+    if session.get('farm_registered') and session.get('farm_data'):
+        farm_name = session.get('farm_data', {}).get('name', 'Your Farm')
+    
     return {
         'get_text': get_text,
-        'lang': session.get('language', 'en')
+        'lang': session.get('language', 'en'),
+        'farm_name': farm_name
     }
 
 def get_manual_farming_advice(question, farm_type='chickens'):
