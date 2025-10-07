@@ -103,19 +103,19 @@
                     </li>
                 </ul>
 
-                <ul class="navbar-nav">
-                    <li class="nav-item me-2">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="toggleTheme()" id="themeToggle">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="nav-link border-0 bg-transparent" onclick="toggleTheme()" id="themeToggle" style="cursor: pointer;">
                             <i class="fas fa-moon" id="themeIcon"></i>
                         </button>
                     </li>
-                    <li class="nav-item me-2">
-                        <button class="btn btn-outline-warning btn-sm" onclick="showUndoRedo()" title="Undo/Redo Options">
+                    <li class="nav-item">
+                        <button class="nav-link border-0 bg-transparent" onclick="showUndoRedo()" title="Undo/Redo Options" style="cursor: pointer;">
                             <i class="fas fa-history"></i>
                         </button>
                     </li>
-                    <li class="nav-item me-2">
-                        <a class="btn btn-outline-danger btn-sm" href="{{ url_for('logout') }}" title="{{ get_text('logout', lang) if get_text else 'Logout' }}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}" title="{{ get_text('logout', lang) if get_text else 'Logout' }}">
                             <i class="fas fa-sign-out-alt"></i>
                         </a>
                     </li>
@@ -240,7 +240,7 @@
         // Initialize Bootstrap dropdowns properly for touch devices
         document.addEventListener('DOMContentLoaded', function() {
             // Enable touch support for Bootstrap dropdowns
-            const dropdownToggleList = document.querySelectorAll('.dropdown-toggle');
+            const dropdownToggleList = document.querySelectorAll('.navbar .dropdown-toggle');
             const dropdownList = [...dropdownToggleList].map(dropdownToggleEl => {
                 return new bootstrap.Dropdown(dropdownToggleEl, {
                     autoClose: true,
@@ -261,7 +261,7 @@
                 toggle.style.webkitUserSelect = 'none';
                 toggle.style.webkitTouchCallout = 'none';
                 
-                // Add touch event listeners for better mobile experience
+                // Add touch event listeners for better mobile experience - only for navbar dropdowns
                 toggle.addEventListener('touchstart', function(e) {
                     e.stopPropagation();
                 }, { passive: true });
