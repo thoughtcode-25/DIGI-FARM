@@ -75,11 +75,6 @@ body::after {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-.farm-name-text {
-    vertical-align: middle;
-    font-weight: 700;
-}
-
 /* Ensure minimum height for login page */
 .min-vh-100 {
     min-height: 100vh;
@@ -160,8 +155,8 @@ body::after {
 .navbar .nav-link, 
 .navbar .dropdown-toggle {
     min-height: 44px !important;
-    min-width: 120px !important;
-    padding: 10px 16px !important;
+    width: 140px !important;
+    padding: 10px 12px !important;
     touch-action: manipulation !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
