@@ -213,6 +213,7 @@ def add_data():
         return redirect(url_for('language_select'))
     
     lang = session.get('language', 'en')
+    farm_type = data_manager.get_user_farm_type(session)
     
     if request.method == 'POST':
         try:
@@ -221,16 +222,33 @@ def add_data():
             if not date_str:
                 raise ValueError("Date is required")
             
-            chickens = int(request.form.get('chickens', 0))
-            eggs = int(request.form.get('eggs', 0))
-            feed = float(request.form.get('feed', 0))
-            expenses = float(request.form.get('expenses', 0))
-            
             # Validate date
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             
+            # Get data based on farm type
+            data = {'date': date_obj}
+            
+            if farm_type in ['chickens', 'both']:
+                data['chickens'] = int(request.form.get('chickens', 0))
+                data['eggs'] = int(request.form.get('eggs', 0))
+                data['chicken_feed'] = float(request.form.get('chicken_feed', 0))
+            
+            if farm_type in ['pigs', 'both']:
+                data['pigs'] = int(request.form.get('pigs', 0))
+                data['pig_weight'] = float(request.form.get('pig_weight', 0))
+                data['pig_feed'] = float(request.form.get('pig_feed', 0))
+            
+            data['expenses'] = float(request.form.get('expenses', 0))
+            
             # Add data
-            data_manager.add_daily_data(date_obj, chickens, eggs, feed, expenses)
+            if farm_type == 'chickens':
+                data_manager.add_daily_data(date_obj, data['chickens'], data['eggs'], data['chicken_feed'], data['expenses'])
+            elif farm_type == 'pigs':
+                data_manager.add_daily_data(date_obj, data['pigs'], 0, data['pig_feed'], data['expenses'])
+            elif farm_type == 'both':
+                total_feed = data.get('chicken_feed', 0) + data.get('pig_feed', 0)
+                data_manager.add_daily_data(date_obj, data.get('chickens', 0), data.get('eggs', 0), total_feed, data['expenses'])
+            
             flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('dashboard'))
             
@@ -241,7 +259,7 @@ def add_data():
     
     # Get today's date for form default
     today = datetime.now().date()
-    return render_template('add_data.html', today=today, lang=lang, get_text=get_text)
+    return render_template('add_data.html', today=today, lang=lang, get_text=get_text, farm_type=farm_type)
 
 @app.route('/reports')
 def reports():
