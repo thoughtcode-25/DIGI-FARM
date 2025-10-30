@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from data_manager import DataManager
 from ai_services import AIServices
 from translations import get_text, get_available_languages
+from sms_service import SMSService
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
@@ -15,13 +16,15 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET")
 
-# Initialize data manager and AI services
+# Initialize data manager, AI services, and SMS service
 data_manager = DataManager()
 try:
     ai_services = AIServices()
 except ValueError as e:
     logging.warning(f"AI services not available: {e}")
     ai_services = None
+
+sms_service = SMSService()
 
 # Demo credentials for hackathon (in production, use proper user authentication)
 DEMO_USERNAME = "admin"
@@ -695,27 +698,70 @@ def register_farm():
         return redirect(url_for('login'))
     
     if request.method == 'POST':
-        # Handle farm registration form submission
-        farm_name = request.form.get('farm_name')
-        farm_location = request.form.get('farm_location')
-        farm_size = request.form.get('farm_size')
-        livestock_type = request.form.get('livestock_type')
-        contact_number = request.form.get('contact_number')
+        action = request.form.get('action', 'register')
         
-        # Store farm registration in session (in production, save to database)
-        session['farm_registered'] = True
-        session['farm_data'] = {
-            'name': farm_name,
-            'location': farm_location,
-            'size': farm_size,
-            'livestock_type': livestock_type,
-            'contact_number': contact_number,
-            'registration_date': datetime.now().isoformat(),
-            'biosecurity_score': 85  # Initial score
-        }
+        if action == 'send_otp':
+            # Send OTP for verification
+            contact_number = request.form.get('contact_number')
+            farm_name = request.form.get('farm_name')
+            
+            if not contact_number:
+                flash('Please provide a contact number', 'danger')
+                return redirect(url_for('register_farm'))
+            
+            # Store form data temporarily
+            session['pending_registration'] = {
+                'farm_name': farm_name,
+                'farm_location': request.form.get('farm_location'),
+                'farm_size': request.form.get('farm_size'),
+                'livestock_type': request.form.get('livestock_type'),
+                'contact_number': contact_number
+            }
+            
+            # Send OTP
+            success, msg, otp = sms_service.send_otp(contact_number, "farm registration")
+            
+            if success:
+                flash('OTP sent to your mobile number. Please verify to complete registration.', 'success')
+                return render_template('verify_otp.html', contact_number=contact_number, purpose='registration')
+            else:
+                flash(f'Failed to send OTP: {msg}', 'warning')
+                return render_template('register_farm.html')
         
-        flash('Farm registered successfully! Welcome to your dashboard.', 'success')
-        return redirect(url_for('dashboard'))
+        elif action == 'verify':
+            # Verify OTP and complete registration
+            otp = request.form.get('otp')
+            contact_number = session.get('pending_registration', {}).get('contact_number')
+            
+            if not contact_number or not otp:
+                flash('Invalid verification request', 'danger')
+                return redirect(url_for('register_farm'))
+            
+            verified, msg = sms_service.verify_otp(contact_number, otp)
+            
+            if verified:
+                # Complete registration
+                pending = session.get('pending_registration')
+                session['farm_registered'] = True
+                session['farm_data'] = {
+                    'name': pending['farm_name'],
+                    'location': pending['farm_location'],
+                    'size': pending['farm_size'],
+                    'livestock_type': pending['livestock_type'],
+                    'contact_number': pending['contact_number'],
+                    'registration_date': datetime.now().isoformat(),
+                    'biosecurity_score': 85,
+                    'verified': True
+                }
+                
+                # Clear pending registration
+                session.pop('pending_registration', None)
+                
+                flash('Farm registered and verified successfully! Welcome to your dashboard.', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash(f'Verification failed: {msg}', 'danger')
+                return render_template('verify_otp.html', contact_number=contact_number, purpose='registration')
     
     return render_template('register_farm.html')
 

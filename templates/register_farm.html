@@ -14,6 +14,8 @@
                 </div>
                 <div class="card-body">
                     <form method="POST">
+                        <input type="hidden" name="action" value="send_otp">
+                        
                         <div class="mb-3">
                             <label for="farm_name" class="form-label">
                                 <i class="fas fa-home me-1"></i>Farm Name
@@ -53,10 +55,11 @@
 
                         <div class="mb-3">
                             <label for="contact_number" class="form-label">
-                                <i class="fas fa-phone me-1"></i>Contact Number
+                                <i class="fas fa-phone me-1"></i>Contact Number (10 digits)
                             </label>
                             <input type="tel" class="form-control" id="contact_number" name="contact_number" 
-                                   placeholder="Enter your contact number" required>
+                                   placeholder="Enter your 10-digit mobile number" pattern="[0-9]{10}" maxlength="10" required>
+                            <div class="form-text">You will receive an OTP for verification</div>
                         </div>
 
                         <div class="alert alert-info">
@@ -66,12 +69,12 @@
                                 <li>Access to dashboard and analytics</li>
                                 <li>Connect with suppliers and buyers</li>
                                 <li>Participate in leaderboard</li>
-                                <li>Get personalized recommendations</li>
+                                <li>Get disease alerts via SMS</li>
                             </ul>
                         </div>
 
                         <button type="submit" class="btn btn-success btn-lg w-100">
-                            <i class="fas fa-save me-2"></i>Register Farm
+                            <i class="fas fa-paper-plane me-2"></i>Send OTP & Register
                         </button>
                     </form>
                 </div>
