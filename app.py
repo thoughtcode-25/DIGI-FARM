@@ -701,32 +701,32 @@ def register_farm():
         action = request.form.get('action', 'register')
         
         if action == 'send_otp':
-            # Send OTP for verification
+            # Register farm directly without OTP (SMS disabled)
             contact_number = request.form.get('contact_number')
             farm_name = request.form.get('farm_name')
+            farm_location = request.form.get('farm_location')
+            farm_size = request.form.get('farm_size')
+            livestock_type = request.form.get('livestock_type')
             
             if not contact_number:
                 flash('Please provide a contact number', 'danger')
                 return redirect(url_for('register_farm'))
             
-            # Store form data temporarily
-            session['pending_registration'] = {
-                'farm_name': farm_name,
-                'farm_location': request.form.get('farm_location'),
-                'farm_size': request.form.get('farm_size'),
-                'livestock_type': request.form.get('livestock_type'),
-                'contact_number': contact_number
+            # Complete registration directly (SMS verification disabled)
+            session['farm_registered'] = True
+            session['farm_data'] = {
+                'name': farm_name,
+                'location': farm_location,
+                'size': farm_size,
+                'livestock_type': livestock_type,
+                'contact_number': contact_number,
+                'registration_date': datetime.now().isoformat(),
+                'biosecurity_score': 85,
+                'verified': False  # Not verified via SMS
             }
             
-            # Send OTP
-            success, msg, otp = sms_service.send_otp(contact_number, "farm registration")
-            
-            if success:
-                flash('OTP sent to your mobile number. Please verify to complete registration.', 'success')
-                return render_template('verify_otp.html', contact_number=contact_number, purpose='registration')
-            else:
-                flash(f'Failed to send OTP: {msg}', 'warning')
-                return render_template('register_farm.html')
+            flash('Farm registered successfully! (SMS verification unavailable)', 'success')
+            return redirect(url_for('dashboard'))
         
         elif action == 'verify':
             # Verify OTP and complete registration

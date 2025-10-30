@@ -12,35 +12,10 @@ class SMSService:
     """SMS service for sending OTP and alerts using Twilio"""
     
     def __init__(self):
-        """Initialize Twilio client using Replit connector"""
+        """Initialize Twilio client - currently disabled"""
         self.client = None
         self.phone_number = None
-        
-        # Try to get credentials from Replit connector
-        try:
-            credentials = self._get_connector_credentials()
-            if credentials:
-                self.client = Client(
-                    credentials['api_key'],
-                    credentials['api_key_secret'],
-                    account_sid=credentials['account_sid']
-                )
-                self.phone_number = credentials['phone_number']
-                logging.info(f"Twilio SMS service initialized successfully via Replit connector (Account: {credentials['account_sid'][:8]}...)")
-            else:
-                # Fallback to environment variables
-                self.account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-                self.auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-                self.phone_number = os.environ.get('TWILIO_PHONE_NUMBER')
-                
-                if all([self.account_sid, self.auth_token, self.phone_number]):
-                    self.client = Client(self.account_sid, self.auth_token)
-                    logging.info("Twilio SMS service initialized successfully via environment variables")
-                else:
-                    logging.warning("Twilio credentials not configured. SMS features will be disabled.")
-        except Exception as e:
-            logging.error(f"Failed to initialize Twilio client: {e}")
-            self.client = None
+        logging.info("Twilio SMS service disabled. SMS features will not be available.")
         
         # In-memory storage for OTPs (in production, use Redis or database)
         self.otp_storage = {}
