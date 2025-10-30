@@ -4,7 +4,17 @@
 
 {% block content %}
 <div class="container my-4">
-    <!-- Header with Farm Score -->
+    <!-- Farm Name Header - Centered -->
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <div class="farm-name-badge">
+                <i class="fas fa-home me-2"></i>
+                <span class="farm-name-display">{{ farm_name if farm_name else 'Your Farm' }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header with Dashboard Title and Farm Score -->
     <div class="row mb-4">
         <div class="col-md-8">
             <h1 class="mb-1">Farm Dashboard</h1>
