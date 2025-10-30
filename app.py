@@ -979,5 +979,95 @@ def production_reports():
     """Production reports page"""
     return redirect(url_for('reports'))
 
+@app.route('/api/send_flu_alert', methods=['POST'])
+def send_flu_alert_api():
+    """API endpoint to send flu alert to farm owner"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        data = request.get_json()
+        location = data.get('location', session.get('farm_data', {}).get('location', 'your area'))
+        
+        # Get farm data from session
+        farm_data = session.get('farm_data', {})
+        contact_number = farm_data.get('contact_number')
+        farm_name = farm_data.get('name', 'Farm Owner')
+        
+        if not contact_number:
+            return jsonify({
+                'success': False,
+                'error': 'No contact number registered'
+            })
+        
+        # Send flu alert via SMS
+        success, msg = sms_service.send_flu_alert(contact_number, location, farm_name)
+        
+        if success:
+            logging.info(f"Flu alert sent successfully to {contact_number}")
+            return jsonify({
+                'success': True,
+                'message': 'Flu alert sent successfully via SMS'
+            })
+        else:
+            logging.error(f"Failed to send flu alert: {msg}")
+            return jsonify({
+                'success': False,
+                'error': msg
+            })
+    
+    except Exception as e:
+        logging.error(f"Flu alert API error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
+@app.route('/api/send_disease_alert', methods=['POST'])
+def send_disease_alert_api():
+    """API endpoint to send disease alert to farm owner"""
+    if 'logged_in' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    try:
+        data = request.get_json()
+        disease_name = data.get('disease_name', 'Disease')
+        location = data.get('location', session.get('farm_data', {}).get('location', 'your area'))
+        
+        # Get farm data from session
+        farm_data = session.get('farm_data', {})
+        contact_number = farm_data.get('contact_number')
+        farm_name = farm_data.get('name', 'Farm Owner')
+        farm_type = farm_data.get('livestock_type', 'chickens')
+        
+        if not contact_number:
+            return jsonify({
+                'success': False,
+                'error': 'No contact number registered'
+            })
+        
+        # Send disease alert via SMS
+        success, msg = sms_service.send_disease_alert(contact_number, disease_name, location, farm_name, farm_type)
+        
+        if success:
+            logging.info(f"Disease alert sent successfully to {contact_number}")
+            return jsonify({
+                'success': True,
+                'message': f'{disease_name} alert sent successfully via SMS'
+            })
+        else:
+            logging.error(f"Failed to send disease alert: {msg}")
+            return jsonify({
+                'success': False,
+                'error': msg
+            })
+    
+    except Exception as e:
+        logging.error(f"Disease alert API error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

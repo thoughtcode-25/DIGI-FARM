@@ -79,9 +79,14 @@
                         </div>
                         <i class="fas fa-virus text-danger fa-2x"></i>
                     </div>
-                    <div class="mt-2">
-                        <span class="badge bg-danger">Immediate Action Required</span>
-                        <span class="badge bg-warning ms-1">Quarantine Zone: 10km radius</span>
+                    <div class="mt-2 d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-danger">Immediate Action Required</span>
+                            <span class="badge bg-warning ms-1">Quarantine Zone: 10km radius</span>
+                        </div>
+                        <button class="btn btn-sm btn-danger" onclick="sendFluAlert('Rajasthan State, Jaipur District')">
+                            <i class="fas fa-sms me-1"></i>Send SMS Alert
+                        </button>
                     </div>
                 </div>
                 
@@ -258,4 +263,75 @@
         </div>
     </div>
 </div>
+
+<script>
+async function sendFluAlert(location) {
+    const button = event.target;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Sending...';
+    
+    try {
+        const response = await fetch('/api/send_flu_alert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ location: location })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            button.innerHTML = '<i class="fas fa-check me-1"></i>Sent!';
+            button.classList.remove('btn-danger');
+            button.classList.add('btn-success');
+            alert('Flu alert sent successfully via SMS!');
+        } else {
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-sms me-1"></i>Send SMS Alert';
+            alert('Failed to send SMS: ' + data.error);
+        }
+    } catch (error) {
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-sms me-1"></i>Send SMS Alert';
+        alert('Error sending SMS alert: ' + error.message);
+    }
+}
+
+async function sendDiseaseAlert(diseaseName, location) {
+    const button = event.target;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Sending...';
+    
+    try {
+        const response = await fetch('/api/send_disease_alert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                disease_name: diseaseName,
+                location: location 
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            button.innerHTML = '<i class="fas fa-check me-1"></i>Sent!';
+            button.classList.remove('btn-warning');
+            button.classList.add('btn-success');
+            alert(data.message);
+        } else {
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-sms me-1"></i>Send SMS Alert';
+            alert('Failed to send SMS: ' + data.error);
+        }
+    } catch (error) {
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-sms me-1"></i>Send SMS Alert';
+        alert('Error sending SMS alert: ' + error.message);
+    }
+}
+</script>
 {% endblock %}
