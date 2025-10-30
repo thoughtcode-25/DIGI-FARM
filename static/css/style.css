@@ -474,48 +474,65 @@ body {
 /* Farm Name Badge - Centered Display */
 .farm-name-badge {
     display: inline-block;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(34, 139, 34, 0.15));
-    border: 2px solid rgba(88, 166, 255, 0.3);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(34, 139, 34, 0.2));
+    border: 3px solid rgba(88, 166, 255, 0.4);
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 6px 30px rgba(88, 166, 255, 0.3), 0 0 0 1px rgba(88, 166, 255, 0.1);
+    margin-bottom: 15px;
 }
 
 .farm-name-display {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
     color: #58a6ff;
-    text-shadow: 0 2px 8px rgba(88, 166, 255, 0.3);
+    text-shadow: 0 3px 12px rgba(88, 166, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
     display: inline-block;
-    max-width: 600px;
+    max-width: 700px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
+    text-transform: capitalize;
 }
 
 /* Light theme farm name badge */
 [data-bs-theme="light"] .farm-name-badge {
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(5, 150, 105, 0.1));
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.15), rgba(5, 150, 105, 0.15));
     border-color: #1e40af;
+    border-width: 3px;
+    box-shadow: 0 6px 30px rgba(30, 64, 175, 0.2), 0 0 0 1px rgba(30, 64, 175, 0.1);
 }
 
 [data-bs-theme="light"] .farm-name-display {
     color: #1e40af;
-    text-shadow: none;
+    text-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
+    font-weight: 900;
 }
 
 /* Responsive farm name badge */
 @media (max-width: 768px) {
     .farm-name-badge {
+        padding: 12px 24px;
+    }
+    
+    .farm-name-display {
+        font-size: 1.5rem;
+        max-width: 280px;
+        font-weight: 800;
+    }
+}
+
+@media (max-width: 480px) {
+    .farm-name-badge {
         padding: 10px 20px;
     }
     
     .farm-name-display {
-        font-size: 1.2rem;
-        max-width: 300px;
+        font-size: 1.3rem;
+        max-width: 240px;
     }
 }
 

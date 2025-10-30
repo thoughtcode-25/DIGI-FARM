@@ -24,7 +24,7 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('dashboard') }}">
                 <img src="{{ url_for('static', filename='images/Satyamev_Jayate_New.png') }}" alt="Satyamev Jayate" class="navbar-emblem me-2">
-                <span class="farm-name-text">{{ farm_name if farm_name else (get_text('navbar_brand', lang) if get_text else 'Poultry Farm Manager') }}</span>
+                <span class="farm-name-text">{{ get_text('navbar_brand', lang) if get_text else 'Poultry Farm Manager' }}</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
