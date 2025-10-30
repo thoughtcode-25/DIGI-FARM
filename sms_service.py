@@ -23,10 +23,10 @@ class SMSService:
                 self.client = Client(
                     credentials['api_key'],
                     credentials['api_key_secret'],
-                    credentials['account_sid']
+                    account_sid=credentials['account_sid']
                 )
                 self.phone_number = credentials['phone_number']
-                logging.info("Twilio SMS service initialized successfully via Replit connector")
+                logging.info(f"Twilio SMS service initialized successfully via Replit connector (Account: {credentials['account_sid'][:8]}...)")
             else:
                 # Fallback to environment variables
                 self.account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
