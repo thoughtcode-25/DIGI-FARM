@@ -742,6 +742,10 @@ def register_farm():
             if verified:
                 # Complete registration
                 pending = session.get('pending_registration')
+                if not pending:
+                    flash('Registration data not found. Please start registration again.', 'danger')
+                    return redirect(url_for('register_farm'))
+                
                 session['farm_registered'] = True
                 session['farm_data'] = {
                     'name': pending['farm_name'],
