@@ -1162,6 +1162,7 @@ dependencies = [
     { name = "pillow" },
     { name = "psycopg2-binary" },
     { name = "qrcode" },
+    { name = "requests" },
     { name = "twilio" },
     { name = "werkzeug" },
 ]
@@ -1176,6 +1177,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "qrcode", specifier = ">=8.2" },
+    { name = "requests", specifier = ">=2.32.5" },
     { name = "twilio", specifier = ">=9.8.5" },
     { name = "werkzeug", specifier = ">=3.1.3" },
 ]

@@ -2,6 +2,7 @@ import os
 import logging
 import random
 import string
+import requests
 from datetime import datetime, timedelta
 from twilio.rest import Client
 
@@ -11,24 +12,78 @@ class SMSService:
     """SMS service for sending OTP and alerts using Twilio"""
     
     def __init__(self):
-        """Initialize Twilio client"""
-        self.account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-        self.auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-        self.phone_number = os.environ.get('TWILIO_PHONE_NUMBER')
+        """Initialize Twilio client using Replit connector"""
+        self.client = None
+        self.phone_number = None
         
-        if not all([self.account_sid, self.auth_token, self.phone_number]):
-            logging.warning("Twilio credentials not configured. SMS features will be disabled.")
+        # Try to get credentials from Replit connector
+        try:
+            credentials = self._get_connector_credentials()
+            if credentials:
+                self.client = Client(
+                    credentials['api_key'],
+                    credentials['api_key_secret'],
+                    credentials['account_sid']
+                )
+                self.phone_number = credentials['phone_number']
+                logging.info("Twilio SMS service initialized successfully via Replit connector")
+            else:
+                # Fallback to environment variables
+                self.account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+                self.auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+                self.phone_number = os.environ.get('TWILIO_PHONE_NUMBER')
+                
+                if all([self.account_sid, self.auth_token, self.phone_number]):
+                    self.client = Client(self.account_sid, self.auth_token)
+                    logging.info("Twilio SMS service initialized successfully via environment variables")
+                else:
+                    logging.warning("Twilio credentials not configured. SMS features will be disabled.")
+        except Exception as e:
+            logging.error(f"Failed to initialize Twilio client: {e}")
             self.client = None
-        else:
-            try:
-                self.client = Client(self.account_sid, self.auth_token)
-                logging.info("Twilio SMS service initialized successfully")
-            except Exception as e:
-                logging.error(f"Failed to initialize Twilio client: {e}")
-                self.client = None
         
         # In-memory storage for OTPs (in production, use Redis or database)
         self.otp_storage = {}
+    
+    def _get_connector_credentials(self):
+        """Get Twilio credentials from Replit connector"""
+        try:
+            hostname = os.environ.get('REPLIT_CONNECTORS_HOSTNAME')
+            x_replit_token = None
+            
+            repl_identity = os.environ.get('REPL_IDENTITY')
+            web_repl_renewal = os.environ.get('WEB_REPL_RENEWAL')
+            
+            if repl_identity:
+                x_replit_token = 'repl ' + repl_identity
+            elif web_repl_renewal:
+                x_replit_token = 'depl ' + web_repl_renewal
+            
+            if not hostname or not x_replit_token:
+                return None
+            
+            url = f'https://{hostname}/api/v2/connection?include_secrets=true&connector_names=twilio'
+            headers = {
+                'Accept': 'application/json',
+                'X_REPLIT_TOKEN': x_replit_token
+            }
+            
+            response = requests.get(url, headers=headers)
+            data = response.json()
+            
+            if data.get('items') and len(data['items']) > 0:
+                settings = data['items'][0].get('settings', {})
+                if settings.get('account_sid') and settings.get('api_key') and settings.get('api_key_secret'):
+                    return {
+                        'account_sid': settings['account_sid'],
+                        'api_key': settings['api_key'],
+                        'api_key_secret': settings['api_key_secret'],
+                        'phone_number': settings.get('phone_number')
+                    }
+            return None
+        except Exception as e:
+            logging.error(f"Failed to get connector credentials: {e}")
+            return None
     
     def generate_otp(self, length=6):
         """Generate a random OTP"""

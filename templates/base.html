@@ -164,11 +164,11 @@
 
             if (currentTheme === 'dark') {
                 html.setAttribute('data-bs-theme', 'light');
-                themeIcon.className = 'fas fa-sun';
+                if (themeIcon) themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'light');
             } else {
                 html.setAttribute('data-bs-theme', 'dark');
-                themeIcon.className = 'fas fa-moon';
+                if (themeIcon) themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('theme', 'dark');
             }
         }
@@ -180,7 +180,9 @@
             const themeIcon = document.getElementById('themeIcon');
 
             html.setAttribute('data-bs-theme', savedTheme);
-            themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            if (themeIcon) {
+                themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
         });
 
         // Initialize Bootstrap dropdowns properly for touch devices
