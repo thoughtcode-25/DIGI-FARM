@@ -507,16 +507,6 @@ def api_ai_chat():
     if 'logged_in' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     
-    if not ai_services:
-        # Provide farm-type-specific fallback advice even when AI services are unavailable
-        farm_type = data_manager.get_user_farm_type(session)
-        fallback_advice = get_manual_farming_advice(message, farm_type)
-        return jsonify({
-            'success': True,
-            'advice': fallback_advice,
-            'note': 'AI services are currently unavailable. This is general farming advice based on your farm type.'
-        })
-    
     try:
         data = request.get_json()
         message = data.get('message', '').strip()
@@ -524,9 +514,20 @@ def api_ai_chat():
         if not message:
             return jsonify({'success': False, 'error': 'Message is required'})
         
-        # Get farm context and farm type
-        summary = data_manager.get_dashboard_summary()
+        # Get farm type
         farm_type = data_manager.get_user_farm_type(session)
+        
+        if not ai_services:
+            # Provide farm-type-specific fallback advice even when AI services are unavailable
+            fallback_advice = get_manual_farming_advice(message, farm_type)
+            return jsonify({
+                'success': True,
+                'advice': fallback_advice,
+                'note': 'AI services are currently unavailable. This is general farming advice based on your farm type.'
+            })
+        
+        # Get farm context
+        summary = data_manager.get_dashboard_summary()
         
         # Create farm-type specific context
         if farm_type == 'pigs':
