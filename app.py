@@ -226,28 +226,33 @@ def add_data():
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             
             # Get data based on farm type
-            data = {'date': date_obj}
+            chickens = 0
+            eggs = 0
+            pigs = 0
+            pig_weight = 0.0
+            chicken_feed = 0.0
+            pig_feed = 0.0
             
             if farm_type in ['chickens', 'both']:
-                data['chickens'] = int(request.form.get('chickens', 0))
-                data['eggs'] = int(request.form.get('eggs', 0))
-                data['chicken_feed'] = float(request.form.get('chicken_feed', 0))
+                chickens = int(request.form.get('chickens', 0))
+                eggs = int(request.form.get('eggs', 0))
+                chicken_feed = float(request.form.get('chicken_feed', 0))
             
             if farm_type in ['pigs', 'both']:
-                data['pigs'] = int(request.form.get('pigs', 0))
-                data['pig_weight'] = float(request.form.get('pig_weight', 0))
-                data['pig_feed'] = float(request.form.get('pig_feed', 0))
+                pigs = int(request.form.get('pigs', 0))
+                pig_weight = float(request.form.get('pig_weight', 0))
+                pig_feed = float(request.form.get('pig_feed', 0))
             
-            data['expenses'] = float(request.form.get('expenses', 0))
+            expenses = float(request.form.get('expenses', 0))
             
             # Add data
             if farm_type == 'chickens':
-                data_manager.add_daily_data(date_obj, data['chickens'], data['eggs'], data['chicken_feed'], data['expenses'])
+                data_manager.add_daily_data(date_obj, chickens, eggs, chicken_feed, expenses)
             elif farm_type == 'pigs':
-                data_manager.add_daily_data(date_obj, data['pigs'], 0, data['pig_feed'], data['expenses'])
+                data_manager.add_daily_data(date_obj, pigs, 0, pig_feed, expenses)
             elif farm_type == 'both':
-                total_feed = data.get('chicken_feed', 0) + data.get('pig_feed', 0)
-                data_manager.add_daily_data(date_obj, data.get('chickens', 0), data.get('eggs', 0), total_feed, data['expenses'])
+                total_feed = chicken_feed + pig_feed
+                data_manager.add_daily_data(date_obj, chickens, eggs, total_feed, expenses)
             
             flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('dashboard'))
