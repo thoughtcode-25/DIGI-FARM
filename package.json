@@ -1,0 +1,15 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "A comprehensive Flask-based web application for managing poultry farm operations with dashboard analytics, data entry, and reporting features. Built for Smart India Hackathon demonstration.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "twilio": "^5.10.4"
+  }
+}

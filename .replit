@@ -1,4 +1,4 @@
-modules = ["python-3.11"]
+modules = ["python-3.11", "nodejs-20"]
 
 [nix]
 channel = "stable-25_05"
@@ -51,4 +51,4 @@ localPort = 46643
 externalPort = 3001
 
 [agent]
-integrations = ["styling_replit:1.0.0", "python_openai:1.0.0"]
+integrations = ["styling_replit:1.0.0", "python_openai:1.0.0", "twilio:1.0.0"]
