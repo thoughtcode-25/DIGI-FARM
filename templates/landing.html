@@ -952,7 +952,8 @@
                 </div>
             </div>
 
-            <!-- Signin/Signup Card -->
+            <!-- Signin/Signup Card - Only show when not logged in -->
+            {% if not session.logged_in %}
             <div class="col-lg-3">
                 <div class="p-4">
                     <div class="signin-card">
@@ -1030,6 +1031,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 
