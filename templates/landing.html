@@ -935,7 +935,7 @@
                                     <div class="col-12 text-center">
                                         <h2 class="display-5 fw-bold mb-3 fade-in">
                                             <i class="fas fa-chart-line me-3 text-primary"></i>
-                                            Real-time Poultry Statistics - India 2024
+                                            Real-time Poultry Statistics - India {{ stats.current_year if stats else 2025 }}
                                         </h2>
                                         <p class="lead text-muted fade-in">Live data from Department of Animal Husbandry & Dairying</p>
                                         <div class="mt-3">
@@ -943,7 +943,7 @@
                                                 <i class="fas fa-wifi me-1"></i>Live
                                             </span>
                                             <span class="badge bg-info">
-                                                <i class="fas fa-clock me-1"></i>Updated: 24 Sep 2024, 14:41
+                                                <i class="fas fa-clock me-1"></i>Updated: {{ stats.current_datetime.strftime('%d %b %Y, %H:%M') if stats else 'Just now' }}
                                             </span>
                                         </div>
                                     </div>
@@ -955,13 +955,13 @@
                                             <div class="stat-icon text-warning">
                                                 <i class="fas fa-egg"></i>
                                             </div>
-                                            <div class="stat-number">851.8M</div>
+                                            <div class="stat-number">{{ '{:,.0f}'.format(stats.total_chickens) if stats and stats.total_chickens > 0 else '0' }}</div>
                                             <h5 class="fw-bold text-primary mb-2">Total Poultry Birds</h5>
                                             <p class="text-muted mb-0">
-                                                <i class="fas fa-arrow-up text-success me-1"></i>
-                                                16.8% growth YoY
+                                                <i class="fas fa-circle-dot text-success me-1"></i>
+                                                Live Count
                                             </p>
-                                            <small class="text-muted">Across all states</small>
+                                            <small class="text-muted">Registered farms</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-6">
@@ -969,13 +969,13 @@
                                             <div class="stat-icon text-info">
                                                 <i class="fas fa-chart-pie"></i>
                                             </div>
-                                            <div class="stat-number">138.4B</div>
-                                            <h5 class="fw-bold text-primary mb-2">Annual Egg Production</h5>
+                                            <div class="stat-number">{{ '{:,.0f}'.format(stats.total_eggs) if stats and stats.total_eggs > 0 else '0' }}</div>
+                                            <h5 class="fw-bold text-primary mb-2">Total Egg Production</h5>
                                             <p class="text-muted mb-0">
-                                                <i class="fas fa-globe text-info me-1"></i>
-                                                3rd Globally
+                                                <i class="fas fa-calendar text-info me-1"></i>
+                                                All Time
                                             </p>
-                                            <small class="text-muted">2023-24 production</small>
+                                            <small class="text-muted">Cumulative production</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-6">
@@ -983,13 +983,13 @@
                                             <div class="stat-icon text-danger">
                                                 <i class="fas fa-drumstick-bite"></i>
                                             </div>
-                                            <div class="stat-number">5.0M</div>
-                                            <h5 class="fw-bold text-primary mb-2">Meat Production (MT)</h5>
+                                            <div class="stat-number">{{ '{:,.0f}'.format(stats.weekly_eggs) if stats and stats.weekly_eggs > 0 else '0' }}</div>
+                                            <h5 class="fw-bold text-primary mb-2">Weekly Egg Production</h5>
                                             <p class="text-muted mb-0">
-                                                <i class="fas fa-trophy text-warning me-1"></i>
-                                                5th Globally
+                                                <i class="fas fa-calendar-week text-warning me-1"></i>
+                                                Last 7 Days
                                             </p>
-                                            <small class="text-muted">Million tonnes annually</small>
+                                            <small class="text-muted">Current week output</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-6">
@@ -997,7 +997,7 @@
                                             <div class="stat-icon text-success">
                                                 <i class="fas fa-building"></i>
                                             </div>
-                                            <div class="stat-number">8,269</div>
+                                            <div class="stat-number">{{ stats.total_farms if stats else 0 }}</div>
                                             <h5 class="fw-bold text-primary mb-2">Registered Farms</h5>
                                             <p class="text-muted mb-0">
                                                 <i class="fas fa-check-circle text-success me-1"></i>

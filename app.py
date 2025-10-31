@@ -88,8 +88,37 @@ def get_manual_farming_advice(question, farm_type='layer'):
 
 @app.route('/')
 def index():
-    """Show landing page with government theme"""
-    return render_template('landing.html')
+    """Show landing page with government theme and live statistics"""
+    current_datetime = datetime.now()
+    
+    # Get live statistics from registered farms
+    all_farm_data = data_manager.get_all_farm_data()
+    total_chickens = sum(farm.get('total_chickens', 0) for farm in all_farm_data.values())
+    total_eggs = sum(farm.get('total_eggs_produced', 0) for farm in all_farm_data.values())
+    total_feed = sum(farm.get('total_feed_consumed', 0) for farm in all_farm_data.values())
+    total_farms = len(all_farm_data)
+    
+    # Calculate this week's production
+    week_ago = current_datetime - timedelta(days=7)
+    weekly_eggs = 0
+    for farm in all_farm_data.values():
+        daily_data = farm.get('daily_data', [])
+        for entry in daily_data:
+            entry_date = datetime.strptime(entry.get('date', ''), '%Y-%m-%d') if entry.get('date') else None
+            if entry_date and entry_date >= week_ago:
+                weekly_eggs += entry.get('eggs_collected', 0)
+    
+    stats = {
+        'current_datetime': current_datetime,
+        'total_chickens': total_chickens,
+        'total_eggs': total_eggs,
+        'total_feed': total_feed,
+        'total_farms': total_farms,
+        'weekly_eggs': weekly_eggs,
+        'current_year': current_datetime.year
+    }
+    
+    return render_template('landing.html', stats=stats)
 
 @app.route('/portal')  
 def portal():
