@@ -1070,5 +1070,31 @@ def send_disease_alert_api():
             'error': str(e)
         })
 
+@app.route('/api/farm-statistics/<farm_type>')
+def get_farm_statistics(farm_type):
+    """API endpoint to get real-time farm statistics from database"""
+    try:
+        from models import FarmStatistics
+        
+        stats = FarmStatistics.query.filter_by(farm_type=farm_type).first()
+        
+        if not stats:
+            return jsonify({
+                'success': False,
+                'error': f'No statistics found for farm type: {farm_type}'
+            }), 404
+        
+        return jsonify({
+            'success': True,
+            'data': stats.to_dict()
+        })
+    
+    except Exception as e:
+        logging.error(f"Error fetching farm statistics: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
