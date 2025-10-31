@@ -1,4 +1,4 @@
-y7{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Add Data - Poultry Farm Management{% endblock %}
 
@@ -26,18 +26,17 @@ y7{% extends "base.html" %}
                                        value="{{ today }}" required>
                             </div>
 
-                            {% if farm_type in ['chickens', 'both'] %}
                             <!-- Chicken Section -->
                             <div class="col-12 mt-3">
                                 <h5 class="border-bottom pb-2">
-                                    <i class="fas fa-dove me-2 text-warning"></i>Chicken Farm Data
+                                    <i class="fas fa-dove me-2 text-warning"></i>Poultry Farm Data
                                 </h5>
                             </div>
 
                             <!-- Number of Chickens -->
                             <div class="col-md-6">
                                 <label for="chickens" class="form-label">
-                                    <i class="fas fa-dove me-1"></i>Number of Chickens
+                                    <i class="fas fa-dove me-1"></i>Number of Birds
                                 </label>
                                 <input type="number" class="form-control" id="chickens" name="chickens"
                                        placeholder="e.g., 150" min="0" required>
@@ -55,48 +54,11 @@ y7{% extends "base.html" %}
                             <!-- Chicken Feed Consumed -->
                             <div class="col-md-6">
                                 <label for="chicken_feed" class="form-label">
-                                    <i class="fas fa-weight-hanging me-1"></i>Chicken Feed Consumed (kg)
+                                    <i class="fas fa-weight-hanging me-1"></i>Feed Consumed (kg)
                                 </label>
                                 <input type="number" class="form-control" id="chicken_feed" name="chicken_feed"
                                        placeholder="e.g., 25.5" step="0.1" min="0" required>
                             </div>
-                            {% endif %}
-
-                            {% if farm_type in ['pigs', 'both'] %}
-                            <!-- Pig Section -->
-                            <div class="col-12 mt-3">
-                                <h5 class="border-bottom pb-2">
-                                    <i class="fas fa-piggy-bank me-2 text-pink"></i>Pig Farm Data
-                                </h5>
-                            </div>
-
-                            <!-- Number of Pigs -->
-                            <div class="col-md-6">
-                                <label for="pigs" class="form-label">
-                                    <i class="fas fa-piggy-bank me-1"></i>Number of Pigs
-                                </label>
-                                <input type="number" class="form-control" id="pigs" name="pigs"
-                                       placeholder="e.g., 50" min="0" required>
-                            </div>
-
-                            <!-- Average Pig Weight -->
-                            <div class="col-md-6">
-                                <label for="pig_weight" class="form-label">
-                                    <i class="fas fa-weight me-1"></i>Average Pig Weight (kg)
-                                </label>
-                                <input type="number" class="form-control" id="pig_weight" name="pig_weight"
-                                       placeholder="e.g., 85.5" step="0.1" min="0" required>
-                            </div>
-
-                            <!-- Pig Feed Consumed -->
-                            <div class="col-md-6">
-                                <label for="pig_feed" class="form-label">
-                                    <i class="fas fa-weight-hanging me-1"></i>Pig Feed Consumed (kg)
-                                </label>
-                                <input type="number" class="form-control" id="pig_feed" name="pig_feed"
-                                       placeholder="e.g., 45.0" step="0.1" min="0" required>
-                            </div>
-                            {% endif %}
 
                             <!-- Daily Expenses -->
                             <div class="col-12 mt-3">
@@ -133,12 +95,7 @@ y7{% extends "base.html" %}
                         <i class="fas fa-info-circle me-2 text-info"></i>Data Entry Guidelines
                     </h6>
                     <ul class="list-unstyled mb-0">
-                        {% if farm_type in ['chickens', 'both'] %}
-                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Enter accurate counts for chickens and eggs</li>
-                        {% endif %}
-                        {% if farm_type in ['pigs', 'both'] %}
-                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Enter accurate counts for pigs and average weight</li>
-                        {% endif %}
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Enter accurate counts for birds and eggs</li>
                         <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Feed consumption should be in kilograms</li>
                         <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Expenses should include all costs except feed</li>
                         <li><i class="fas fa-check text-success me-2"></i>Profit/loss will be calculated automatically</li>

@@ -40,61 +40,49 @@ def inject_translations():
         'farm_name': farm_name
     }
 
-def get_manual_farming_advice(question, farm_type='chickens'):
+def get_manual_farming_advice(question, farm_type='layer'):
     """Provide manual farming advice when AI services are unavailable"""
     question_lower = question.lower() if question else ""
     
     if any(word in question_lower for word in ['disease', 'prevention', 'health', 'sick']):
-        if farm_type == 'pigs':
-            return """**Pig Farm Health Management:**
-            - Check pigs daily for fever, loss of appetite, or respiratory issues
-            - Maintain strict biosecurity to prevent African Swine Fever
-            - Ensure proper ventilation in pig housing
-            - Consult veterinarian for vaccination schedule
-            - Keep detailed health records for all pigs"""
-        elif farm_type == 'both':
-            return """**Mixed Farm Health Management:**
-            - Maintain separate areas for chickens and pigs
-            - Check all animals daily for signs of illness
-            - Implement cross-species biosecurity protocols  
-            - Follow vaccination schedules for both species
-            - Consult veterinarian for comprehensive health program"""
-        else:  # chickens or other
-            return """**Poultry Health Management:**
-            - Check birds daily for lethargy or unusual behavior
-            - Maintain clean water and feed systems
-            - Implement biosecurity measures
-            - Follow vaccination schedule for Newcastle Disease, Avian Influenza
-            - Quarantine new birds for 2-3 weeks"""
+        return """**Poultry Health Management:**
+        - Check birds daily for lethargy or unusual behavior
+        - Maintain clean water and feed systems
+        - Implement biosecurity measures
+        - Follow vaccination schedule for Newcastle Disease, Avian Influenza
+        - Quarantine new birds for 2-3 weeks
+        - Monitor respiratory health and flock behavior
+        - Keep detailed health records for all birds"""
     elif any(word in question_lower for word in ['feed', 'nutrition', 'diet']):
-        if farm_type == 'pigs':
-            return """**Pig Nutrition Guidelines:**
-            - Provide age-appropriate pig feed with proper protein content
-            - Ensure fresh water access 24/7
-            - Monitor feed quality and storage conditions
-            - Adjust feeding based on growth stage and weight
-            - Supplement with minerals and vitamins as needed"""
-        elif farm_type == 'both':
-            return """**Mixed Farm Nutrition:**
-            - Use species-specific feeds for chickens and pigs
-            - Prevent cross-contamination between feeds
-            - Ensure fresh water for all animals
-            - Monitor feed consumption patterns
-            - Store different feeds separately"""
-        else:  # chickens or other
+        if farm_type == 'broiler':
+            return """**Broiler Nutrition Guidelines:**
+            - Provide high-protein broiler feed (20-24% protein)
+            - Ensure fresh water available 24/7
+            - Store feed in dry, rodent-proof containers
+            - Monitor feed conversion ratio for optimal growth
+            - Follow starter, grower, and finisher feeding schedule"""
+        elif farm_type == 'layer':
+            return """**Layer Nutrition Guidelines:**
+            - Provide balanced layer feed (14-16% protein)
+            - Ensure fresh water available 24/7
+            - Supplement calcium for strong eggshells
+            - Monitor egg production as nutrition indicator
+            - Store feed in dry, rodent-proof containers"""
+        else:
             return """**Poultry Nutrition Guidelines:**
             - Provide balanced poultry feed: starter, grower, layer
             - Ensure fresh water available 24/7
             - Store feed in dry, rodent-proof containers  
-            - Monitor egg production as nutrition indicator
-            - Supplement calcium for laying hens"""
+            - Monitor growth and production indicators
+            - Supplement with minerals and vitamins as needed"""
     else:
-        return """**General Farm Management Tips:**
+        return """**General Poultry Farm Management Tips:**
         - Maintain detailed records of all farm activities
         - Follow local regulations and obtain necessary permits
         - Implement proper waste management systems
         - Plan for seasonal changes and weather conditions
         - Build relationships with local veterinarians and suppliers
+        - Ensure proper ventilation and housing conditions
         
         For specific advice, please consult with agricultural extension services or veterinary professionals in your area."""
 
@@ -225,34 +213,14 @@ def add_data():
             # Validate date
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             
-            # Get data based on farm type
-            chickens = 0
-            eggs = 0
-            pigs = 0
-            pig_weight = 0.0
-            chicken_feed = 0.0
-            pig_feed = 0.0
-            
-            if farm_type in ['chickens', 'both']:
-                chickens = int(request.form.get('chickens', 0))
-                eggs = int(request.form.get('eggs', 0))
-                chicken_feed = float(request.form.get('chicken_feed', 0))
-            
-            if farm_type in ['pigs', 'both']:
-                pigs = int(request.form.get('pigs', 0))
-                pig_weight = float(request.form.get('pig_weight', 0))
-                pig_feed = float(request.form.get('pig_feed', 0))
-            
+            # Get chicken farm data
+            chickens = int(request.form.get('chickens', 0))
+            eggs = int(request.form.get('eggs', 0))
+            chicken_feed = float(request.form.get('chicken_feed', 0))
             expenses = float(request.form.get('expenses', 0))
             
             # Add data
-            if farm_type == 'chickens':
-                data_manager.add_daily_data(date_obj, chickens, eggs, chicken_feed, expenses)
-            elif farm_type == 'pigs':
-                data_manager.add_daily_data(date_obj, pigs, 0, pig_feed, expenses)
-            elif farm_type == 'both':
-                total_feed = chicken_feed + pig_feed
-                data_manager.add_daily_data(date_obj, chickens, eggs, total_feed, expenses)
+            data_manager.add_daily_data(date_obj, chickens, eggs, chicken_feed, expenses)
             
             flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('dashboard'))
@@ -553,14 +521,15 @@ def api_ai_chat():
         summary = data_manager.get_dashboard_summary()
         
         # Create farm-type specific context
-        if farm_type == 'pigs':
-            context = f"Farm details: {summary['total_chickens']} pigs, located in Gujarat, India"
-        elif farm_type == 'both':
-            context = f"Farm details: Mixed farm with livestock, located in Gujarat, India"
-        elif farm_type == 'other':
-            context = f"Farm details: Livestock farm, located in Gujarat, India"
-        else:  # chickens
-            context = f"Farm details: {summary['total_chickens']} birds, located in Gujarat, India"
+        farm_type_names = {
+            'broiler': 'Broiler (Meat Production) Farm',
+            'layer': 'Layer (Egg Production) Farm',
+            'dual_purpose': 'Dual-Purpose Farm',
+            'breeder': 'Breeder Farm',
+            'backyard': 'Backyard/Free-Range Farm'
+        }
+        farm_type_name = farm_type_names.get(farm_type, 'Poultry Farm')
+        context = f"Farm details: {farm_type_name} with {summary['total_chickens']} birds, located in Gujarat, India"
         
         # Get AI advice with farm type context
         result = ai_services.get_farming_advice(message, context, farm_type)
@@ -703,7 +672,7 @@ def register_farm():
             farm_name = request.form.get('farm_name')
             farm_location = request.form.get('farm_location')
             farm_size = request.form.get('farm_size')
-            livestock_type = request.form.get('livestock_type')
+            farm_type = request.form.get('farm_type')
             
             if not contact_number:
                 flash('Please provide a contact number', 'danger')
@@ -715,7 +684,7 @@ def register_farm():
                 'name': farm_name,
                 'location': farm_location,
                 'size': farm_size,
-                'livestock_type': livestock_type,
+                'farm_type': farm_type,
                 'contact_number': contact_number,
                 'registration_date': datetime.now().isoformat(),
                 'biosecurity_score': 85,
@@ -748,7 +717,7 @@ def register_farm():
                     'name': pending['farm_name'],
                     'location': pending['farm_location'],
                     'size': pending['farm_size'],
-                    'livestock_type': pending['livestock_type'],
+                    'farm_type': pending['farm_type'],
                     'contact_number': pending['contact_number'],
                     'registration_date': datetime.now().isoformat(),
                     'biosecurity_score': 85,
@@ -806,12 +775,12 @@ def business_chat():
         },
         {
             'id': 2,
-            'name': 'Pig Breeding Network',
+            'name': 'Layer Farm Equipment Exchange',
             'type': 'supplier',
-            'members': 32,
+            'members': 38,
             'active': True,
-            'last_message': 'Premium Yorkshire pigs available',
-            'last_time': '15 minutes ago'
+            'last_message': 'High-quality egg collection systems available',
+            'last_time': '12 minutes ago'
         },
         {
             'id': 3,
@@ -819,8 +788,17 @@ def business_chat():
             'type': 'supplier',
             'members': 78,
             'active': False,
-            'last_message': 'Organic feed suppliers needed',
+            'last_message': 'Organic poultry feed suppliers needed',
             'last_time': '1 hour ago'
+        },
+        {
+            'id': 4,
+            'name': 'Broiler Farmers Network',
+            'type': 'community',
+            'members': 52,
+            'active': True,
+            'last_message': 'Tips for improving feed conversion ratio',
+            'last_time': '30 minutes ago'
         }
     ]
     
@@ -842,17 +820,19 @@ def leaderboard_page():
             'owner': 'Rajesh Kumar',
             'location': 'Punjab, India',
             'biosecurity_score': 95,
-            'livestock': {'chickens': 2500, 'pigs': 150},
+            'livestock': {'chickens': 2500},
+            'farm_type': 'layer',
             'achievements': ['Top Producer 2024', 'Eco-Friendly'],
             'contact_available': True
         },
         {
             'rank': 2,
-            'farm_name': 'Sunrise Livestock Farm',
+            'farm_name': 'Sunrise Broiler Farm',
             'owner': 'Priya Sharma',
             'location': 'Haryana, India',
             'biosecurity_score': 92,
-            'livestock': {'chickens': 2200, 'pigs': 200},
+            'livestock': {'chickens': 3200},
+            'farm_type': 'broiler',
             'achievements': ['Innovation Award', 'Sustainable Farming'],
             'contact_available': True
         },
@@ -862,7 +842,8 @@ def leaderboard_page():
             'owner': 'Amit Singh',
             'location': 'Uttar Pradesh, India',
             'biosecurity_score': 89,
-            'livestock': {'chickens': 1800, 'pigs': 120},
+            'livestock': {'chickens': 1800},
+            'farm_type': 'dual_purpose',
             'achievements': ['Quality Excellence'],
             'contact_available': False
         },
@@ -872,7 +853,8 @@ def leaderboard_page():
             'owner': 'Sunita Devi',
             'location': 'Bihar, India',
             'biosecurity_score': 87,
-            'livestock': {'chickens': 1500, 'pigs': 80},
+            'livestock': {'chickens': 1500},
+            'farm_type': 'backyard',
             'achievements': ['Community Leader'],
             'contact_available': True
         },
@@ -882,7 +864,8 @@ def leaderboard_page():
             'owner': 'Vikram Patel',
             'location': 'Gujarat, India',
             'biosecurity_score': 85,
-            'livestock': {'chickens': 1200, 'pigs': 100},
+            'livestock': {'chickens': 2200},
+            'farm_type': 'layer',
             'achievements': ['Tech Innovator'],
             'contact_available': True
         }
@@ -896,7 +879,8 @@ def leaderboard_page():
             'owner': session['username'],
             'location': session['farm_data']['location'],
             'biosecurity_score': session['farm_data']['biosecurity_score'],
-            'livestock': {'chickens': 800, 'pigs': 50},
+            'livestock': {'chickens': 800},
+            'farm_type': session['farm_data'].get('farm_type', 'layer'),
             'achievements': ['New Farmer'],
             'contact_available': True,
             'is_current_user': True
@@ -1039,7 +1023,7 @@ def send_disease_alert_api():
         farm_data = session.get('farm_data', {})
         contact_number = farm_data.get('contact_number')
         farm_name = farm_data.get('name', 'Farm Owner')
-        farm_type = farm_data.get('livestock_type', 'chickens')
+        farm_type = farm_data.get('farm_type', 'layer')
         
         if not contact_number:
             return jsonify({

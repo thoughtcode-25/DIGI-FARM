@@ -32,8 +32,8 @@ class DataManager:
     def get_user_farm_type(self, session=None):
         """Get the user's registered farm type from session data"""
         if session and 'farm_data' in session:
-            return session['farm_data'].get('livestock_type', 'chickens')
-        return 'chickens'  # Default fallback
+            return session['farm_data'].get('farm_type', 'layer')
+        return 'layer'  # Default fallback to layer farm
     
     def initialize_sample_data(self):
         """Initialize with some sample data for demonstration"""
@@ -129,7 +129,7 @@ class DataManager:
         return dict(self.daily_data)
     
     def initialize_diseases_db(self):
-        """Initialize diseases database with diseases for different farm types"""
+        """Initialize diseases database for chicken poultry farming"""
         self.diseases_db = [
             # Chicken/Poultry diseases
             {
@@ -138,7 +138,7 @@ class DataManager:
                 'symptoms': 'Respiratory distress, nervous system disorders, egg production drop',
                 'treatment': 'Vaccination, supportive care, isolation of affected birds',
                 'prevention': 'Regular vaccination, biosecurity measures',
-                'farm_types': ['chickens', 'both']
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 2,
@@ -146,7 +146,7 @@ class DataManager:
                 'symptoms': 'Coughing, sneezing, nasal discharge, reduced egg production',
                 'treatment': 'Supportive care, antibiotics for secondary infections',
                 'prevention': 'Vaccination, good ventilation, reduce stress',
-                'farm_types': ['chickens', 'both']
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 3,
@@ -154,7 +154,7 @@ class DataManager:
                 'symptoms': 'Sudden death, respiratory symptoms, drop in egg production',
                 'treatment': 'No specific treatment, cull affected birds',
                 'prevention': 'Biosecurity, avoid contact with wild birds',
-                'farm_types': ['chickens', 'both']
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 4,
@@ -162,7 +162,7 @@ class DataManager:
                 'symptoms': 'Bloody diarrhea, loss of appetite, weight loss',
                 'treatment': 'Anticoccidial drugs, maintain dry environment',
                 'prevention': 'Clean environment, proper feeding management',
-                'farm_types': ['chickens', 'both']
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 5,
@@ -170,70 +170,52 @@ class DataManager:
                 'symptoms': 'Paralysis, tumors, eye lesions',
                 'treatment': 'No cure, supportive care',
                 'prevention': 'Vaccination at day-old, good hygiene',
-                'farm_types': ['chickens', 'both']
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
-            # Pig diseases
             {
                 'id': 6,
-                'name': 'African Swine Fever (ASF)',
-                'symptoms': 'High fever, loss of appetite, skin discoloration, sudden death',
-                'treatment': 'No cure available, immediate culling required',
-                'prevention': 'Strict biosecurity, avoid contact with wild boars, proper disposal of feed waste',
-                'farm_types': ['pigs', 'both']
+                'name': 'Infectious Bursal Disease (Gumboro)',
+                'symptoms': 'Depression, diarrhea, ruffled feathers, immunosuppression',
+                'treatment': 'No specific treatment, supportive care',
+                'prevention': 'Vaccination, proper hygiene, biosecurity',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 7,
-                'name': 'Porcine Reproductive and Respiratory Syndrome (PRRS)',
-                'symptoms': 'Reproductive failure, respiratory distress, reduced growth',
-                'treatment': 'Vaccination, supportive care, biosecurity measures',
-                'prevention': 'Vaccination, improve ventilation, reduce stress',
-                'farm_types': ['pigs', 'both']
+                'name': 'Fowl Pox',
+                'symptoms': 'Wart-like lesions on skin, respiratory issues if diphtheritic form',
+                'treatment': 'Supportive care, prevent secondary infections',
+                'prevention': 'Vaccination, mosquito control',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 8,
-                'name': 'Swine Flu (H1N1)',
-                'symptoms': 'Coughing, fever, nasal discharge, reduced appetite',
-                'treatment': 'Supportive care, antiviral drugs in severe cases',
-                'prevention': 'Vaccination, good ventilation, biosecurity',
-                'farm_types': ['pigs', 'both']
+                'name': 'Egg Drop Syndrome',
+                'symptoms': 'Sudden drop in egg production, soft-shelled or misshapen eggs',
+                'treatment': 'No specific treatment, supportive care',
+                'prevention': 'Vaccination, biosecurity measures',
+                'farm_types': ['layer', 'dual_purpose', 'breeder']
             },
             {
                 'id': 9,
-                'name': 'Foot and Mouth Disease',
-                'symptoms': 'Blisters on feet, mouth, and udder, high fever, lameness',
-                'treatment': 'No specific treatment, supportive care',
-                'prevention': 'Vaccination, strict biosecurity, quarantine measures',
-                'farm_types': ['pigs', 'both', 'other']
+                'name': 'Parasitic Infections',
+                'symptoms': 'Weight loss, poor feather condition, reduced productivity',
+                'treatment': 'Deworming drugs, improved hygiene',
+                'prevention': 'Regular deworming, clean environment, proper sanitation',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             },
             {
                 'id': 10,
-                'name': 'Porcine Circovirus (PCV2)',
-                'symptoms': 'Wasting, respiratory disease, reproductive failure',
-                'treatment': 'Vaccination, supportive care, improve management',
-                'prevention': 'Vaccination, proper nutrition, stress reduction',
-                'farm_types': ['pigs', 'both']
-            },
-            # General livestock diseases
-            {
-                'id': 11,
-                'name': 'Parasitic Infections',
-                'symptoms': 'Weight loss, poor coat condition, reduced productivity',
-                'treatment': 'Deworming drugs, improved hygiene',
-                'prevention': 'Regular deworming, pasture rotation, clean water',
-                'farm_types': ['chickens', 'pigs', 'both', 'other']
-            },
-            {
-                'id': 12,
                 'name': 'Nutritional Deficiencies',
-                'symptoms': 'Poor growth, weakness, reduced reproduction',
+                'symptoms': 'Poor growth, weakness, reduced egg production',
                 'treatment': 'Balanced nutrition, vitamin/mineral supplements',
                 'prevention': 'Quality feed, proper storage, regular feeding',
-                'farm_types': ['chickens', 'pigs', 'both', 'other']
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard']
             }
         ]
     
     def initialize_government_schemes(self):
-        """Initialize government schemes data for different farm types"""
+        """Initialize government schemes data for chicken poultry farming"""
         self.government_schemes = [
             # Chicken/Poultry schemes
             {
@@ -242,7 +224,7 @@ class DataManager:
                 'description': 'Financial assistance for setting up commercial poultry farms and hatcheries',
                 'benefits': 'Up to ₹25 lakhs subsidy for poultry farming infrastructure',
                 'eligibility': 'Farmers, cooperatives, and private companies',
-                'farm_types': ['chickens', 'both'],
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard'],
                 'category': 'Financial Assistance'
             },
             {
@@ -251,64 +233,71 @@ class DataManager:
                 'description': 'Support for indigenous poultry breeds and backyard poultry development',
                 'benefits': 'Subsidy on poultry equipment, training, and technical support',
                 'eligibility': 'Small and marginal farmers, SHGs, rural entrepreneurs',
-                'farm_types': ['chickens', 'both'],
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard'],
                 'category': 'Development Program'
             },
-            # Pig farming schemes
             {
                 'id': 3,
-                'name': 'Pig Development Scheme',
-                'description': 'Support for pig breeding, housing, and disease control',
-                'benefits': 'Subsidy on pig housing, vaccination, and breeding stock',
-                'eligibility': 'Pig farmers, cooperatives, and tribal communities',
-                'farm_types': ['pigs', 'both'],
-                'category': 'Livestock Development'
-            },
-            {
-                'id': 4,
-                'name': 'Swine Health and Disease Control Program',
-                'description': 'Free vaccination and disease control measures for pig farms',
-                'benefits': 'Free vaccines, veterinary services, and emergency support',
-                'eligibility': 'All registered pig farmers',
-                'farm_types': ['pigs', 'both'],
-                'category': 'Health & Veterinary'
-            },
-            # General livestock schemes
-            {
-                'id': 5,
-                'name': 'National Animal Disease Control Programme (NADCP)',
-                'description': 'Nationwide vaccination against Foot and Mouth Disease and Brucellosis',
-                'benefits': 'Free vaccination and disease surveillance',
-                'eligibility': 'All livestock farmers',
-                'farm_types': ['chickens', 'pigs', 'both', 'other'],
-                'category': 'Disease Control'
-            },
-            {
-                'id': 6,
-                'name': 'Livestock Insurance Scheme',
-                'description': 'Insurance coverage for livestock against death due to diseases',
+                'name': 'Poultry Insurance Scheme',
+                'description': 'Insurance coverage for poultry against death due to diseases',
                 'benefits': 'Premium subsidy up to 50% for insurance coverage',
-                'eligibility': 'All livestock farmers',
-                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'eligibility': 'All poultry farmers',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard'],
                 'category': 'Insurance'
             },
             {
-                'id': 7,
-                'name': 'Kisan Credit Card (Livestock)',
-                'description': 'Credit facility for livestock farming activities',
+                'id': 4,
+                'name': 'Kisan Credit Card (Poultry)',
+                'description': 'Credit facility for poultry farming activities',
                 'benefits': 'Low-interest credit up to ₹3 lakhs without collateral',
-                'eligibility': 'Farmers involved in livestock farming',
-                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'eligibility': 'Farmers involved in poultry farming',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard'],
                 'category': 'Credit & Finance'
             },
             {
-                'id': 8,
-                'name': 'MUDRA Loan for Livestock',
-                'description': 'Micro-finance support for small livestock enterprises',
-                'benefits': 'Loans up to ₹10 lakhs for livestock business',
-                'eligibility': 'Micro-entrepreneurs in livestock sector',
-                'farm_types': ['chickens', 'pigs', 'both', 'other'],
+                'id': 5,
+                'name': 'MUDRA Loan for Poultry',
+                'description': 'Micro-finance support for small poultry enterprises',
+                'benefits': 'Loans up to ₹10 lakhs for poultry business',
+                'eligibility': 'Micro-entrepreneurs in poultry sector',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard'],
                 'category': 'Micro-Finance'
+            },
+            {
+                'id': 6,
+                'name': 'Backyard Poultry Development Scheme',
+                'description': 'Support for backyard poultry farming in rural areas',
+                'benefits': 'Free chicks, training, and vaccination support',
+                'eligibility': 'Rural households, especially women SHGs',
+                'farm_types': ['backyard'],
+                'category': 'Rural Development'
+            },
+            {
+                'id': 7,
+                'name': 'Poultry Disease Control Programme',
+                'description': 'Free vaccination and disease control measures for poultry farms',
+                'benefits': 'Free vaccines, veterinary services, and emergency support',
+                'eligibility': 'All registered poultry farmers',
+                'farm_types': ['broiler', 'layer', 'dual_purpose', 'breeder', 'backyard'],
+                'category': 'Health & Veterinary'
+            },
+            {
+                'id': 8,
+                'name': 'Broiler Production Subsidy',
+                'description': 'Financial support for commercial broiler production units',
+                'benefits': 'Subsidy on equipment and infrastructure for broiler farms',
+                'eligibility': 'Commercial broiler farmers',
+                'farm_types': ['broiler'],
+                'category': 'Commercial Support'
+            },
+            {
+                'id': 9,
+                'name': 'Layer Farm Modernization Scheme',
+                'description': 'Support for upgrading layer farms with modern equipment',
+                'benefits': 'Subsidy on cage systems, egg collection, and storage equipment',
+                'eligibility': 'Layer farm owners',
+                'farm_types': ['layer'],
+                'category': 'Modernization'
             }
         ]
     
