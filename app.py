@@ -91,28 +91,29 @@ def index():
     """Show landing page with government theme and live statistics"""
     current_datetime = datetime.now()
     
-    # Get live statistics from registered farms
-    all_farm_data = data_manager.get_all_farm_data()
-    total_chickens = sum(farm.get('total_chickens', 0) for farm in all_farm_data.values())
-    total_eggs = sum(farm.get('total_eggs_produced', 0) for farm in all_farm_data.values())
-    total_feed = sum(farm.get('total_feed_consumed', 0) for farm in all_farm_data.values())
-    total_farms = len(all_farm_data)
+    # Get live statistics from farm data
+    # Get current user's farm data
+    summary = data_manager.get_dashboard_summary()
     
-    # Calculate this week's production
-    week_ago = current_datetime - timedelta(days=7)
-    weekly_eggs = 0
-    for farm in all_farm_data.values():
-        daily_data = farm.get('daily_data', [])
-        for entry in daily_data:
-            entry_date = datetime.strptime(entry.get('date', ''), '%Y-%m-%d') if entry.get('date') else None
-            if entry_date and entry_date >= week_ago:
-                weekly_eggs += entry.get('eggs_collected', 0)
+    # Get leaderboard farms data for aggregated statistics
+    leaderboard_farms = data_manager.get_leaderboard_data('national')
+    total_farms = len(leaderboard_farms)
+    
+    # Calculate aggregated statistics from leaderboard farms
+    total_chickens = sum(farm.get('capacity', 0) for farm in leaderboard_farms)
+    
+    # Get chart data for weekly production
+    chart_data = data_manager.get_chart_data()
+    weekly_eggs = sum(chart_data.get('eggs', []))
+    
+    # Get all daily data for total eggs
+    all_daily_data = data_manager.get_all_data()
+    total_eggs = sum(data.get('eggs', 0) for data in all_daily_data.values())
     
     stats = {
         'current_datetime': current_datetime,
         'total_chickens': total_chickens,
         'total_eggs': total_eggs,
-        'total_feed': total_feed,
         'total_farms': total_farms,
         'weekly_eggs': weekly_eggs,
         'current_year': current_datetime.year
