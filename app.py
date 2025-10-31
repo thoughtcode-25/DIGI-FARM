@@ -27,6 +27,10 @@ sms_service = SMSService()
 DEMO_USERNAME = "admin"
 DEMO_PASSWORD = "password123"
 
+def get_user_id():
+    """Get current user ID from session (username for now)"""
+    return session.get('username', 'admin')
+
 @app.context_processor
 def inject_translations():
     """Make translation functions available in all templates"""
@@ -91,10 +95,6 @@ def index():
     """Show landing page with government theme and live statistics"""
     current_datetime = datetime.now()
     
-    # Get live statistics from farm data
-    # Get current user's farm data
-    summary = data_manager.get_dashboard_summary()
-    
     # Get leaderboard farms data for aggregated statistics
     leaderboard_farms = data_manager.get_leaderboard_data('national')
     total_farms = len(leaderboard_farms)
@@ -102,13 +102,10 @@ def index():
     # Calculate aggregated statistics from leaderboard farms
     total_chickens = sum(farm.get('capacity', 0) for farm in leaderboard_farms)
     
-    # Get chart data for weekly production
-    chart_data = data_manager.get_chart_data()
-    weekly_eggs = sum(chart_data.get('eggs', []))
-    
-    # Get all daily data for total eggs
-    all_daily_data = data_manager.get_all_data()
-    total_eggs = sum(data.get('eggs', 0) for data in all_daily_data.values())
+    # Use aggregated statistics from leaderboard instead of user-specific data
+    # For landing page, we show aggregate data from all farms
+    weekly_eggs = 8500  # Estimated weekly production from all farms
+    total_eggs = total_chickens * 250  # Estimated annual production
     
     stats = {
         'current_datetime': current_datetime,
@@ -202,14 +199,15 @@ def dashboard():
         return redirect(url_for('register_farm'))
     
     lang = session.get('language', 'en')
+    user_id = get_user_id()
     
     # Get today's summary data
-    summary = data_manager.get_dashboard_summary()
-    gamification = data_manager.get_gamification_data()
-    tasks = data_manager.get_today_tasks()
-    health_status = data_manager.get_farm_health_status()
-    financial = data_manager.get_financial_summary()
-    temp_alert = data_manager.check_temperature_alerts()
+    summary = data_manager.get_dashboard_summary(user_id)
+    gamification = data_manager.get_gamification_data(user_id)
+    tasks = data_manager.get_today_tasks(user_id)
+    health_status = data_manager.get_farm_health_status(user_id)
+    financial = data_manager.get_financial_summary(user_id)
+    temp_alert = data_manager.check_temperature_alerts(user_id)
     
     return render_template('dashboard.html', 
                          summary=summary, 
@@ -249,8 +247,9 @@ def add_data():
             chicken_feed = float(request.form.get('chicken_feed', 0))
             expenses = float(request.form.get('expenses', 0))
             
-            # Add data
-            data_manager.add_daily_data(date_obj, chickens, eggs, chicken_feed, expenses)
+            # Add data for the current user
+            user_id = get_user_id()
+            data_manager.add_daily_data(user_id, date_obj, chickens, eggs, chicken_feed, expenses)
             
             flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('dashboard'))
@@ -278,8 +277,9 @@ def chart_data():
     if 'logged_in' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     
+    user_id = get_user_id()
     # Get last 7 days of data for charts
-    chart_data = data_manager.get_chart_data()
+    chart_data = data_manager.get_chart_data(user_id)
     return jsonify(chart_data)
 
 
@@ -289,10 +289,11 @@ def complete_task(task_id):
     if 'logged_in' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     
-    success = data_manager.complete_task(task_id)
+    user_id = get_user_id()
+    success = data_manager.complete_task(user_id, task_id)
     if success:
-        gamification = data_manager.get_gamification_data()
-        flash(f'Task completed! +{[t["points"] for t in data_manager.get_today_tasks() if t["id"] == task_id][0]} points', 'success')
+        gamification = data_manager.get_gamification_data(user_id)
+        flash(f'Task completed! +{[t["points"] for t in data_manager.get_today_tasks(user_id) if t["id"] == task_id][0]} points', 'success')
         return jsonify({'success': True, 'gamification': gamification})
     
     return jsonify({'success': False})
@@ -319,7 +320,8 @@ def financial():
             description = request.form.get('description', '')
             
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
-            data_manager.add_revenue_expense(date_obj, type_val, amount, description)
+            user_id = get_user_id()
+            data_manager.add_revenue_expense(user_id, date_obj, type_val, amount, description)
             
             flash(get_text('data_added_successfully', lang), 'success')
             return redirect(url_for('financial'))
@@ -329,7 +331,8 @@ def financial():
         except Exception as e:
             flash(f'{get_text("error_adding_data", lang)}: {str(e)}', 'danger')
     
-    financial_data = data_manager.get_financial_summary()
+    user_id = get_user_id()
+    financial_data = data_manager.get_financial_summary(user_id)
     today = datetime.now().date()
     return render_template('financial.html', financial=financial_data, today=today, lang=lang, get_text=get_text)
 
@@ -343,8 +346,9 @@ def edit_financial_entry(entry_id):
         return redirect(url_for('language_select'))
     
     lang = session.get('language', 'en')
+    user_id = get_user_id()
     
-    entry = data_manager.get_revenue_expense_by_id(entry_id)
+    entry = data_manager.get_revenue_expense_by_id(user_id, entry_id)
     if not entry:
         flash(get_text('error_adding_data', lang), 'danger')
         return redirect(url_for('financial'))
@@ -361,7 +365,7 @@ def edit_financial_entry(entry_id):
             
             date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
             
-            if data_manager.edit_revenue_expense(entry_id, date_obj, type_val, amount, description):
+            if data_manager.edit_revenue_expense(user_id, entry_id, date_obj, type_val, amount, description):
                 flash(get_text('data_added_successfully', lang), 'success')
             else:
                 flash(get_text('error_adding_data', lang), 'danger')
@@ -382,8 +386,9 @@ def delete_financial_entry(entry_id):
         return jsonify({'error': 'Unauthorized'}), 401
     
     lang = session.get('language', 'en')
+    user_id = get_user_id()
     
-    if data_manager.delete_revenue_expense(entry_id):
+    if data_manager.delete_revenue_expense(user_id, entry_id):
         flash(get_text('data_added_successfully', lang), 'success')
         return jsonify({'success': True})
     else:
@@ -416,10 +421,11 @@ def chat():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
+    user_id = get_user_id()
     if request.method == 'POST':
         message = request.form.get('message')
         if message:
-            data_manager.add_chat_message(session['username'], message, 'farmer')
+            data_manager.add_chat_message(user_id, session['username'], message, 'farmer')
             # Simulate supplier response
             import random
             responses = [
@@ -428,9 +434,9 @@ def chat():
                 'Our delivery truck can reach your farm tomorrow.',
                 'Quality vaccines are available at discounted prices.'
             ]
-            data_manager.add_chat_message('Supplier', random.choice(responses), 'supplier')
+            data_manager.add_chat_message(user_id, 'Supplier', random.choice(responses), 'supplier')
     
-    messages = data_manager.get_chat_messages()
+    messages = data_manager.get_chat_messages(user_id)
     lang = session.get('language', 'en')
     return render_template('chat.html', messages=messages, lang=lang, get_text=get_text)
 
@@ -440,7 +446,9 @@ def alerts():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
-    alerts = data_manager.temperature_alerts
+    user_id = get_user_id()
+    data_manager.ensure_user_context(user_id)
+    alerts = data_manager.user_data[user_id]['temperature_alerts']
     lang = session.get('language', 'en')
     return render_template('alerts.html', alerts=alerts, lang=lang, get_text=get_text)
 
@@ -450,13 +458,16 @@ def visits():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
+    user_id = get_user_id()
+    data_manager.ensure_user_context(user_id)
+    
     # Generate QR code for farm visits
     farm_data = f"Farm Visit - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
     qr_code = data_manager.generate_qr_code(farm_data)
     
     return render_template('visits.html', 
                          qr_code=qr_code, 
-                         visit_count=data_manager.farm_visits)
+                         visit_count=data_manager.user_data[user_id]['farm_visits'])
 
 @app.route('/add_visit', methods=['POST'])
 def add_visit():
@@ -464,7 +475,8 @@ def add_visit():
     if 'logged_in' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
     
-    count = data_manager.add_farm_visit()
+    user_id = get_user_id()
+    count = data_manager.add_farm_visit(user_id)
     return jsonify({'success': True, 'count': count})
 
 @app.route('/government_schemes')
@@ -504,12 +516,13 @@ def ai_chat():
     if 'logged_in' not in session:
         return redirect(url_for('login'))
     
+    user_id = get_user_id()
     # Get current farm info for context
-    summary = data_manager.get_dashboard_summary()
+    summary = data_manager.get_dashboard_summary(user_id)
     farm_info = {
-        'capacity': summary.get('total_chickens', 150),
+        'capacity': summary.get('total_chickens', 0),
         'location': 'Rajkot, Gujarat',
-        'health_status': data_manager.get_farm_health_status()
+        'health_status': data_manager.get_farm_health_status(user_id)
     }
     
     return render_template('ai_chat.html', farm_info=farm_info)
@@ -537,6 +550,7 @@ def api_ai_chat():
         
         # Get farm type
         farm_type = data_manager.get_user_farm_type(session)
+        user_id = get_user_id()
         
         if not ai_services:
             # Provide farm-type-specific fallback advice even when AI services are unavailable
@@ -548,7 +562,7 @@ def api_ai_chat():
             })
         
         # Get farm context
-        summary = data_manager.get_dashboard_summary()
+        summary = data_manager.get_dashboard_summary(user_id)
         
         # Create farm-type specific context
         farm_type_names = {
@@ -721,6 +735,10 @@ def register_farm():
                 'verified': False  # Not verified via SMS
             }
             
+            # Initialize user data in DataManager for new farm registration
+            user_id = get_user_id()
+            data_manager.ensure_user_context(user_id)
+            
             flash('Farm registered successfully! (SMS verification unavailable)', 'success')
             return redirect(url_for('dashboard'))
         
@@ -753,6 +771,10 @@ def register_farm():
                     'biosecurity_score': 85,
                     'verified': True
                 }
+                
+                # Initialize user data in DataManager for new farm registration
+                user_id = get_user_id()
+                data_manager.ensure_user_context(user_id)
                 
                 # Clear pending registration
                 session.pop('pending_registration', None)

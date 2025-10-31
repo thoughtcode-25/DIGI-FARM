@@ -9,25 +9,37 @@ class DataManager:
     """Manages in-memory data storage for the enhanced poultry farm application"""
     
     def __init__(self):
-        # In-memory storage using dictionaries and lists
-        self.daily_data = {}  # date -> {chickens, eggs, feed, expenses}
-        self.tasks = {}  # date -> [task_id, ...]
-        self.completed_tasks = {}  # date -> [task_id, ...]
-        self.user_points = 0
-        self.user_level = 1
-        self.user_badges = []
-        self.revenue_expenses = []  # list of {date, type, amount, description}
+        # User-scoped storage - each user has their own data
+        self.user_data = {}  # user_id -> {daily_data, tasks, completed_tasks, points, level, badges, etc.}
+        
+        # Shared/global data (not user-specific)
         self.diseases_db = []
-        self.chat_messages = []
-        self.farm_visits = 0
-        self.temperature_alerts = []
-        self.farm_health_status = "good"  # good, warning, critical
         self.government_schemes = []
-        self.initialize_sample_data()
+        self.farms_data = []  # Leaderboard data
+        
+        # Initialize shared data
         self.initialize_diseases_db()
-        self.initialize_daily_tasks()
-        self.initialize_farms_data()
         self.initialize_government_schemes()
+        self.initialize_farms_data()
+    
+    def ensure_user_context(self, user_id):
+        """Ensure user data structure exists for a given user_id"""
+        if user_id not in self.user_data:
+            self.user_data[user_id] = {
+                'daily_data': {},  # date -> {chickens, eggs, feed, expenses}
+                'tasks': {},  # date -> [task_id, ...]
+                'completed_tasks': {},  # date -> [task_id, ...]
+                'user_points': 0,
+                'user_level': 1,
+                'user_badges': [],
+                'revenue_expenses': [],  # list of {date, type, amount, description}
+                'chat_messages': [],
+                'farm_visits': 0,
+                'temperature_alerts': [],
+                'farm_health_status': "good",  # good, warning, critical
+            }
+            # Initialize daily tasks for new user
+            self.initialize_daily_tasks_for_user(user_id)
     
     def get_user_farm_type(self, session=None):
         """Get the user's registered farm type from session data"""
@@ -35,48 +47,37 @@ class DataManager:
             return session['farm_data'].get('farm_type', 'layer')
         return 'layer'  # Default fallback to layer farm
     
-    def initialize_sample_data(self):
-        """Initialize with some sample data for demonstration"""
-        # Add data for the last 7 days
-        base_date = datetime.now().date()
-        
-        sample_data = [
-            {'chickens': 150, 'eggs': 120, 'feed': 25.5, 'expenses': 1500.0},
-            {'chickens': 148, 'eggs': 115, 'feed': 24.8, 'expenses': 1400.0},
-            {'chickens': 152, 'eggs': 125, 'feed': 26.2, 'expenses': 1600.0},
-            {'chickens': 151, 'eggs': 118, 'feed': 25.0, 'expenses': 1450.0},
-            {'chickens': 149, 'eggs': 122, 'feed': 24.5, 'expenses': 1550.0},
-            {'chickens': 153, 'eggs': 128, 'feed': 26.8, 'expenses': 1700.0},
-            {'chickens': 150, 'eggs': 130, 'feed': 25.2, 'expenses': 1650.0},
-        ]
-        
-        for i, data in enumerate(sample_data):
-            date = base_date - timedelta(days=6-i)
-            self.daily_data[date] = data
     
-    def add_daily_data(self, date, chickens, eggs, feed, expenses):
-        """Add or update daily farm data"""
-        self.daily_data[date] = {
+    def add_daily_data(self, user_id, date, chickens, eggs, feed, expenses):
+        """Add or update daily farm data for a specific user"""
+        self.ensure_user_context(user_id)
+        self.user_data[user_id]['daily_data'][date] = {
             'chickens': chickens,
             'eggs': eggs,
             'feed': feed,
             'expenses': expenses
         }
     
-    def get_dashboard_summary(self):
-        """Get summary data for dashboard cards"""
+    def get_dashboard_summary(self, user_id):
+        """Get summary data for dashboard cards for a specific user"""
+        self.ensure_user_context(user_id)
+        
         today = datetime.now().date()
         yesterday = today - timedelta(days=1)
         
+        # Get user's daily data
+        daily_data = self.user_data[user_id]['daily_data']
+        
         # Get today's data or use latest available
-        today_data = self.daily_data.get(today, self.daily_data.get(yesterday, {}))
+        today_data = daily_data.get(today, daily_data.get(yesterday, {}))
         
         if not today_data:
             return {
                 'total_chickens': 0,
                 'eggs_today': 0,
                 'feed_today': 0.0,
-                'profit_loss': 0.0
+                'profit_loss': 0.0,
+                'chickens_sold': 0
             }
         
         # Calculate profit/loss (assuming ₹5.00 per egg, ₹40.00 per kg feed)
@@ -92,14 +93,20 @@ class DataManager:
             'total_chickens': today_data.get('chickens', 0),
             'eggs_today': today_data.get('eggs', 0),
             'feed_today': today_data.get('feed', 0),
-            'profit_loss': profit_loss
+            'profit_loss': profit_loss,
+            'chickens_sold': today_data.get('chickens_sold', 0)
         }
     
-    def get_chart_data(self):
-        """Get data formatted for Chart.js"""
+    def get_chart_data(self, user_id):
+        """Get data formatted for Chart.js for a specific user"""
+        self.ensure_user_context(user_id)
+        
         # Get last 7 days of data
         end_date = datetime.now().date()
         start_date = end_date - timedelta(days=6)
+        
+        # Get user's daily data
+        daily_data = self.user_data[user_id]['daily_data']
         
         dates = []
         eggs_data = []
@@ -109,9 +116,9 @@ class DataManager:
         while current_date <= end_date:
             dates.append(current_date.strftime('%m/%d'))
             
-            if current_date in self.daily_data:
-                eggs_data.append(self.daily_data[current_date].get('eggs', 0))
-                feed_data.append(self.daily_data[current_date].get('feed', 0))
+            if current_date in daily_data:
+                eggs_data.append(daily_data[current_date].get('eggs', 0))
+                feed_data.append(daily_data[current_date].get('feed', 0))
             else:
                 eggs_data.append(0)
                 feed_data.append(0)
@@ -124,9 +131,10 @@ class DataManager:
             'feed': feed_data
         }
     
-    def get_all_data(self):
-        """Get all stored data"""
-        return dict(self.daily_data)
+    def get_all_data(self, user_id):
+        """Get all stored data for a specific user"""
+        self.ensure_user_context(user_id)
+        return dict(self.user_data[user_id]['daily_data'])
     
     def initialize_diseases_db(self):
         """Initialize diseases database for chicken poultry farming"""
@@ -311,8 +319,11 @@ class DataManager:
             if farm_type in scheme.get('farm_types', [])
         ]
     
-    def initialize_daily_tasks(self):
-        """Initialize daily biosecurity tasks"""
+    def initialize_daily_tasks_for_user(self, user_id):
+        """Initialize daily biosecurity tasks for a specific user"""
+        if user_id not in self.user_data:
+            return
+            
         today = datetime.now().date()
         daily_tasks = [
             {'id': 'clean_feeders', 'name': 'Clean Feed and Water Systems', 'points': 10},
@@ -323,86 +334,86 @@ class DataManager:
             {'id': 'check_fencing', 'name': 'Check Perimeter Fencing', 'points': 5}
         ]
         
-        self.tasks[today] = daily_tasks
-        self.completed_tasks[today] = []
-        
-        # Add some sample revenue/expense data
-        self.revenue_expenses = [
-            {'date': today - timedelta(days=1), 'type': 'revenue', 'amount': 2500.0, 'description': 'Egg sales'},
-            {'date': today - timedelta(days=2), 'type': 'expense', 'amount': 1500.0, 'description': 'Feed purchase'},
-            {'date': today - timedelta(days=3), 'type': 'revenue', 'amount': 3000.0, 'description': 'Chicken sales'},
-            {'date': today - timedelta(days=4), 'type': 'expense', 'amount': 800.0, 'description': 'Veterinary visit'},
-        ]
-        
-        # Initialize user progress
-        self.user_points = 85
-        self.user_level = 2
-        self.user_badges = ['Early Bird', 'Health Champion']
+        self.user_data[user_id]['tasks'][today] = daily_tasks
+        self.user_data[user_id]['completed_tasks'][today] = []
     
-    def complete_task(self, task_id):
-        """Mark a task as completed and award points"""
+    def complete_task(self, user_id, task_id):
+        """Mark a task as completed and award points for a specific user"""
+        self.ensure_user_context(user_id)
         today = datetime.now().date()
-        if today not in self.tasks:
+        
+        user = self.user_data[user_id]
+        if today not in user['tasks']:
             return False
             
-        for task in self.tasks[today]:
-            if task['id'] == task_id and task_id not in self.completed_tasks.get(today, []):
-                self.completed_tasks[today].append(task_id)
-                self.user_points += task['points']
+        for task in user['tasks'][today]:
+            if task['id'] == task_id and task_id not in user['completed_tasks'].get(today, []):
+                user['completed_tasks'][today].append(task_id)
+                user['user_points'] += task['points']
                 
                 # Check for level up
-                if self.user_points >= 100 * self.user_level:
-                    self.user_level += 1
-                    self.user_badges.append(f'Level {self.user_level} Master')
+                if user['user_points'] >= 100 * user['user_level']:
+                    user['user_level'] += 1
+                    user['user_badges'].append(f'Level {user["user_level"]} Master')
                 
                 return True
         return False
     
-    def get_gamification_data(self):
-        """Get user progress and gamification data"""
+    def get_gamification_data(self, user_id):
+        """Get user progress and gamification data for a specific user"""
+        self.ensure_user_context(user_id)
         today = datetime.now().date()
-        total_tasks = len(self.tasks.get(today, []))
-        completed_tasks = len(self.completed_tasks.get(today, []))
+        
+        user = self.user_data[user_id]
+        total_tasks = len(user['tasks'].get(today, []))
+        completed_tasks = len(user['completed_tasks'].get(today, []))
         completion_rate = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
         
         return {
-            'points': self.user_points,
-            'level': self.user_level,
-            'badges': self.user_badges,
+            'points': user['user_points'],
+            'level': user['user_level'],
+            'badges': user['user_badges'],
             'total_tasks': total_tasks,
             'completed_tasks': completed_tasks,
             'completion_rate': completion_rate,
-            'next_level_points': 100 * self.user_level
+            'next_level_points': 100 * user['user_level']
         }
     
-    def get_today_tasks(self):
-        """Get today's tasks with completion status"""
+    def get_today_tasks(self, user_id):
+        """Get today's tasks with completion status for a specific user"""
+        self.ensure_user_context(user_id)
         today = datetime.now().date()
-        tasks = self.tasks.get(today, [])
-        completed = self.completed_tasks.get(today, [])
+        
+        user = self.user_data[user_id]
+        tasks = user['tasks'].get(today, [])
+        completed = user['completed_tasks'].get(today, [])
         
         for task in tasks:
             task['completed'] = task['id'] in completed
         
         return tasks
     
-    def add_revenue_expense(self, date, type_val, amount, description):
-        """Add revenue or expense entry"""
-        self.revenue_expenses.append({
+    def add_revenue_expense(self, user_id, date, type_val, amount, description):
+        """Add revenue or expense entry for a specific user"""
+        self.ensure_user_context(user_id)
+        self.user_data[user_id]['revenue_expenses'].append({
             'date': date,
             'type': type_val,
             'amount': float(amount),
             'description': description
         })
     
-    def get_financial_summary(self):
-        """Get financial summary with profit/loss calculation"""
-        total_revenue = sum(item['amount'] for item in self.revenue_expenses if item['type'] == 'revenue')
-        total_expenses = sum(item['amount'] for item in self.revenue_expenses if item['type'] == 'expense')
+    def get_financial_summary(self, user_id):
+        """Get financial summary with profit/loss calculation for a specific user"""
+        self.ensure_user_context(user_id)
+        revenue_expenses = self.user_data[user_id]['revenue_expenses']
+        
+        total_revenue = sum(item['amount'] for item in revenue_expenses if item['type'] == 'revenue')
+        total_expenses = sum(item['amount'] for item in revenue_expenses if item['type'] == 'expense')
         profit_loss = total_revenue - total_expenses
         
         # Add IDs to entries if not present
-        for i, entry in enumerate(self.revenue_expenses):
+        for i, entry in enumerate(revenue_expenses):
             if 'id' not in entry:
                 entry['id'] = i + 1
         
@@ -410,13 +421,14 @@ class DataManager:
             'total_revenue': total_revenue,
             'total_expenses': total_expenses,
             'profit_loss': profit_loss,
-            'recent_entries': sorted(self.revenue_expenses, key=lambda x: x['date'], reverse=True)[:10],
-            'all_entries': sorted(self.revenue_expenses, key=lambda x: x['date'], reverse=True)
+            'recent_entries': sorted(revenue_expenses, key=lambda x: x['date'], reverse=True)[:10],
+            'all_entries': sorted(revenue_expenses, key=lambda x: x['date'], reverse=True)
         }
     
-    def edit_revenue_expense(self, entry_id, date, type_val, amount, description):
-        """Edit an existing revenue or expense entry"""
-        for entry in self.revenue_expenses:
+    def edit_revenue_expense(self, user_id, entry_id, date, type_val, amount, description):
+        """Edit an existing revenue or expense entry for a specific user"""
+        self.ensure_user_context(user_id)
+        for entry in self.user_data[user_id]['revenue_expenses']:
             if entry.get('id') == int(entry_id):
                 entry['date'] = date
                 entry['type'] = type_val
@@ -425,17 +437,19 @@ class DataManager:
                 return True
         return False
     
-    def delete_revenue_expense(self, entry_id):
-        """Delete a revenue or expense entry"""
-        for i, entry in enumerate(self.revenue_expenses):
+    def delete_revenue_expense(self, user_id, entry_id):
+        """Delete a revenue or expense entry for a specific user"""
+        self.ensure_user_context(user_id)
+        for i, entry in enumerate(self.user_data[user_id]['revenue_expenses']):
             if entry.get('id') == int(entry_id):
-                self.revenue_expenses.pop(i)
+                self.user_data[user_id]['revenue_expenses'].pop(i)
                 return True
         return False
     
-    def get_revenue_expense_by_id(self, entry_id):
-        """Get a specific revenue/expense entry by ID"""
-        for entry in self.revenue_expenses:
+    def get_revenue_expense_by_id(self, user_id, entry_id):
+        """Get a specific revenue/expense entry by ID for a specific user"""
+        self.ensure_user_context(user_id)
+        for entry in self.user_data[user_id]['revenue_expenses']:
             if entry.get('id') == int(entry_id):
                 return entry
         return None
@@ -463,11 +477,14 @@ class DataManager:
         
         return results
     
-    def get_farm_health_status(self):
-        """Get current farm health status"""
+    def get_farm_health_status(self, user_id):
+        """Get current farm health status for a specific user"""
+        self.ensure_user_context(user_id)
         today = datetime.now().date()
-        completed = len(self.completed_tasks.get(today, []))
-        total = len(self.tasks.get(today, []))
+        
+        user = self.user_data[user_id]
+        completed = len(user['completed_tasks'].get(today, []))
+        total = len(user['tasks'].get(today, []))
         
         if total == 0:
             return 'warning'
@@ -482,7 +499,7 @@ class DataManager:
     
     def generate_qr_code(self, data):
         """Generate QR code for farm visits"""
-        qr = qrcode.main.QRCode(version=1, box_size=10, border=5)
+        qr = qrcode.QRCode(version=1, box_size=10, border=5)
         qr.add_data(data)
         qr.make(fit=True)
         
@@ -493,26 +510,30 @@ class DataManager:
         
         return base64.b64encode(buffer.getvalue()).decode()
     
-    def add_farm_visit(self):
-        """Increment farm visit counter"""
-        self.farm_visits += 1
-        return self.farm_visits
+    def add_farm_visit(self, user_id):
+        """Increment farm visit counter for a specific user"""
+        self.ensure_user_context(user_id)
+        self.user_data[user_id]['farm_visits'] += 1
+        return self.user_data[user_id]['farm_visits']
     
-    def add_chat_message(self, sender, message, sender_type='farmer'):
-        """Add message to chat"""
-        self.chat_messages.append({
+    def add_chat_message(self, user_id, sender, message, sender_type='farmer'):
+        """Add message to chat for a specific user"""
+        self.ensure_user_context(user_id)
+        self.user_data[user_id]['chat_messages'].append({
             'timestamp': datetime.now(),
             'sender': sender,
             'message': message,
             'sender_type': sender_type
         })
     
-    def get_chat_messages(self):
-        """Get chat messages"""
-        return self.chat_messages
+    def get_chat_messages(self, user_id):
+        """Get chat messages for a specific user"""
+        self.ensure_user_context(user_id)
+        return self.user_data[user_id]['chat_messages']
     
-    def check_temperature_alerts(self):
-        """Check for temperature alerts (simulated)"""
+    def check_temperature_alerts(self, user_id):
+        """Check for temperature alerts (simulated) for a specific user"""
+        self.ensure_user_context(user_id)
         import random
         
         # Simulate temperature reading
@@ -524,7 +545,7 @@ class DataManager:
                 'status': 'warning' if 28 <= current_temp <= 32 else 'critical',
                 'message': f'Temperature alert: {current_temp:.1f}°C detected'
             }
-            self.temperature_alerts.append(alert)
+            self.user_data[user_id]['temperature_alerts'].append(alert)
             return alert
         return None
     
