@@ -17,15 +17,15 @@
     <!-- Header with Dashboard Title and Farm Score -->
     <div class="row mb-4">
         <div class="col-md-8">
-            <h1 class="mb-1">Farm Dashboard</h1>
-            <p class="text-muted">Welcome back, {{ session.username }}! Here's your farm overview.</p>
+            <h1 class="mb-1">{{ get_text('farm_dashboard', lang) }}</h1>
+            <p class="text-muted">{{ get_text('welcome_back', lang) }}, {{ session.username }}! {{ get_text('farm_overview', lang) }}</p>
         </div>
         <div class="col-md-4 text-end">
             <div class="card border-0 shadow-sm bg-primary bg-opacity-10">
                 <div class="card-body text-center py-3">
-                    <h4 class="text-primary mb-1">Farm Score</h4>
+                    <h4 class="text-primary mb-1">{{ get_text('farm_score', lang) }}</h4>
                     <h2 class="text-primary">{{ "%.0f"|format(gamification.completion_rate) }}/100</h2>
-                    <small class="text-muted">Level {{ gamification.level }} Farmer</small>
+                    <small class="text-muted">{{ get_text('level', lang) }} {{ gamification.level }} {{ get_text('farmer', lang) }}</small>
                 </div>
             </div>
         </div>
@@ -38,15 +38,15 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <h6 class="alert-heading mb-1">
-                            <i class="fas fa-exclamation-triangle me-2"></i>Regional Disease Alert
+                            <i class="fas fa-exclamation-triangle me-2"></i>{{ get_text('regional_disease_alert', lang) }}
                         </h6>
-                        <p class="mb-1"><strong>Bird Flu (H5N1)</strong> detected in Nearby District (25km away)</p>
-                        <small class="text-muted">Last updated: 2 hours ago • Reported by State Animal Husbandry Dept.</small>
+                        <p class="mb-1"><strong>{{ get_text('bird_flu', lang) }} (H5N1)</strong> {{ get_text('detected_in_nearby', lang) }} (25{{ get_text('km_away', lang) }})</p>
+                        <small class="text-muted">{{ get_text('last_updated', lang) }}: 2 {{ get_text('hours_ago', lang) }} • {{ get_text('reported_by', lang) }} {{ get_text('state_animal_dept', lang) }}</small>
                     </div>
                     <div class="col-md-4 text-end">
-                        <span class="badge bg-warning fs-6 px-3 py-2">Medium Risk</span>
+                        <span class="badge bg-warning fs-6 px-3 py-2">{{ get_text('medium_risk', lang) }}</span>
                         <div class="mt-2">
-                            <a href="{{ url_for('alerts') }}" class="btn btn-sm btn-outline-warning">View Details</a>
+                            <a href="{{ url_for('alerts') }}" class="btn btn-sm btn-outline-warning">{{ get_text('view_details', lang) }}</a>
                         </div>
                     </div>
                 </div>
@@ -70,14 +70,14 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <h5 class="card-title mb-1">
-                                <i class="fas fa-shield-alt me-2"></i>Farm Health Status
+                                <i class="fas fa-shield-alt me-2"></i>{{ get_text('farm_health_status', lang) }}
                             </h5>
-                            <p class="text-muted mb-0">Biosecurity and sanitation monitoring</p>
+                            <p class="text-muted mb-0">{{ get_text('biosecurity_monitoring', lang) }}</p>
                         </div>
                         <div class="text-end">
                             {% set status_colors = {'good': 'success', 'warning': 'warning', 'critical': 'danger'} %}
                             <span class="badge bg-{{ status_colors[health_status] }} fs-6 px-3 py-2">
-                                <i class="fas fa-circle me-1"></i>{{ health_status.title() }}
+                                <i class="fas fa-circle me-1"></i>{{ get_text(health_status, lang) }}
                             </span>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <h3 class="card-title text-primary">{{ summary.total_chickens }}</h3>
-                    <p class="card-text text-muted">Total Chickens</p>
+                    <p class="card-text text-muted">{{ get_text('total_chickens', lang) }}</p>
                 </div>
             </div>
         </div>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <h3 class="card-title text-success">{{ summary.chickens_sold or 45 }}</h3>
-                    <p class="card-text text-muted">Chickens Sold This Week</p>
+                    <p class="card-text text-muted">{{ get_text('chickens_sold_week', lang) }}</p>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <h3 class="card-title text-warning">{{ "%.1f"|format(summary.feed_today) }} kg</h3>
-                    <p class="card-text text-muted">Feed Consumed Today</p>
+                    <p class="card-text text-muted">{{ get_text('feed_consumed', lang) }}</p>
                 </div>
             </div>
         </div>
@@ -141,7 +141,7 @@
                     <h3 class="card-title text-{{ 'success' if summary.profit_loss >= 0 else 'danger' }}">
                         ${{ "%.2f"|format(summary.profit_loss) }}
                     </h3>
-                    <p class="card-text text-muted">Today's Profit/Loss</p>
+                    <p class="card-text text-muted">{{ get_text('daily_profit', lang) }}</p>
                 </div>
             </div>
         </div>
@@ -153,7 +153,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title mb-3">
-                        <i class="fas fa-tasks me-2 text-success"></i>Today's Biosecurity Tasks
+                        <i class="fas fa-tasks me-2 text-success"></i>{{ get_text('todays_biosecurity_tasks', lang) }}
                     </h5>
                     <div class="row g-3">
                         {% for task in tasks %}
@@ -170,7 +170,7 @@
                                                 <i class="fas fa-check-circle text-success fa-2x"></i>
                                             {% else %}
                                                 <button class="btn btn-sm btn-outline-primary complete-task" data-task-id="{{ task.id }}">
-                                                    <i class="fas fa-check me-1"></i>Complete
+                                                    <i class="fas fa-check me-1"></i>{{ get_text('complete', lang) }}
                                                 </button>
                                             {% endif %}
                                         </div>
