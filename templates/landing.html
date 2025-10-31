@@ -967,14 +967,10 @@
                         <section class="cm-section">
                             <div class="container">
                                 <div class="row align-items-center">
-                                    <div class="col-md-4">
-                                        <img src="{{ url_for('static', filename='images/pig_farming_farm_63751107.jpg') }}" 
-                                             alt="Pig Farm" class="cm-poster img-fluid slide-in">
-                                    </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <div class="slide-in">
-                                            <h3 class="h2 mb-4 fw-bold">
-                                                <i class="fas fa-quote-left me-3 text-pink"></i>
+                                            <h3 class="h2 mb-4 fw-bold text-center">
+                                                <i class="fas fa-piggy-bank me-3 text-pink"></i>
                                                 Advancing Pig Farming in India with Modern Technologies
                                             </h3>
                                             <p class="lead mb-4" style="text-align: justify; line-height: 1.8; font-size: 1.1rem;">
@@ -984,7 +980,7 @@
                                                 and ensuring disease management. The focus is on creating a robust ecosystem that benefits smallholder farmers and 
                                                 contributes to the national economy.
                                             </p>
-                                            <div class="d-flex align-items-center">
+                                            <div class="d-flex align-items-center justify-content-center">
                                                 <div class="bg-pink bg-opacity-10 rounded-circle p-2 me-3">
                                                     <i class="fas fa-signature text-pink"></i>
                                                 </div>
@@ -1020,17 +1016,17 @@
                                     </div>
                                 </div>
 
-                                <div class="row g-4 mb-5">
+                                <div class="row g-4 mb-5" id="pig-stats-container">
                                     <div class="col-lg-3 col-md-6">
                                         <div class="stat-card fade-in">
                                             <div class="stat-icon text-pink">
                                                 <i class="fas fa-piggy-bank"></i>
                                             </div>
-                                            <div class="stat-number">45.0M</div>
+                                            <div class="stat-number" id="pig-total-population">Loading...</div>
                                             <h5 class="fw-bold text-pink mb-2">Total Pig Population</h5>
                                             <p class="text-muted mb-0">
                                                 <i class="fas fa-arrow-up text-success me-1"></i>
-                                                8.5% growth YoY
+                                                <span id="pig-growth-rate">...</span>% growth YoY
                                             </p>
                                             <small class="text-muted">Across key states</small>
                                         </div>
@@ -1040,7 +1036,7 @@
                                             <div class="stat-icon text-danger">
                                                 <i class="fas fa-bacon"></i>
                                             </div>
-                                            <div class="stat-number">2.5M</div>
+                                            <div class="stat-number" id="pig-production">Loading...</div>
                                             <h5 class="fw-bold text-pink mb-2">Annual Pork Production (MT)</h5>
                                             <p class="text-muted mb-0">
                                                 <i class="fas fa-globe text-info me-1"></i>
@@ -1054,7 +1050,7 @@
                                             <div class="stat-icon text-primary">
                                                 <i class="fas fa-home"></i>
                                             </div>
-                                            <div class="stat-number">5,800</div>
+                                            <div class="stat-number" id="pig-registered-farms">Loading...</div>
                                             <h5 class="fw-bold text-pink mb-2">Registered Pig Farms</h5>
                                             <p class="text-muted mb-0">
                                                 <i class="fas fa-check-circle text-success me-1"></i>
@@ -1068,7 +1064,7 @@
                                             <div class="stat-icon text-success">
                                                 <i class="fas fa-users"></i>
                                             </div>
-                                            <div class="stat-number">1.2M</div>
+                                            <div class="stat-number" id="pig-farmers-benefitted">Loading...</div>
                                             <h5 class="fw-bold text-pink mb-2">Farmers Benefitted</h5>
                                             <p class="text-muted mb-0">
                                                 <i class="fas fa-handshake text-success me-1"></i>
@@ -1397,6 +1393,78 @@
                     }
                 });
             }, 5000);
+
+            // Fetch and populate pig farm statistics from database
+            async function loadPigStatistics() {
+                try {
+                    const response = await fetch('/api/farm-statistics/pigs');
+                    const result = await response.json();
+                    
+                    if (result.success && result.data) {
+                        const data = result.data;
+                        
+                        // Format population in millions
+                        const populationInMillions = (data.total_population / 1000000).toFixed(1);
+                        document.getElementById('pig-total-population').textContent = populationInMillions + 'M';
+                        
+                        // Format production
+                        if (data.annual_production_mt) {
+                            document.getElementById('pig-production').textContent = data.annual_production_mt.toFixed(1) + 'M';
+                        }
+                        
+                        // Format registered farms with comma
+                        if (data.registered_farms) {
+                            document.getElementById('pig-registered-farms').textContent = data.registered_farms.toLocaleString();
+                        }
+                        
+                        // Format farmers benefitted
+                        if (data.farmers_benefitted) {
+                            const farmersInMillions = (data.farmers_benefitted / 1000000).toFixed(1);
+                            document.getElementById('pig-farmers-benefitted').textContent = farmersInMillions + 'M';
+                        }
+                        
+                        // Update growth rate
+                        if (data.growth_rate) {
+                            document.getElementById('pig-growth-rate').textContent = data.growth_rate.toFixed(1);
+                        }
+                        
+                        // Update timestamp
+                        if (data.last_updated) {
+                            const date = new Date(data.last_updated);
+                            const formatted = date.toLocaleDateString('en-IN', { 
+                                day: '2-digit', 
+                                month: 'short', 
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                            const timestampBadge = document.querySelector('#pig .badge.bg-info');
+                            if (timestampBadge) {
+                                timestampBadge.innerHTML = '<i class="fas fa-clock me-1"></i>Updated: ' + formatted;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading pig statistics:', error);
+                    document.getElementById('pig-total-population').textContent = 'Error';
+                    document.getElementById('pig-production').textContent = 'Error';
+                    document.getElementById('pig-registered-farms').textContent = 'Error';
+                    document.getElementById('pig-farmers-benefitted').textContent = 'Error';
+                }
+            }
+            
+            // Load statistics when pig tab is shown
+            const pigTab = document.getElementById('pig-tab');
+            if (pigTab) {
+                pigTab.addEventListener('shown.bs.tab', function (e) {
+                    loadPigStatistics();
+                });
+            }
+            
+            // Load statistics on page load if pig tab is active
+            if (document.getElementById('pig')?.classList.contains('active')) {
+                loadPigStatistics();
+            }
         });
 
         // Add smooth scroll behavior for internal links
