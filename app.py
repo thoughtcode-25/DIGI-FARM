@@ -2,8 +2,9 @@ import os
 import logging
 import base64
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from werkzeug.utils import secure_filename
+from app_init import app, db
 from data_manager import DataManager
 from ai_services import AIServices
 from translations import get_text, get_available_languages
@@ -11,10 +12,6 @@ from sms_service import SMSService
 
 # Configure logging for debugging
 logging.basicConfig(level=logging.DEBUG)
-
-# Create Flask app
-app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET")
 
 # Initialize data manager, AI services, and SMS service
 data_manager = DataManager()
