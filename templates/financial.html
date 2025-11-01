@@ -5,9 +5,14 @@
 {% block content %}
 <div class="container my-4">
     <!-- Header -->
-    <div class="mb-4">
-        <h1 class="mb-1">{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}</h1>
-        <p class="text-muted">{{ get_text('track_revenue_expenses', lang) if get_text else 'Track revenue and expenses for better farm profitability.' }}</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}</h1>
+            <p class="text-muted">{{ get_text('track_revenue_expenses', lang) if get_text else 'Track revenue and expenses for better farm profitability.' }}</p>
+        </div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEntryModal">
+            <i class="fas fa-plus me-2"></i>{{ get_text('add_entry', lang) if get_text else 'Add Entry' }}
+        </button>
     </div>
 
     <!-- Financial Summary Cards -->
@@ -115,7 +120,101 @@
     </div>
 </div>
 
+<!-- Add Entry Modal -->
+<div class="modal fade" id="addEntryModal" tabindex="-1" aria-labelledby="addEntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #161b22; border: 1px solid #30363d;">
+            <div class="modal-header" style="border-bottom: 1px solid #30363d;">
+                <h5 class="modal-title" id="addEntryModalLabel" style="color: #e6edf3;">{{ get_text('add_financial_entry', lang) if get_text else 'Add Financial Entry' }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ url_for('financial') }}" id="addEntryForm">
+                <div class="modal-body" style="padding: 1.5rem;">
+                    <div class="mb-3">
+                        <label for="entry_date" class="form-label" style="color: #e6edf3; display: block; margin-bottom: 0.5rem;">{{ get_text('date', lang) if get_text else 'Date' }}</label>
+                        <input 
+                            type="date" 
+                            class="form-control" 
+                            id="entry_date" 
+                            name="date" 
+                            value="{{ today }}" 
+                            required
+                            style="background-color: #0d1117; border: 1px solid #30363d; color: #e6edf3; pointer-events: auto !important; touch-action: manipulation !important; user-select: text !important;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="entry_type" class="form-label" style="color: #e6edf3; display: block; margin-bottom: 0.5rem;">{{ get_text('type', lang) if get_text else 'Type' }}</label>
+                        <select 
+                            class="form-select" 
+                            id="entry_type" 
+                            name="type" 
+                            required
+                            style="background-color: #0d1117; border: 1px solid #30363d; color: #e6edf3; pointer-events: auto !important; touch-action: manipulation !important; cursor: pointer !important;">
+                            <option value="revenue">{{ get_text('revenue', lang) if get_text else 'Revenue' }}</option>
+                            <option value="expense">{{ get_text('expense', lang) if get_text else 'Expense' }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="entry_amount" class="form-label" style="color: #e6edf3; display: block; margin-bottom: 0.5rem;">{{ get_text('amount', lang) if get_text else 'Amount' }} (₹)</label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="entry_amount" 
+                            name="amount" 
+                            step="0.01" 
+                            min="0" 
+                            required
+                            style="background-color: #0d1117; border: 1px solid #30363d; color: #e6edf3; pointer-events: auto !important; touch-action: manipulation !important; user-select: text !important;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="entry_description" class="form-label" style="color: #e6edf3; display: block; margin-bottom: 0.5rem;">{{ get_text('description', lang) if get_text else 'Description' }}</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="entry_description" 
+                            name="description" 
+                            placeholder="{{ get_text('description_placeholder', lang) if get_text else 'e.g., Egg sales, Feed purchase' }}" 
+                            required
+                            style="background-color: #0d1117; border: 1px solid #30363d; color: #e6edf3; pointer-events: auto !important; touch-action: manipulation !important; user-select: text !important;">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #30363d;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ get_text('cancel', lang) if get_text else 'Cancel' }}</button>
+                    <button type="submit" class="btn btn-primary">{{ get_text('add_entry', lang) if get_text else 'Add Entry' }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get modal and form elements
+    const addEntryModal = document.getElementById('addEntryModal');
+    const addEntryForm = document.getElementById('addEntryForm');
+    
+    if (addEntryModal) {
+        // Reset and prepare form when modal opens
+        addEntryModal.addEventListener('show.bs.modal', function() {
+            if (addEntryForm) {
+                addEntryForm.reset();
+                document.getElementById('entry_date').value = '{{ today }}';
+                document.getElementById('entry_type').value = 'revenue';
+            }
+        });
+        
+        // Make absolutely sure all inputs are interactive
+        const allInputs = addEntryModal.querySelectorAll('input, select, textarea, button');
+        allInputs.forEach(function(element) {
+            element.style.setProperty('pointer-events', 'auto', 'important');
+            element.style.setProperty('touch-action', 'manipulation', 'important');
+            element.style.setProperty('user-select', 'text', 'important');
+            element.addEventListener('touchstart', function(e) {
+                e.stopPropagation();
+            }, {passive: true});
+        });
+    }
+});
+
 function deleteEntry(entryId) {
     if (confirm('{{ get_text("confirm_delete", lang) if get_text else "Are you sure you want to delete this entry?" }}')) {
         fetch(`/financial/delete/${entryId}`, {
