@@ -712,34 +712,28 @@ def register_farm():
         
         if action == 'send_otp':
             # Register farm directly without OTP (SMS disabled)
-            contact_number = request.form.get('contact_number')
             farm_name = request.form.get('farm_name')
             farm_location = request.form.get('farm_location')
             farm_size = request.form.get('farm_size')
             farm_type = request.form.get('farm_type')
             
-            if not contact_number:
-                flash('Please provide a contact number', 'danger')
-                return redirect(url_for('register_farm'))
-            
-            # Complete registration directly (SMS verification disabled)
+            # Complete registration directly (no phone verification required)
             session['farm_registered'] = True
             session['farm_data'] = {
                 'name': farm_name,
                 'location': farm_location,
                 'size': farm_size,
                 'farm_type': farm_type,
-                'contact_number': contact_number,
                 'registration_date': datetime.now().isoformat(),
                 'biosecurity_score': 85,
-                'verified': False  # Not verified via SMS
+                'verified': True
             }
             
             # Initialize user data in DataManager for new farm registration
             user_id = get_user_id()
             data_manager.ensure_user_context(user_id)
             
-            flash('Farm registered successfully! (SMS verification unavailable)', 'success')
+            flash('Farm registered successfully!', 'success')
             return redirect(url_for('dashboard'))
         
         elif action == 'verify':
