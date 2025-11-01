@@ -47,11 +47,13 @@
                     <ul class="navbar-nav flex-grow-1">
                         <!-- User Info -->
                         <li class="nav-item mb-3">
-                            <div class="d-flex align-items-center p-2 bg-primary bg-opacity-25 rounded">
-                                <i class="fas fa-user-circle fa-2x me-2 text-white"></i>
-                                <div>
-                                    <div class="fw-bold text-white">{{ session.username }}</div>
-                                    <small class="text-light">{{ get_text('logged_in', lang) if get_text else 'Logged in' }}</small>
+                            <div class="user-info-card">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="user-details">
+                                    <div class="user-name">{{ session.username }}</div>
+                                    <small class="user-status">{{ get_text('logged_in', lang) if get_text else 'Logged in' }}</small>
                                 </div>
                             </div>
                         </li>
