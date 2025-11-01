@@ -236,15 +236,20 @@ body::after {
     overflow-y: auto;
 }
 
+.offcanvas .nav-item {
+    margin-bottom: 0.25rem;
+}
+
 .offcanvas .nav-link {
     color: #e6edf3 !important;
     padding: 0.75rem 1rem !important;
     margin-bottom: 0.25rem;
     border-radius: 8px;
     transition: all 0.2s ease;
-    display: flex;
+    display: flex !important;
     align-items: center;
     width: 100% !important;
+    text-decoration: none !important;
 }
 
 .offcanvas .nav-link:hover {
@@ -253,9 +258,13 @@ body::after {
     transform: translateX(5px);
 }
 
+.offcanvas .nav-link.text-danger {
+    color: #ef4444 !important;
+}
+
 .offcanvas .nav-link.text-danger:hover {
     background: rgba(239, 68, 68, 0.15) !important;
-    color: #ef4444 !important;
+    color: #ff5555 !important;
 }
 
 .offcanvas .dropdown-header {
@@ -269,9 +278,10 @@ body::after {
 }
 
 .offcanvas button.nav-link {
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     cursor: pointer;
+    text-align: left;
 }
 
 .offcanvas button.nav-link:hover {
@@ -287,14 +297,18 @@ body::after {
     opacity: 1;
 }
 
+.offcanvas i {
+    font-size: 1rem;
+}
+
 /* Light theme offcanvas */
 [data-bs-theme="light"] .offcanvas {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%) !important;
+    background: #ffffff !important;
 }
 
 [data-bs-theme="light"] .offcanvas-header {
-    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
 }
 
 [data-bs-theme="light"] .offcanvas-title {
@@ -302,7 +316,8 @@ body::after {
 }
 
 [data-bs-theme="light"] .offcanvas .nav-link {
-    color: #374151 !important;
+    color: #1a202c !important;
+    font-weight: 500;
 }
 
 [data-bs-theme="light"] .offcanvas .nav-link:hover {
@@ -310,13 +325,17 @@ body::after {
     color: #1e40af !important;
 }
 
-[data-bs-theme="light"] .offcanvas .nav-link.text-danger:hover {
-    background: rgba(220, 38, 38, 0.1) !important;
+[data-bs-theme="light"] .offcanvas .nav-link.text-danger {
     color: #dc2626 !important;
 }
 
+[data-bs-theme="light"] .offcanvas .nav-link.text-danger:hover {
+    background: rgba(220, 38, 38, 0.1) !important;
+    color: #b91c1c !important;
+}
+
 [data-bs-theme="light"] .offcanvas .dropdown-header {
-    color: #6b7280 !important;
+    color: #4b5563 !important;
 }
 
 [data-bs-theme="light"] .offcanvas .btn-close {
