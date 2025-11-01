@@ -1701,6 +1701,30 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid #30363d !important;
 }
 
+/* Ensure modal form inputs are interactive and properly styled */
+.modal .form-control,
+.modal .form-select {
+    pointer-events: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    cursor: text !important;
+    touch-action: manipulation !important;
+}
+
+.modal .form-select {
+    cursor: pointer !important;
+}
+
+.modal input[type="date"],
+.modal input[type="number"],
+.modal input[type="text"],
+.modal textarea {
+    pointer-events: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -webkit-tap-highlight-color: rgba(88, 166, 255, 0.2) !important;
+}
+
 /* Ensure all headings are visible */
 [data-bs-theme="dark"] h1,
 [data-bs-theme="dark"] h2, 

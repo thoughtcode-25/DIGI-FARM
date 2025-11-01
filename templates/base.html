@@ -215,10 +215,18 @@
                 
                 // Add touch event listeners for better mobile experience - only for navbar dropdowns
                 toggle.addEventListener('touchstart', function(e) {
+                    // Don't interfere if the touch is on a form element
+                    if (e.target.matches('input, select, textarea, button')) {
+                        return;
+                    }
                     e.stopPropagation();
                 }, { passive: true });
                 
                 toggle.addEventListener('touchend', function(e) {
+                    // Don't interfere if the touch is on a form element
+                    if (e.target.matches('input, select, textarea, button')) {
+                        return;
+                    }
                     e.preventDefault();
                     e.stopPropagation();
                     // Let Bootstrap handle the actual dropdown toggle
