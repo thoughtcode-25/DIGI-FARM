@@ -250,16 +250,24 @@
                 
                 // Add touch event listeners for better mobile experience - only for navbar dropdowns
                 toggle.addEventListener('touchstart', function(e) {
-                    // Don't interfere if the touch is on a form element
-                    if (e.target.matches('input, select, textarea, button')) {
+                    // Don't interfere if a modal is open or touch is on/inside a form element
+                    if (document.querySelector('.modal.show') || e.target.closest('input, select, textarea, button, .form-control, .form-select')) {
+                        return;
+                    }
+                    // Only handle touches on the toggle itself, not outside elements
+                    if (!toggle.contains(e.target)) {
                         return;
                     }
                     e.stopPropagation();
                 }, { passive: true });
                 
                 toggle.addEventListener('touchend', function(e) {
-                    // Don't interfere if the touch is on a form element
-                    if (e.target.matches('input, select, textarea, button')) {
+                    // Don't interfere if a modal is open or touch is on/inside a form element
+                    if (document.querySelector('.modal.show') || e.target.closest('input, select, textarea, button, .form-control, .form-select')) {
+                        return;
+                    }
+                    // Only handle touches on the toggle itself, not outside elements
+                    if (!toggle.contains(e.target)) {
                         return;
                     }
                     e.preventDefault();
