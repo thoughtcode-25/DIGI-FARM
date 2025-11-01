@@ -164,16 +164,35 @@ body::after {
 
 /* App Logo Styling */
 .app-logo {
-    height: 45px;
+    height: 50px;
     width: auto;
-    max-width: 150px;
+    max-width: 50px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s ease;
 }
 
-.app-logo:hover {
-    transform: scale(1.05);
+/* App Name Styling */
+.app-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #58a6ff !important;
+    text-shadow: 0 2px 8px rgba(88, 166, 255, 0.3);
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.navbar-brand:hover .app-name {
+    color: #79c0ff !important;
+    text-shadow: 0 2px 12px rgba(88, 166, 255, 0.5);
+}
+
+[data-bs-theme="light"] .app-name {
+    color: #1e40af !important;
+    text-shadow: none;
+}
+
+[data-bs-theme="light"] .navbar-brand:hover .app-name {
+    color: #1d4ed8 !important;
 }
 
 /* Navbar Toggler (Hamburger) Styling */

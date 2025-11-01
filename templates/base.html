@@ -26,9 +26,10 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-            <!-- App Logo on the left -->
-            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-                <img src="{{ url_for('static', filename='images/app_logo.png') }}" alt="App Logo" class="app-logo">
+            <!-- App Logo and Name on the left -->
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('dashboard') }}">
+                <img src="{{ url_for('static', filename='images/app_logo.png') }}" alt="App Logo" class="app-logo me-2">
+                <span class="app-name">DIGI - FARM</span>
             </a>
 
             <!-- Hamburger Menu Button (Three-line button) -->
