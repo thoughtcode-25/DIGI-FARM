@@ -247,37 +247,6 @@
                 toggle.style.userSelect = 'none';
                 toggle.style.webkitUserSelect = 'none';
                 toggle.style.webkitTouchCallout = 'none';
-                
-                // Add touch event listeners for better mobile experience - only for navbar dropdowns
-                toggle.addEventListener('touchstart', function(e) {
-                    // Don't interfere if a modal is open or touch is on/inside a form element
-                    if (document.querySelector('.modal.show') || e.target.closest('input, select, textarea, button, .form-control, .form-select')) {
-                        return;
-                    }
-                    // Only handle touches on the toggle itself, not outside elements
-                    if (!toggle.contains(e.target)) {
-                        return;
-                    }
-                    e.stopPropagation();
-                }, { passive: true });
-                
-                toggle.addEventListener('touchend', function(e) {
-                    // Don't interfere if a modal is open or touch is on/inside a form element
-                    if (document.querySelector('.modal.show') || e.target.closest('input, select, textarea, button, .form-control, .form-select')) {
-                        return;
-                    }
-                    // Only handle touches on the toggle itself, not outside elements
-                    if (!toggle.contains(e.target)) {
-                        return;
-                    }
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // Let Bootstrap handle the actual dropdown toggle
-                    const dropdown = bootstrap.Dropdown.getInstance(toggle);
-                    if (dropdown) {
-                        dropdown.toggle();
-                    }
-                }, { passive: false });
             });
         });
     </script>
