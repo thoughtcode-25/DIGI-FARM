@@ -44,14 +44,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <ul class="navbar-nav flex-grow-1">
                         <!-- User Info -->
                         <li class="nav-item mb-3">
-                            <div class="d-flex align-items-center p-2 bg-dark bg-opacity-25 rounded">
-                                <i class="fas fa-user-circle fa-2x me-2"></i>
+                            <div class="d-flex align-items-center p-2 bg-primary bg-opacity-25 rounded">
+                                <i class="fas fa-user-circle fa-2x me-2 text-white"></i>
                                 <div>
-                                    <div class="fw-bold">{{ session.username }}</div>
-                                    <small class="text-muted">{{ get_text('logged_in', lang) if get_text else 'Logged in' }}</small>
+                                    <div class="fw-bold text-white">{{ session.username }}</div>
+                                    <small class="text-light">{{ get_text('logged_in', lang) if get_text else 'Logged in' }}</small>
                                 </div>
                             </div>
                         </li>

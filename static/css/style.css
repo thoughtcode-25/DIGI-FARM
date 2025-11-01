@@ -234,6 +234,11 @@ body::after {
 .offcanvas-body {
     padding: 1rem;
     overflow-y: auto;
+    min-height: 300px;
+}
+
+.offcanvas-body .navbar-nav {
+    width: 100%;
 }
 
 .offcanvas .nav-item {
