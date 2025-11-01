@@ -162,6 +162,148 @@ body::after {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+/* App Logo Styling */
+.app-logo {
+    height: 45px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.app-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Navbar Toggler (Hamburger) Styling */
+.navbar-toggler {
+    border: 2px solid rgba(88, 166, 255, 0.3) !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.navbar-toggler:hover {
+    border-color: rgba(88, 166, 255, 0.6) !important;
+    background: rgba(88, 166, 255, 0.1) !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.25) !important;
+}
+
+/* Offcanvas Menu Styling */
+.offcanvas {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%) !important;
+    backdrop-filter: blur(10px);
+    width: 320px !important;
+}
+
+.offcanvas-header {
+    background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(34, 139, 34, 0.15));
+    border-bottom: 1px solid rgba(88, 166, 255, 0.3);
+    padding: 1.5rem 1rem;
+}
+
+.offcanvas-title {
+    color: #58a6ff !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.offcanvas-body {
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.offcanvas .nav-link {
+    color: #e6edf3 !important;
+    padding: 0.75rem 1rem !important;
+    margin-bottom: 0.25rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+}
+
+.offcanvas .nav-link:hover {
+    background: rgba(88, 166, 255, 0.15) !important;
+    color: #58a6ff !important;
+    transform: translateX(5px);
+}
+
+.offcanvas .nav-link.text-danger:hover {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
+}
+
+.offcanvas .dropdown-header {
+    color: #7d8590 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.offcanvas button.nav-link {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.offcanvas button.nav-link:hover {
+    background: rgba(88, 166, 255, 0.15) !important;
+}
+
+.offcanvas .btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+.offcanvas .btn-close:hover {
+    opacity: 1;
+}
+
+/* Light theme offcanvas */
+[data-bs-theme="light"] .offcanvas {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%) !important;
+}
+
+[data-bs-theme="light"] .offcanvas-header {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+[data-bs-theme="light"] .offcanvas-title {
+    color: #1e40af !important;
+}
+
+[data-bs-theme="light"] .offcanvas .nav-link {
+    color: #374151 !important;
+}
+
+[data-bs-theme="light"] .offcanvas .nav-link:hover {
+    background: rgba(30, 64, 175, 0.1) !important;
+    color: #1e40af !important;
+}
+
+[data-bs-theme="light"] .offcanvas .nav-link.text-danger:hover {
+    background: rgba(220, 38, 38, 0.1) !important;
+    color: #dc2626 !important;
+}
+
+[data-bs-theme="light"] .offcanvas .dropdown-header {
+    color: #6b7280 !important;
+}
+
+[data-bs-theme="light"] .offcanvas .btn-close {
+    filter: none;
+}
+
 /* Ensure minimum height for login page */
 .min-vh-100 {
     min-height: 100vh;

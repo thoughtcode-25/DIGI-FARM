@@ -24,109 +24,141 @@
 <body>
     {% if session.logged_in and session.farm_registered %}
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <!-- App Logo on the left -->
             <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-                <img src="{{ url_for('static', filename='images/Satyamev_Jayate_New.png') }}" alt="Satyamev Jayate" class="navbar-emblem">
+                <img src="{{ url_for('static', filename='images/app_logo.png') }}" alt="App Logo" class="app-logo">
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <!-- Hamburger Menu Button (Three-line button) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('dashboard') }}">
-                            <i class="fas fa-tachometer-alt me-1"></i>{{ get_text('dashboard', lang) if get_text else 'Dashboard' }}
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-database me-1"></i>{{ get_text('farm_data', lang) if get_text else 'Farm Data' }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('add_data') }}">
-                                <i class="fas fa-plus me-1"></i>{{ get_text('add_daily_data', lang) if get_text else 'Add Daily Data' }}
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('financial') }}">
-                                <i class="fas fa-dollar-sign me-1"></i>{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}
-                            </a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-tools me-1"></i>{{ get_text('farm_tools', lang) if get_text else 'Farm Tools' }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('diseases') }}">
-                                <i class="fas fa-stethoscope me-1"></i>{{ get_text('disease_solutions', lang) if get_text else 'Disease Solutions' }}
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('training') }}">
-                                <i class="fas fa-graduation-cap me-1"></i>{{ get_text('training', lang) if get_text else 'Training' }}
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('chat') }}">
-                                <i class="fas fa-comments me-1"></i>{{ get_text('business_chat', lang) if get_text else 'Business Chat' }}
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('visits') }}">
-                                <i class="fas fa-qrcode me-1"></i>{{ get_text('visit_tracking', lang) if get_text else 'Visit Tracking' }}
-                            </a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-chart-line me-1"></i>{{ get_text('analytics', lang) if get_text else 'Analytics' }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('reports') }}">
-                                <i class="fas fa-chart-bar me-1"></i>{{ get_text('production_reports', lang) if get_text else 'Production Reports' }}
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('alerts') }}">
-                                <i class="fas fa-exclamation-triangle me-1"></i>{{ get_text('alerts', lang) if get_text else 'Alerts' }}
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('government_schemes') }}">
-                                <i class="fas fa-landmark me-1"></i>{{ get_text('gov_schemes', lang) if get_text else 'Gov Schemes' }}
-                            </a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('leaderboard') }}">
-                            <i class="fas fa-trophy me-1"></i>{{ get_text('leaderboard', lang) if get_text else 'Leaderboard' }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('ai_chat') }}">
-                            <i class="fas fa-robot me-1"></i>{{ get_text('ai_assistant', lang) if get_text else 'AI Assistant' }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('disease_detection') }}">
-                            <i class="fas fa-camera me-1"></i>{{ get_text('disease_detection', lang) if get_text else 'Disease Detection' }}
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <button class="nav-link border-0 bg-transparent px-3" onclick="toggleTheme()" id="themeToggle" style="cursor: pointer;" title="Toggle Theme">
-                            <i class="fas fa-moon" id="themeIcon"></i>
-                        </button>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user me-1"></i>{{ session.username }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ url_for('language_select') }}">
-                                <i class="fas fa-globe me-1"></i>{{ get_text('select_language', lang) if get_text else 'Change Language' }}
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">
-                                <i class="fas fa-sign-out-alt me-1"></i>{{ get_text('logout', lang) if get_text else 'Logout' }}
-                            </a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <!-- Offcanvas Menu -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{ get_text('menu', lang) if get_text else 'Menu' }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <!-- User Info -->
+                        <li class="nav-item mb-3">
+                            <div class="d-flex align-items-center p-2 bg-dark bg-opacity-25 rounded">
+                                <i class="fas fa-user-circle fa-2x me-2"></i>
+                                <div>
+                                    <div class="fw-bold">{{ session.username }}</div>
+                                    <small class="text-muted">{{ get_text('logged_in', lang) if get_text else 'Logged in' }}</small>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <!-- Dashboard -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-2"></i>{{ get_text('dashboard', lang) if get_text else 'Dashboard' }}
+                            </a>
+                        </li>
+                        
+                        <!-- Farm Data Section -->
+                        <li class="nav-item">
+                            <h6 class="dropdown-header">{{ get_text('farm_data', lang) if get_text else 'Farm Data' }}</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('add_data') }}">
+                                <i class="fas fa-plus me-2"></i>{{ get_text('add_daily_data', lang) if get_text else 'Add Daily Data' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('financial') }}">
+                                <i class="fas fa-dollar-sign me-2"></i>{{ get_text('financial_records', lang) if get_text else 'Financial Records' }}
+                            </a>
+                        </li>
+                        
+                        <!-- Farm Tools Section -->
+                        <li class="nav-item">
+                            <h6 class="dropdown-header">{{ get_text('farm_tools', lang) if get_text else 'Farm Tools' }}</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('diseases') }}">
+                                <i class="fas fa-stethoscope me-2"></i>{{ get_text('disease_solutions', lang) if get_text else 'Disease Solutions' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('training') }}">
+                                <i class="fas fa-graduation-cap me-2"></i>{{ get_text('training', lang) if get_text else 'Training' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('chat') }}">
+                                <i class="fas fa-comments me-2"></i>{{ get_text('business_chat', lang) if get_text else 'Business Chat' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('visits') }}">
+                                <i class="fas fa-qrcode me-2"></i>{{ get_text('visit_tracking', lang) if get_text else 'Visit Tracking' }}
+                            </a>
+                        </li>
+                        
+                        <!-- Analytics Section -->
+                        <li class="nav-item">
+                            <h6 class="dropdown-header">{{ get_text('analytics', lang) if get_text else 'Analytics' }}</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('reports') }}">
+                                <i class="fas fa-chart-bar me-2"></i>{{ get_text('production_reports', lang) if get_text else 'Production Reports' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('alerts') }}">
+                                <i class="fas fa-exclamation-triangle me-2"></i>{{ get_text('alerts', lang) if get_text else 'Alerts' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ps-4" href="{{ url_for('government_schemes') }}">
+                                <i class="fas fa-landmark me-2"></i>{{ get_text('gov_schemes', lang) if get_text else 'Gov Schemes' }}
+                            </a>
+                        </li>
+                        
+                        <!-- Other Features -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('leaderboard') }}">
+                                <i class="fas fa-trophy me-2"></i>{{ get_text('leaderboard', lang) if get_text else 'Leaderboard' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('ai_chat') }}">
+                                <i class="fas fa-robot me-2"></i>{{ get_text('ai_assistant', lang) if get_text else 'AI Assistant' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('disease_detection') }}">
+                                <i class="fas fa-camera me-2"></i>{{ get_text('disease_detection', lang) if get_text else 'Disease Detection' }}
+                            </a>
+                        </li>
+                        
+                        <li><hr class="dropdown-divider"></li>
+                        
+                        <!-- Settings -->
+                        <li class="nav-item">
+                            <button class="nav-link w-100 text-start" onclick="toggleTheme()" id="themeToggle">
+                                <i class="fas fa-moon me-2" id="themeIcon"></i>{{ get_text('toggle_theme', lang) if get_text else 'Toggle Theme' }}
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('language_select') }}">
+                                <i class="fas fa-globe me-2"></i>{{ get_text('select_language', lang) if get_text else 'Change Language' }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt me-2"></i>{{ get_text('logout', lang) if get_text else 'Logout' }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
